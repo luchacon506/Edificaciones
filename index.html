@@ -13,6 +13,7 @@
         --verde: #2e9e4f;
         --amarillo: #e0b400;
         --rojo: #d63b3b;
+        --gris-completado: #777;
         --texto: #222;
     }
     * { box-sizing: border-box; }
@@ -185,8 +186,8 @@
         font-size: 0.72rem; font-weight: 700; color: var(--blanco);
         padding: 3px 8px; border-radius: 10px; white-space: nowrap;
     }
-    .fila.completada { opacity: 0.8; }
-    .fila.completada .info h3 { text-decoration: line-through; }
+    .fila.completada { opacity: 0.85; }
+    .fila.completada .info h3 { text-decoration: line-through; color: #666; }
 
     .vacio-pila {
         text-align: center; color: #666; font-size: 0.85rem;
@@ -381,6 +382,7 @@
     <span><span class="dot" style="background:var(--verde)"></span>Más de un mes</span>
     <span><span class="dot" style="background:var(--amarillo)"></span>Entre 15 días y un mes</span>
     <span><span class="dot" style="background:var(--rojo)"></span>Menos de 15 días / vencida</span>
+    <span><span class="dot" style="background:var(--gris-completado)"></span>Completada</span>
     <span class="nota">· En proceso por fecha estimada · Completados por fecha real · Los sin fecha aparecen al final.</span>
 </div>
 
@@ -451,6 +453,7 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
    ========================================================= */
 const RESPONSABLES = ["Harrison", "Cinthya", "Ricardo"];
 const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const GRIS_COMPLETADO = "#777";
 
 let solicitudes = [];
 let solicitudEditandoId = null;
@@ -477,6 +480,12 @@ function colorSemaforo(fechaISO) {
     if (d < 15)   return { color: "var(--rojo)",    texto: d < 0 ? "Vencida (" + Math.abs(d) + "d)" : d + "d", dias: d };
     if (d <= 30)  return { color: "var(--amarillo)", texto: d + "d", dias: d };
     return { color: "var(--verde)", texto: d + "d", dias: d };
+}
+
+/* Semáforo contextual: gris si está completada, colores si está en proceso */
+function semaforoPara(sol) {
+    if (sol.completada) return { color: GRIS_COMPLETADO, texto: "Completada" };
+    return colorSemaforo(sol.fechaEstimada);
 }
 
 function pasaFiltroResp(sol) {
@@ -736,7 +745,6 @@ function renderAlertaMeses() {
     const cont = document.getElementById("alertaMeses");
     const chips = document.getElementById("alertaChips");
 
-    // Pendientes (no completadas) con fecha estimada ANTERIOR al mes/año que se está viendo
     const pendientes = solicitudes
         .filter(s => !s.completada)
         .filter(pasaFiltroResp)
@@ -748,7 +756,6 @@ function renderAlertaMeses() {
             return (y < anioActual) || (y === anioActual && m < mesActual);
         });
 
-    // Agrupar por año-mes
     const grupos = {};
     pendientes.forEach(s => {
         const d = new Date(s.fechaEstimada + "T00:00:00");
@@ -782,10 +789,13 @@ function renderAlertaMeses() {
     });
 }
 
+/* =========================================================
+   FILA DE LA PILA (usa semaforoPara: gris si completada)
+   ========================================================= */
 function crearFilaDOM(sol) {
     const fila = document.createElement("div");
     fila.className = "fila" + (sol.completada ? " completada" : "");
-    const sem = colorSemaforo(sol.fechaEstimada);
+    const sem = semaforoPara(sol);   // <-- aquí se aplica el gris para completadas
     fila.style.borderLeftColor = sem.color;
 
     const info = document.createElement("div");
@@ -794,7 +804,9 @@ function crearFilaDOM(sol) {
     h3.textContent = sol.cliente || "(Sin cliente)";
     const meta = document.createElement("div");
     meta.className = "meta";
-    const fechaTxt = sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha estimada";
+    const fechaTxt = sol.completada
+        ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha real")
+        : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha estimada");
     const respTxt = sol.responsables.length ? "· " + sol.responsables.join(", ") : "";
     meta.textContent = fechaTxt + " " + respTxt;
     info.appendChild(h3);
@@ -828,7 +840,7 @@ function abrirFicha(id) {
     solicitudEditandoId = id;
     const sol = solicitudes.find(s => s.id === id);
     if (!sol) { alert("Esta solicitud ya no existe (pudo haber sido eliminada)."); return; }
-    const sem = colorSemaforo(sol.fechaEstimada);
+    const sem = semaforoPara(sol);   // <-- gris si completada
     const m = document.getElementById("modalContenido");
     m.style.borderTopColor = sem.color;
     m.innerHTML = "";
@@ -868,6 +880,8 @@ function abrirFicha(id) {
     const inFE = document.createElement("input");
     inFE.type = "date"; inFE.id = "f_fe"; inFE.value = sol.fechaEstimada;
     inFE.addEventListener("change", () => {
+        // Si está completada, no recalcular semáforo
+        if (document.getElementById("f_comp").checked) return;
         const ns = colorSemaforo(inFE.value);
         semSpan.style.background = ns.color;
         semSpan.textContent = ns.texto;
@@ -917,6 +931,17 @@ function abrirFicha(id) {
     chkComp.addEventListener("change", (e) => {
         if (e.target.checked && !document.getElementById("f_fr").value) {
             document.getElementById("f_fr").value = hoyISO();
+        }
+        // Actualizar semáforo del modal en vivo
+        if (e.target.checked) {
+            semSpan.style.background = GRIS_COMPLETADO;
+            semSpan.textContent = "Completada";
+            m.style.borderTopColor = GRIS_COMPLETADO;
+        } else {
+            const ns = colorSemaforo(inFE.value);
+            semSpan.style.background = ns.color;
+            semSpan.textContent = ns.texto;
+            m.style.borderTopColor = ns.color;
         }
     });
     izq.appendChild(chkComp);
@@ -1078,7 +1103,7 @@ function buildExportHTML(data) {
 
     const tablaComp = completados.length
         ? `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:10pt">
-            <thead><tr style="background:#2e9e4f;color:#fff">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead>
+            <thead><tr style="background:#777;color:#fff">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead>
             <tbody>${completados.map(fila).join("")}</tbody></table>`
         : "<p><i>Sin registros completados.</i></p>";
 
@@ -1091,7 +1116,7 @@ function buildExportHTML(data) {
         </p>
         <h2 style="color:#346FC9;font-family:Arial;margin-top:20px">En proceso (${proceso.length})</h2>
         ${tablaProceso}
-        <h2 style="color:#2e9e4f;font-family:Arial;margin-top:20px">Completados (${completados.length})</h2>
+        <h2 style="color:#777;font-family:Arial;margin-top:20px">Completados (${completados.length})</h2>
         ${tablaComp}
     `;
 }
