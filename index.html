@@ -147,7 +147,7 @@
     /* ---------- PILAS ---------- */
     .pilas {
         display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
-        padding: 0 24px 30px; align-items: start;
+        padding: 0 24px 18px; align-items: start;
     }
     @media (max-width: 800px) { .pilas { grid-template-columns: 1fr; } }
     .pila {
@@ -196,6 +196,64 @@
         margin-top: 10px; padding-top: 10px; border-top: 1px dashed #888;
     }
     .sin-fecha-titulo { font-size: 0.8rem; color: #b35a00; font-weight: 700; margin-bottom: 6px; }
+
+    /* ---------- ALERTA MESES ANTERIORES ---------- */
+    .alerta-meses {
+        margin: 0 24px 20px;
+        padding: 10px 14px;
+        background: #fff8e1;
+        border-left: 4px solid var(--amarillo);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+    }
+    .alerta-titulo {
+        font-weight: 700;
+        color: #8a6d00;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+    .alerta-chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        flex: 1;
+    }
+    .alerta-chip {
+        background: var(--blanco);
+        border: 1px solid var(--amarillo);
+        color: #6b5400;
+        padding: 4px 12px;
+        border-radius: 14px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 500;
+        transition: all 0.15s;
+        font-family: inherit;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .alerta-chip:hover {
+        background: var(--amarillo);
+        color: var(--blanco);
+        transform: translateY(-1px);
+    }
+    .alerta-chip .num {
+        background: var(--amarillo);
+        color: var(--blanco);
+        border-radius: 10px;
+        padding: 1px 7px;
+        font-size: 0.72rem;
+        font-weight: 700;
+    }
+    .alerta-chip:hover .num {
+        background: rgba(255,255,255,0.35);
+        color: var(--blanco);
+    }
 
     /* ---------- MODAL ---------- */
     .modal-fondo {
@@ -360,6 +418,12 @@
             <div class="lista" id="sfCompletadosLista"></div>
         </div>
     </div>
+</div>
+
+<!-- ============ ALERTA MESES ANTERIORES ============ -->
+<div class="alerta-meses" id="alertaMeses" style="display:none">
+    <div class="alerta-titulo">⚠ Pendientes en meses anteriores:</div>
+    <div class="alerta-chips" id="alertaChips"></div>
 </div>
 
 <footer>Plataforma interna · Edificaciones · UEN Programación y Control · AyA</footer>
@@ -639,6 +703,8 @@ function render() {
     renderLista("listaCompletados", compMes, "Sin solicitudes completadas este mes.");
     renderSinFecha("sfProceso", "sfProcesoTitulo", "sfProcesoLista", procesoSinFecha, "proceso");
     renderSinFecha("sfCompletados", "sfCompletadosTitulo", "sfCompletadosLista", compSinFecha, "completado");
+
+    renderAlertaMeses();
 }
 
 function renderLista(id, arr, mensajeVacio) {
@@ -660,6 +726,59 @@ function renderSinFecha(contId, tituloId, listaId, arr, tipo) {
         const f = crearFilaDOM(s);
         f.style.opacity = "0.85";
         lista.appendChild(f);
+    });
+}
+
+/* =========================================================
+   ALERTA DE PENDIENTES EN MESES/ANIOS ANTERIORES
+   ========================================================= */
+function renderAlertaMeses() {
+    const cont = document.getElementById("alertaMeses");
+    const chips = document.getElementById("alertaChips");
+
+    // Pendientes (no completadas) con fecha estimada ANTERIOR al mes/año que se está viendo
+    const pendientes = solicitudes
+        .filter(s => !s.completada)
+        .filter(pasaFiltroResp)
+        .filter(s => {
+            if (!s.fechaEstimada) return false;
+            const d = new Date(s.fechaEstimada + "T00:00:00");
+            const m = d.getMonth();
+            const y = d.getFullYear();
+            return (y < anioActual) || (y === anioActual && m < mesActual);
+        });
+
+    // Agrupar por año-mes
+    const grupos = {};
+    pendientes.forEach(s => {
+        const d = new Date(s.fechaEstimada + "T00:00:00");
+        const key = d.getFullYear() + "-" + d.getMonth();
+        if (!grupos[key]) grupos[key] = { anio: d.getFullYear(), mes: d.getMonth(), count: 0 };
+        grupos[key].count++;
+    });
+
+    const arr = Object.values(grupos).sort((a,b) => (b.anio - a.anio) || (b.mes - a.mes));
+
+    if (arr.length === 0) {
+        cont.style.display = "none";
+        chips.innerHTML = "";
+        return;
+    }
+
+    cont.style.display = "flex";
+    chips.innerHTML = "";
+    arr.forEach(g => {
+        const btn = document.createElement("button");
+        btn.className = "alerta-chip";
+        btn.title = `Ir a ${MESES[g.mes]} ${g.anio}`;
+        btn.innerHTML = `${MESES[g.mes]} ${g.anio}<span class="num">${g.count}</span>`;
+        btn.addEventListener("click", () => {
+            mesActual = g.mes;
+            anioActual = g.anio;
+            sincronizarSelects();
+            render();
+        });
+        chips.appendChild(btn);
     });
 }
 
