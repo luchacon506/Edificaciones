@@ -182,6 +182,11 @@
         font-size: 0.75rem; color: #666;
         display: flex; gap: 10px; flex-wrap: wrap;
     }
+    .fila .info .meta .badge-medio {
+        background: #eef3fb; color: #2a5aa8;
+        border: 1px solid #c9d8ef; border-radius: 10px;
+        padding: 0 8px; font-size: 0.7rem; font-weight: 600;
+    }
     .fila .sem {
         font-size: 0.72rem; font-weight: 700; color: var(--blanco);
         padding: 3px 8px; border-radius: 10px; white-space: nowrap;
@@ -286,14 +291,34 @@
     .modal .campo input[type="text"],
     .modal .campo input[type="date"],
     .modal .campo input[type="number"],
+    .modal .campo select,
     .modal .campo textarea {
         width: 100%; border: 1px solid #ccc; border-radius: 5px;
         padding: 7px 9px; font-size: 0.9rem; font-family: inherit; background: #fafafa;
     }
     .modal .campo textarea { resize: vertical; min-height: 50px; }
-    .modal .campo input:focus, .modal .campo textarea:focus {
+    .modal .campo input:focus, 
+    .modal .campo select:focus,
+    .modal .campo textarea:focus {
         outline: none; border-color: var(--azul); background: var(--blanco);
     }
+
+    /* Casilla inline (dentro de un campo) */
+    .check-inline {
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        text-transform: none !important;
+        letter-spacing: 0 !important;
+        cursor: pointer;
+        padding: 4px 0;
+        margin-bottom: 0 !important;
+    }
+    .check-inline input { accent-color: var(--azul); width: 18px; height: 18px; }
+
     .responsables { display: flex; flex-wrap: wrap; gap: 8px; }
     .responsables label {
         display: flex; align-items: center; gap: 4px; font-size: 0.8rem;
@@ -452,6 +477,7 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
    ESTADO
    ========================================================= */
 const RESPONSABLES = ["Harrison", "Cinthya", "Ricardo"];
+const MEDIOS = ["Oficio", "Correo", "Teams"];
 const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 const GRIS_COMPLETADO = "#777";
 
@@ -482,7 +508,6 @@ function colorSemaforo(fechaISO) {
     return { color: "var(--verde)", texto: d + "d", dias: d };
 }
 
-/* Semáforo contextual: gris si está completada, colores si está en proceso */
 function semaforoPara(sol) {
     if (sol.completada) return { color: GRIS_COMPLETADO, texto: "Completada" };
     return colorSemaforo(sol.fechaEstimada);
@@ -514,7 +539,11 @@ function toDB(sol) {
         responsables: sol.responsables || [],
         entregables: sol.entregables || "",
         fecha_real: sol.fechaReal || null,
-        completada: !!sol.completada
+        completada: !!sol.completada,
+        medio_solicitud: sol.medioSolicitud || "",
+        oficio_consecutivo: sol.oficioConsecutivo || "",
+        requiere_oficio_entrega: !!sol.requiereOficioEntrega,
+        oficio_entrega: sol.oficioEntrega || ""
     };
 }
 
@@ -529,7 +558,11 @@ function fromDB(row) {
         responsables: row.responsables || [],
         entregables: row.entregables || "",
         fechaReal: row.fecha_real || "",
-        completada: !!row.completada
+        completada: !!row.completada,
+        medioSolicitud: row.medio_solicitud || "",
+        oficioConsecutivo: row.oficio_consecutivo || "",
+        requiereOficioEntrega: !!row.requiere_oficio_entrega,
+        oficioEntrega: row.oficio_entrega || ""
     };
 }
 
@@ -544,7 +577,11 @@ function crearSolicitudVacia() {
         responsables: [],
         entregables: "",
         fechaReal: "",
-        completada: false
+        completada: false,
+        medioSolicitud: "",
+        oficioConsecutivo: "",
+        requiereOficioEntrega: false,
+        oficioEntrega: ""
     };
 }
 
@@ -790,12 +827,12 @@ function renderAlertaMeses() {
 }
 
 /* =========================================================
-   FILA DE LA PILA (usa semaforoPara: gris si completada)
+   FILA DE LA PILA
    ========================================================= */
 function crearFilaDOM(sol) {
     const fila = document.createElement("div");
     fila.className = "fila" + (sol.completada ? " completada" : "");
-    const sem = semaforoPara(sol);   // <-- aquí se aplica el gris para completadas
+    const sem = semaforoPara(sol);
     fila.style.borderLeftColor = sem.color;
 
     const info = document.createElement("div");
@@ -804,11 +841,43 @@ function crearFilaDOM(sol) {
     h3.textContent = sol.cliente || "(Sin cliente)";
     const meta = document.createElement("div");
     meta.className = "meta";
+
+    // Fecha principal
     const fechaTxt = sol.completada
         ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha real")
         : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha estimada");
-    const respTxt = sol.responsables.length ? "· " + sol.responsables.join(", ") : "";
-    meta.textContent = fechaTxt + " " + respTxt;
+    meta.appendChild(document.createTextNode(fechaTxt));
+
+    // Medio de solicitud
+    if (sol.medioSolicitud) {
+        meta.appendChild(document.createTextNode(" · "));
+        const badge = document.createElement("span");
+        badge.className = "badge-medio";
+        if (sol.medioSolicitud === "Oficio" && sol.oficioConsecutivo) {
+            badge.textContent = "Oficio " + sol.oficioConsecutivo;
+        } else {
+            badge.textContent = sol.medioSolicitud;
+        }
+        meta.appendChild(badge);
+    }
+
+    // Oficio de entrega
+    if (sol.medioSolicitud === "Oficio" && sol.requiereOficioEntrega && sol.oficioEntrega) {
+        meta.appendChild(document.createTextNode(" · "));
+        const badgeE = document.createElement("span");
+        badgeE.className = "badge-medio";
+        badgeE.style.background = "#e8f7ec";
+        badgeE.style.color = "#1e7a3b";
+        badgeE.style.borderColor = "#b8e0c3";
+        badgeE.textContent = "Of. entrega " + sol.oficioEntrega;
+        meta.appendChild(badgeE);
+    }
+
+    // Responsables
+    if (sol.responsables.length) {
+        meta.appendChild(document.createTextNode(" · " + sol.responsables.join(", ")));
+    }
+
     info.appendChild(h3);
     info.appendChild(meta);
 
@@ -840,7 +909,7 @@ function abrirFicha(id) {
     solicitudEditandoId = id;
     const sol = solicitudes.find(s => s.id === id);
     if (!sol) { alert("Esta solicitud ya no existe (pudo haber sido eliminada)."); return; }
-    const sem = semaforoPara(sol);   // <-- gris si completada
+    const sem = semaforoPara(sol);
     const m = document.getElementById("modalContenido");
     m.style.borderTopColor = sem.color;
     m.innerHTML = "";
@@ -862,25 +931,68 @@ function abrirFicha(id) {
         div.appendChild(lbl);
         div.appendChild(inputEl);
         m.appendChild(div);
-        return inputEl;
+        return div;
     }
 
+    // Cliente
     const inCliente = document.createElement("input");
     inCliente.type = "text"; inCliente.id = "f_cliente"; inCliente.value = sol.cliente;
     campo("Cliente", inCliente);
 
+    // Fecha de solicitud
     const inFS = document.createElement("input");
     inFS.type = "date"; inFS.id = "f_fs"; inFS.value = sol.fechaSolicitud;
     campo("Fecha de solicitud", inFS);
 
+    // Descripción
     const inDesc = document.createElement("textarea");
     inDesc.id = "f_desc"; inDesc.value = sol.descripcion;
     campo("Descripción de solicitud", inDesc);
 
+    /* ======== MEDIO DE SOLICITUD ======== */
+    const inMedio = document.createElement("select");
+    inMedio.id = "f_medio";
+    inMedio.innerHTML = `
+        <option value="">— Seleccione —</option>
+        ${MEDIOS.map(x => `<option value="${x}">${x}</option>`).join("")}
+    `;
+    inMedio.value = sol.medioSolicitud || "";
+    campo("Medio de solicitud", inMedio);
+
+    /* ======== CONSECUTIVO DE OFICIO (solo si Oficio) ======== */
+    const divConsec = document.createElement("div");
+    divConsec.className = "campo";
+    divConsec.id = "cont_consecutivo";
+    const lblConsec = document.createElement("label");
+    lblConsec.textContent = "Consecutivo de oficio";
+    const inConsec = document.createElement("input");
+    inConsec.type = "text";
+    inConsec.id = "f_consec";
+    inConsec.value = sol.oficioConsecutivo || "";
+    inConsec.placeholder = "Ej: OF-2025-001";
+    divConsec.appendChild(lblConsec);
+    divConsec.appendChild(inConsec);
+    m.appendChild(divConsec);
+
+    /* ======== CHECKBOX REQUIERE OFICIO DE ENTREGA (solo si Oficio) ======== */
+    const divReq = document.createElement("div");
+    divReq.className = "campo";
+    divReq.id = "cont_req_oficio";
+    const lblReq = document.createElement("label");
+    lblReq.className = "check-inline";
+    const chkReq = document.createElement("input");
+    chkReq.type = "checkbox";
+    chkReq.id = "f_req_oficio";
+    chkReq.checked = sol.requiereOficioEntrega || false;
+    lblReq.appendChild(chkReq);
+    lblReq.appendChild(document.createTextNode("Se requiere oficio de entrega"));
+    divReq.appendChild(lblReq);
+    m.appendChild(divReq);
+
+    // Fecha estimada
     const inFE = document.createElement("input");
     inFE.type = "date"; inFE.id = "f_fe"; inFE.value = sol.fechaEstimada;
     inFE.addEventListener("change", () => {
-        // Si está completada, no recalcular semáforo
         if (document.getElementById("f_comp").checked) return;
         const ns = colorSemaforo(inFE.value);
         semSpan.style.background = ns.color;
@@ -889,11 +1001,13 @@ function abrirFicha(id) {
     });
     campo("Fecha estimada de entrega", inFE);
 
+    // Avance
     const inAv = document.createElement("input");
     inAv.type = "number"; inAv.id = "f_av"; inAv.min = 0; inAv.max = 100;
     inAv.value = sol.avance;
     campo("Porcentaje de avance (%)", inAv);
 
+    // Responsables
     const divResp = document.createElement("div");
     divResp.className = "campo";
     const lblResp = document.createElement("label");
@@ -913,14 +1027,44 @@ function abrirFicha(id) {
     divResp.appendChild(contResp);
     m.appendChild(divResp);
 
+    // Entregables
     const inEnt = document.createElement("textarea");
     inEnt.id = "f_ent"; inEnt.value = sol.entregables;
     campo("Entregables", inEnt);
 
+    /* ======== OFICIO DE ENTREGA (debajo de Entregables, solo si Oficio + requiere) ======== */
+    const divOficioEnt = document.createElement("div");
+    divOficioEnt.className = "campo";
+    divOficioEnt.id = "cont_oficio_entrega";
+    const lblOE = document.createElement("label");
+    lblOE.textContent = "Oficio de entrega";
+    const inOE = document.createElement("input");
+    inOE.type = "text";
+    inOE.id = "f_oficio_entrega";
+    inOE.value = sol.oficioEntrega || "";
+    inOE.placeholder = "Ej: OF-2025-042";
+    divOficioEnt.appendChild(lblOE);
+    divOficioEnt.appendChild(inOE);
+    m.appendChild(divOficioEnt);
+
+    // Fecha real
     const inFR = document.createElement("input");
     inFR.type = "date"; inFR.id = "f_fr"; inFR.value = sol.fechaReal;
     campo("Fecha real de entrega", inFR);
 
+    /* ======== VISIBILIDAD CONDICIONAL ======== */
+    function actualizarVisibilidadMedio() {
+        const esOficio = inMedio.value === "Oficio";
+        divConsec.style.display = esOficio ? "block" : "none";
+        divReq.style.display = esOficio ? "block" : "none";
+        const requiere = esOficio && chkReq.checked;
+        divOficioEnt.style.display = requiere ? "block" : "none";
+    }
+    inMedio.addEventListener("change", actualizarVisibilidadMedio);
+    chkReq.addEventListener("change", actualizarVisibilidadMedio);
+    actualizarVisibilidadMedio();
+
+    /* ======== ACCIONES ======== */
     const acciones = document.createElement("div");
     acciones.className = "acciones";
 
@@ -932,7 +1076,6 @@ function abrirFicha(id) {
         if (e.target.checked && !document.getElementById("f_fr").value) {
             document.getElementById("f_fr").value = hoyISO();
         }
-        // Actualizar semáforo del modal en vivo
         if (e.target.checked) {
             semSpan.style.background = GRIS_COMPLETADO;
             semSpan.textContent = "Completada";
@@ -1004,6 +1147,22 @@ async function guardarFicha(id) {
     sol.entregables = document.getElementById("f_ent").value.trim();
     sol.fechaReal = document.getElementById("f_fr").value;
     sol.completada = document.getElementById("f_comp").checked;
+
+    // Medio y oficios
+    sol.medioSolicitud = document.getElementById("f_medio").value;
+    if (sol.medioSolicitud === "Oficio") {
+        sol.oficioConsecutivo = document.getElementById("f_consec").value.trim();
+        sol.requiereOficioEntrega = document.getElementById("f_req_oficio").checked;
+        sol.oficioEntrega = sol.requiereOficioEntrega
+            ? document.getElementById("f_oficio_entrega").value.trim()
+            : "";
+    } else {
+        // Si no es Oficio, limpiar los campos de oficio para no dejar datos huérfanos
+        sol.oficioConsecutivo = "";
+        sol.requiereOficioEntrega = false;
+        sol.oficioEntrega = "";
+    }
+
     return await actualizarEnNube(sol);
 }
 
@@ -1081,17 +1240,20 @@ function buildExportData(scope) {
 function buildExportHTML(data) {
     const { proceso, completados, etiqueta } = data;
     const hoy = new Date().toLocaleDateString("es-CR", { day: "2-digit", month: "long", year: "numeric" });
-    const ths = ["Cliente","Fecha solicitud","Descripción","Fecha estimada","Avance","Responsables","Entregables","Fecha real"];
+    const ths = ["Cliente","Fecha solicitud","Descripción","Medio","Consecutivo","Fecha estimada","Avance","Responsables","Entregables","Of. entrega","Fecha real"];
     const filtroTxt = filtroResp.size === 0 ? "Todos" : Array.from(filtroResp).join(", ");
 
     const fila = (s) => `<tr>
         <td>${esc(s.cliente)}</td>
         <td>${esc(s.fechaSolicitud)}</td>
         <td>${esc(s.descripcion)}</td>
+        <td>${esc(s.medioSolicitud)}</td>
+        <td>${esc(s.oficioConsecutivo)}</td>
         <td>${esc(s.fechaEstimada)}</td>
         <td style="text-align:center">${s.avance}%</td>
         <td>${esc(s.responsables.join(", "))}</td>
         <td>${esc(s.entregables)}</td>
+        <td>${esc(s.oficioEntrega)}</td>
         <td>${esc(s.fechaReal)}</td>
     </tr>`;
 
@@ -1166,9 +1328,9 @@ function exportarPDF() {
         <style>
             body { font-family: Arial, sans-serif; padding: 20px; color: #222; }
             h1, h2 { color: #346FC9; }
-            table { border-collapse: collapse; width: 100%; font-size: 9pt; }
-            th { background: #346FC9; color: #fff; padding: 6px; text-align: left; }
-            td { padding: 5px; border: 1px solid #999; vertical-align: top; }
+            table { border-collapse: collapse; width: 100%; font-size: 8pt; }
+            th { background: #346FC9; color: #fff; padding: 5px; text-align: left; }
+            td { padding: 4px; border: 1px solid #999; vertical-align: top; }
             @media print { @page { size: landscape; margin: 1cm; } }
         </style></head>
         <body>${buildExportHTML(data)}</body></html>`);
