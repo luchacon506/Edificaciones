@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edificaciones - UEN Programación y Control</title>
+<style>
+    :root {
+        --gris-fondo: #D4D4D4;
+        --azul: #346FC9;
+        --azul-oscuro: #2a5aa8;
+        --blanco: #ffffff;
+        --verde: #2e9e4f;
+        --amarillo: #e0b400;
+        --rojo: #d63b3b;
+        --texto: #222;
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: var(--gris-fondo);
+        color: var(--texto);
+    }
+
+    /* ---------- CABECERA ---------- */
+    header {
+        background: var(--azul);
+        color: var(--blanco);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 14px 24px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        flex-wrap: wrap;
+    }
+    header img.logo { height: 65px; display: block; flex-shrink: 0; }
+    header .titulos h1 { margin: 0; font-size: 1.6rem; letter-spacing: 1px; }
+    header .titulos h2 { margin: 2px 0 0; font-size: 1rem; font-weight: 400; opacity: 0.95; }
+    header .titulos h3 { margin: 2px 0 0; font-size: 0.8rem; font-weight: 300; opacity: 0.9; }
+
+    /* Título "Solicitudes" al margen derecho */
+    header .titulo-derecha {
+        margin-left: auto;
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        border-left: 2px solid rgba(255,255,255,0.5);
+        white-space: nowrap;
+    }
+    @media (max-width: 700px) {
+        header .titulo-derecha {
+            margin-left: 0;
+            width: 100%;
+            border-left: none;
+            border-top: 2px solid rgba(255,255,255,0.5);
+            padding-left: 0;
+            padding-top: 8px;
+            text-align: right;
+            font-size: 1.1rem;
+        }
+    }
+
+    /* ---------- BARRA ---------- */
+    .barra {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 14px 24px 6px;
+    }
+    .nav-mes {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .nav-mes button.btn-nav {
+        background: var(--azul);
+        color: var(--blanco);
+        border: none;
+        width: 36px; height: 36px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.2s;
+    }
+    .nav-mes button.btn-nav:hover { background: var(--azul-oscuro); }
+    .nav-mes select {
+        padding: 7px 10px;
+        border: 1px solid #aaa;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        background: var(--blanco);
+    }
+    .btn-hoy {
+        background: #eee;
+        color: #333;
+        border: 1px solid #aaa;
+        padding: 7px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+    }
+    .btn-hoy:hover { background: #ddd; }
+    .controles-acciones {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    button.btn-azul {
+        background: var(--azul);
+        color: var(--blanco);
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    button.btn-azul:hover { background: var(--azul-oscuro); }
+    .export-grupo {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--blanco);
+        padding: 4px 6px;
+        border-radius: 8px;
+        border: 1px solid #bbb;
+    }
+    .export-label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #444;
+        padding: 0 4px;
+    }
+    .export-grupo select {
+        padding: 6px 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 0.85rem;
+        background: #fafafa;
+    }
+    .export-grupo button {
+        background: var(--azul);
+        color: var(--blanco);
+        border: none;
+        padding: 7px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.82rem;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    .export-grupo button:hover { background: var(--azul-oscuro); }
+
+    /* ---------- LEYENDA ---------- */
+    .leyenda {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        padding: 4px 24px 4px;
+        font-size: 0.85rem;
+        align-items: center;
+    }
+    .leyenda span.dot {
+        display: inline-block;
+        width: 12px; height: 12px;
+        border-radius: 50%;
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+    .leyenda .nota {
+        font-size: 0.78rem;
+        color: #555;
+        font-style: italic;
+    }
+
+    /* ---------- FILTRO POR RESPONSABLE ---------- */
+    .filtros {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 6px 24px 10px;
+        font-size: 0.85rem;
+    }
+    .filtros strong { color: #333; margin-right: 4px; }
+    .chip {
+        background: var(--blanco);
+        border: 1px solid #aaa;
+        color: #444;
+        padding: 5px 14px;
+        border-radius: 16px;
+        cursor: pointer;
+        font-size: 0.82rem;
+        font-weight: 500;
+        transition: all 0.15s;
+        font-family: inherit;
+    }
+    .chip:hover { border-color: var(--azul); color: var(--azul); }
+    .chip.chip-activo {
+        background: var(--azul);
+        color: var(--blanco);
+        border-color: var(--azul);
+    }
+    .chip.chip-todos.chip-activo {
+        background: #555;
+        border-color: #555;
+    }
+    .filtros .aviso-filtro {
+        font-size: 0.78rem;
+        color: var(--azul);
+        font-weight: 600;
+        margin-left: auto;
+    }
+
+    /* ---------- PILAS ---------- */
+    .pilas {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        padding: 0 24px 30px;
+        align-items: start;
+    }
+    @media (max-width: 800px) {
+        .pilas { grid-template-columns: 1fr; }
+    }
+    .pila {
+        background: #c4c4c4;
+        border-radius: 10px;
+        padding: 12px;
+        min-height: 200px;
+    }
+    .pila h2 {
+        margin: 0 0 10px;
+        font-size: 1.02rem;
+        color: #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
+    .pila h2 .contador {
+        background: var(--azul);
+        color: var(--blanco);
+        font-size: 0.8rem;
+        border-radius: 12px;
+        padding: 2px 10px;
+    }
+    .pila .lista { display: flex; flex-direction: column; gap: 8px; }
+
+    /* ---------- FILA ---------- */
+    .fila {
+        background: var(--blanco);
+        border-radius: 8px;
+        padding: 10px 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        border-left: 6px solid var(--verde);
+        cursor: pointer;
+        transition: transform 0.1s, box-shadow 0.2s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+    .fila:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+    .fila .info { flex: 1; min-width: 0; }
+    .fila .info h3 {
+        margin: 0 0 3px;
+        font-size: 0.95rem;
+        color: var(--azul);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .fila .info .meta {
+        font-size: 0.75rem;
+        color: #666;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .fila .sem {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--blanco);
+        padding: 3px 8px;
+        border-radius: 10px;
+        white-space: nowrap;
+    }
+    .fila.completada { opacity: 0.8; }
+    .fila.completada .info h3 { text-decoration: line-through; }
+
+    .vacio-pila {
+        text-align: center;
+        color: #666;
+        font-size: 0.85rem;
+        padding: 20px;
+        font-style: italic;
+    }
+
+    /* ---------- SIN FECHA ---------- */
+    .sin-fecha {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed #888;
+    }
+    .sin-fecha-titulo {
+        font-size: 0.8rem;
+        color: #b35a00;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    /* ---------- MODAL ---------- */
+    .modal-fondo {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        display: none;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 30px 15px;
+        z-index: 1000;
+        overflow-y: auto;
+    }
+    .modal-fondo.activo { display: flex; }
+    .modal {
+        background: var(--blanco);
+        border-radius: 10px;
+        width: 100%;
+        max-width: 560px;
+        padding: 20px;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+        border-top: 6px solid var(--azul);
+    }
+    .modal h2 {
+        margin: 0 0 14px;
+        font-size: 1.15rem;
+        color: var(--azul);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .modal h2 .sem {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--blanco);
+        padding: 3px 8px;
+        border-radius: 10px;
+    }
+    .modal .campo { margin-bottom: 10px; }
+    .modal .campo label {
+        display: block;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 3px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .modal .campo input[type="text"],
+    .modal .campo input[type="date"],
+    .modal .campo input[type="number"],
+    .modal .campo textarea {
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 7px 9px;
+        font-size: 0.9rem;
+        font-family: inherit;
+        background: #fafafa;
+    }
+    .modal .campo textarea { resize: vertical; min-height: 50px; }
+    .modal .campo input:focus,
+    .modal .campo textarea:focus {
+        outline: none;
+        border-color: var(--azul);
+        background: var(--blanco);
+    }
+    .responsables {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .responsables label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.8rem;
+        background: #eef3fb;
+        border: 1px solid #c9d8ef;
+        border-radius: 14px;
+        padding: 3px 10px;
+        cursor: pointer;
+        text-transform: none;
+        font-weight: 500;
+        color: #333;
+        letter-spacing: 0;
+    }
+    .responsables input { accent-color: var(--azul); }
+
+    .modal .acciones {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+    }
+    .modal .acciones .izquierda {
+        margin-right: auto;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #444;
+    }
+    .modal .acciones .izquierda input { accent-color: var(--verde); width: 18px; height: 18px; }
+    button.btn-gris {
+        background: #888;
+        color: var(--blanco);
+        border: none;
+        padding: 9px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+    button.btn-gris:hover { background: #666; }
+    button.btn-rojo {
+        background: transparent;
+        color: var(--rojo);
+        border: 1px solid var(--rojo);
+        padding: 9px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+    }
+    button.btn-rojo:hover { background: var(--rojo); color: var(--blanco); }
+
+    footer {
+        text-align: center;
+        font-size: 0.75rem;
+        color: #555;
+        padding: 10px;
+    }
+</style>
+</head>
+<body>
+
+<!-- ============ CABECERA ============ -->
+<header>
+    <img class="logo" src="https://www.aya.go.cr/assets/img/96cb7f83-6325-4ee1-8e4e-fa1e21262be8.png" alt="Logo AyA">
+    <div class="titulos">
+        <h1>Edificaciones</h1>
+        <h2>UEN Programación y Control</h2>
+        <h3>Instituto Costarricense de Acueductos y Alcantarillados</h3>
+    </div>
+    <div class="titulo-derecha">Solicitudes</div>
+</header>
+
+<!-- ============ BARRA ============ -->
+<div class="barra">
+    <div class="nav-mes">
+        <button class="btn-nav" onclick="cambiarMes(-1)" title="Mes anterior">◀</button>
+        <select id="selMes" onchange="irAMes()"></select>
+        <select id="selAnio" onchange="irAMes()"></select>
+        <button class="btn-nav" onclick="cambiarMes(1)" title="Mes siguiente">▶</button>
+        <button class="btn-hoy" onclick="irHoy()">Hoy</button>
+    </div>
+    <div class="controles-acciones">
+        <button class="btn-azul" onclick="nuevaSolicitud()">+ Nueva solicitud</button>
+        <div class="export-grupo">
+            <span class="export-label">Exportar:</span>
+            <select id="selScope">
+                <option value="mes">Mes actual</option>
+                <option value="anio">Año actual</option>
+                <option value="todo">Todo</option>
+            </select>
+            <button onclick="exportarDOC()" title="Descargar Word">📄 DOC</button>
+            <button onclick="exportarXLS()" title="Descargar Excel">📊 XLS</button>
+            <button onclick="exportarPDF()" title="Imprimir / PDF">🖨 PDF</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============ LEYENDA ============ -->
+<div class="leyenda">
+    <strong>Semáforo:</strong>
+    <span><span class="dot" style="background:var(--verde)"></span>Más de un mes</span>
+    <span><span class="dot" style="background:var(--amarillo)"></span>Entre 15 días y un mes</span>
+    <span><span class="dot" style="background:var(--rojo)"></span>Menos de 15 días / vencida</span>
+    <span class="nota">· En proceso por fecha estimada · Completados por fecha real · Los sin fecha aparecen al final.</span>
+</div>
+
+<!-- ============ FILTRO POR RESPONSABLE ============ -->
+<div class="filtros">
+    <strong>Filtrar por responsable:</strong>
+    <button class="chip chip-todos chip-activo" data-resp="">Todos</button>
+    <button class="chip" data-resp="Harrison">Harrison</button>
+    <button class="chip" data-resp="Cinthya">Cinthya</button>
+    <button class="chip" data-resp="Ricardo">Ricardo</button>
+    <span class="aviso-filtro" id="avisoFiltro"></span>
+</div>
+
+<!-- ============ PILAS ============ -->
+<div class="pilas">
+    <div class="pila">
+        <h2>
+            <span id="tituloProceso">En proceso</span>
+            <span class="contador" id="contProceso">0</span>
+        </h2>
+        <div class="lista" id="listaProceso"></div>
+        <div class="sin-fecha" id="sfProceso" style="display:none">
+            <div class="sin-fecha-titulo" id="sfProcesoTitulo"></div>
+            <div class="lista" id="sfProcesoLista"></div>
+        </div>
+    </div>
+    <div class="pila">
+        <h2>
+            <span id="tituloCompletados">Completados</span>
+            <span class="contador" id="contCompletados">0</span>
+        </h2>
+        <div class="lista" id="listaCompletados"></div>
+        <div class="sin-fecha" id="sfCompletados" style="display:none">
+            <div class="sin-fecha-titulo" id="sfCompletadosTitulo"></div>
+            <div class="lista" id="sfCompletadosLista"></div>
+        </div>
+    </div>
+</div>
+
+<footer>Plataforma interna · Edificaciones · UEN Programación y Control · AyA</footer>
+
+<!-- ============ MODAL FICHA ============ -->
+<div class="modal-fondo" id="modalFondo">
+    <div class="modal" id="modalContenido"></div>
+</div>
+
+<script>
+/* =========================================================
+   ESTADO
+   ========================================================= */
+const STORAGE_KEY = "aya_edificaciones_solicitudes_v4";
+const RESPONSABLES = ["Harrison", "Cinthya", "Ricardo"];
+const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+
+let solicitudes = [];
+let solicitudEditandoId = null;
+let mesActual = new Date().getMonth();
+let anioActual = new Date().getFullYear();
+let filtroResp = new Set(); // vacío = todos
+
+/* =========================================================
+   UTILIDADES
+   ========================================================= */
+function hoyISO() { return new Date().toISOString().split("T")[0]; }
+
+function diasRestantes(fechaISO) {
+    if (!fechaISO) return null;
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    const f = new Date(fechaISO + "T00:00:00");
+    return Math.ceil((f - hoy) / 86400000);
+}
+
+function colorSemaforo(fechaISO) {
+    const d = diasRestantes(fechaISO);
+    if (d === null) return { color: "var(--verde)", texto: "Sin fecha", dias: null };
+    if (d < 15)   return { color: "var(--rojo)",    texto: d < 0 ? "Vencida (" + Math.abs(d) + "d)" : d + "d", dias: d };
+    if (d <= 30)  return { color: "var(--amarillo)", texto: d + "d", dias: d };
+    return { color: "var(--verde)", texto: d + "d", dias: d };
+}
+
+function pasaFiltroResp(sol) {
+    if (filtroResp.size === 0) return true;
+    return sol.responsables.some(r => filtroResp.has(r));
+}
+
+/* =========================================================
+   PERSISTENCIA
+   ========================================================= */
+function guardar() { localStorage.setItem(STORAGE_KEY, JSON.stringify(solicitudes)); }
+function cargar() {
+    try {
+        const d = localStorage.getItem(STORAGE_KEY);
+        solicitudes = d ? JSON.parse(d) : [];
+    } catch(e) { solicitudes = []; }
+}
+
+function crearSolicitudVacia() {
+    return {
+        id: "s_" + Date.now() + "_" + Math.floor(Math.random()*1000),
+        cliente: "",
+        fechaSolicitud: hoyISO(),
+        descripcion: "",
+        fechaEstimada: "",
+        avance: 0,
+        responsables: [],
+        entregables: "",
+        fechaReal: "",
+        completada: false
+    };
+}
+
+/* =========================================================
+   NAVEGADOR MES/AÑO
+   ========================================================= */
+function poblarSelects() {
+    const selMes = document.getElementById("selMes");
+    const selAnio = document.getElementById("selAnio");
+    selMes.innerHTML = MESES.map((m, i) => `<option value="${i}">${m}</option>`).join("");
+
+    const anios = new Set();
+    for (let y = anioActual - 5; y <= anioActual + 5; y++) anios.add(y);
+    solicitudes.forEach(s => {
+        [s.fechaEstimada, s.fechaReal, s.fechaSolicitud].forEach(f => {
+            if (f) anios.add(new Date(f + "T00:00:00").getFullYear());
+        });
+    });
+    selAnio.innerHTML = Array.from(anios).sort((a,b) => a-b).map(y => `<option value="${y}">${y}</option>`).join("");
+    sincronizarSelects();
+}
+
+function sincronizarSelects() {
+    const selMes = document.getElementById("selMes");
+    const selAnio = document.getElementById("selAnio");
+    selMes.value = mesActual;
+    if (!Array.from(selAnio.options).some(o => parseInt(o.value, 10) === anioActual)) {
+        const opt = document.createElement("option");
+        opt.value = anioActual;
+        opt.textContent = anioActual;
+        selAnio.appendChild(opt);
+        const opts = Array.from(selAnio.options).sort((a,b) => parseInt(a.value,10) - parseInt(b.value,10));
+        selAnio.innerHTML = "";
+        opts.forEach(o => selAnio.appendChild(o));
+    }
+    selAnio.value = anioActual;
+}
+
+function cambiarMes(delta) {
+    mesActual += delta;
+    if (mesActual < 0) { mesActual = 11; anioActual--; }
+    else if (mesActual > 11) { mesActual = 0; anioActual++; }
+    sincronizarSelects();
+    render();
+}
+function irAMes() {
+    mesActual = parseInt(document.getElementById("selMes").value, 10);
+    anioActual = parseInt(document.getElementById("selAnio").value, 10);
+    render();
+}
+function irHoy() {
+    mesActual = new Date().getMonth();
+    anioActual = new Date().getFullYear();
+    sincronizarSelects();
+    render();
+}
+
+/* =========================================================
+   FILTRO POR RESPONSABLE
+   ========================================================= */
+function actualizarChips() {
+    document.querySelectorAll(".chip").forEach(chip => {
+        const r = chip.dataset.resp;
+        if (r === "") chip.classList.toggle("chip-activo", filtroResp.size === 0);
+        else chip.classList.toggle("chip-activo", filtroResp.has(r));
+    });
+    const aviso = document.getElementById("avisoFiltro");
+    aviso.textContent = filtroResp.size === 0
+        ? ""
+        : "Mostrando: " + Array.from(filtroResp).join(", ");
+}
+document.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+        const r = chip.dataset.resp;
+        if (r === "") filtroResp.clear();
+        else {
+            if (filtroResp.has(r)) filtroResp.delete(r);
+            else filtroResp.add(r);
+        }
+        actualizarChips();
+        render();
+    });
+});
+
+/* =========================================================
+   RENDER DE PILAS
+   ========================================================= */
+function render() {
+    /* En proceso → por fecha estimada (con filtro de responsable) */
+    const procesoMes = [];
+    const procesoSinFecha = [];
+    solicitudes.filter(s => !s.completada).filter(pasaFiltroResp).forEach(s => {
+        if (!s.fechaEstimada) { procesoSinFecha.push(s); return; }
+        const d = new Date(s.fechaEstimada + "T00:00:00");
+        if (d.getMonth() === mesActual && d.getFullYear() === anioActual) procesoMes.push(s);
+    });
+    procesoMes.sort((a,b) => diasRestantes(a.fechaEstimada) - diasRestantes(b.fechaEstimada));
+    procesoSinFecha.sort((a,b) => (a.cliente || "").localeCompare(b.cliente || ""));
+
+    /* Completados → por fecha real (con filtro de responsable) */
+    const compMes = [];
+    const compSinFecha = [];
+    solicitudes.filter(s => s.completada).filter(pasaFiltroResp).forEach(s => {
+        if (!s.fechaReal) { compSinFecha.push(s); return; }
+        const d = new Date(s.fechaReal + "T00:00:00");
+        if (d.getMonth() === mesActual && d.getFullYear() === anioActual) compMes.push(s);
+    });
+    compMes.sort((a,b) => (b.fechaReal || "").localeCompare(a.fechaReal || ""));
+    compSinFecha.sort((a,b) => (a.cliente || "").localeCompare(b.cliente || ""));
+
+    document.getElementById("tituloProceso").textContent = `En proceso · ${MESES[mesActual]} ${anioActual}`;
+    document.getElementById("tituloCompletados").textContent = `Completados · ${MESES[mesActual]} ${anioActual}`;
+    document.getElementById("contProceso").textContent = procesoMes.length;
+    document.getElementById("contCompletados").textContent = compMes.length;
+
+    renderLista("listaProceso", procesoMes, "Sin solicitudes en proceso este mes.");
+    renderLista("listaCompletados", compMes, "Sin solicitudes completadas este mes.");
+
+    renderSinFecha("sfProceso", "sfProcesoTitulo", "sfProcesoLista", procesoSinFecha, "proceso");
+    renderSinFecha("sfCompletados", "sfCompletadosTitulo", "sfCompletadosLista", compSinFecha, "completado");
+}
+
+function renderLista(id, arr, mensajeVacio) {
+    const el = document.getElementById(id);
+    el.innerHTML = "";
+    if (arr.length === 0) el.innerHTML = `<div class="vacio-pila">${mensajeVacio}</div>`;
+    else arr.forEach(s => el.appendChild(crearFilaDOM(s)));
+}
+
+function renderSinFecha(contId, tituloId, listaId, arr, tipo) {
+    const cont = document.getElementById(contId);
+    if (arr.length === 0) { cont.style.display = "none"; return; }
+    cont.style.display = "block";
+    const etiqueta = tipo === "proceso" ? "sin fecha estimada de entrega" : "sin fecha real de entrega";
+    document.getElementById(tituloId).textContent = `⚠ ${arr.length} registro(s) ${etiqueta}`;
+    const lista = document.getElementById(listaId);
+    lista.innerHTML = "";
+    arr.forEach(s => {
+        const f = crearFilaDOM(s);
+        f.style.opacity = "0.85";
+        lista.appendChild(f);
+    });
+}
+
+function crearFilaDOM(sol) {
+    const fila = document.createElement("div");
+    fila.className = "fila" + (sol.completada ? " completada" : "");
+    const sem = colorSemaforo(sol.fechaEstimada);
+    fila.style.borderLeftColor = sem.color;
+
+    const info = document.createElement("div");
+    info.className = "info";
+    const h3 = document.createElement("h3");
+    h3.textContent = sol.cliente || "(Sin cliente)";
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    const fechaTxt = sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha estimada";
+    const respTxt = sol.responsables.length ? "· " + sol.responsables.join(", ") : "";
+    meta.textContent = fechaTxt + " " + respTxt;
+    info.appendChild(h3);
+    info.appendChild(meta);
+
+    const semSpan = document.createElement("span");
+    semSpan.className = "sem";
+    semSpan.style.background = sem.color;
+    semSpan.textContent = sem.texto;
+
+    fila.appendChild(info);
+    fila.appendChild(semSpan);
+    fila.addEventListener("click", () => abrirFicha(sol.id));
+    return fila;
+}
+
+/* =========================================================
+   NUEVA / EDITAR SOLICITUD
+   ========================================================= */
+function nuevaSolicitud() {
+    const sol = crearSolicitudVacia();
+    solicitudes.push(sol);
+    guardar();
+    render();
+    abrirFicha(sol.id);
+}
+
+function abrirFicha(id) {
+    solicitudEditandoId = id;
+    const sol = solicitudes.find(s => s.id === id);
+    if (!sol) return;
+    const sem = colorSemaforo(sol.fechaEstimada);
+    const m = document.getElementById("modalContenido");
+    m.style.borderTopColor = sem.color;
+    m.innerHTML = "";
+
+    const h2 = document.createElement("h2");
+    h2.innerHTML = "<span>Ficha de solicitud</span>";
+    const semSpan = document.createElement("span");
+    semSpan.className = "sem";
+    semSpan.style.background = sem.color;
+    semSpan.textContent = sem.texto;
+    h2.appendChild(semSpan);
+    m.appendChild(h2);
+
+    function campo(labelText, inputEl) {
+        const div = document.createElement("div");
+        div.className = "campo";
+        const lbl = document.createElement("label");
+        lbl.textContent = labelText;
+        div.appendChild(lbl);
+        div.appendChild(inputEl);
+        m.appendChild(div);
+        return inputEl;
+    }
+
+    const inCliente = document.createElement("input");
+    inCliente.type = "text"; inCliente.id = "f_cliente"; inCliente.value = sol.cliente;
+    campo("Cliente", inCliente);
+
+    const inFS = document.createElement("input");
+    inFS.type = "date"; inFS.id = "f_fs"; inFS.value = sol.fechaSolicitud;
+    campo("Fecha de solicitud", inFS);
+
+    const inDesc = document.createElement("textarea");
+    inDesc.id = "f_desc"; inDesc.value = sol.descripcion;
+    campo("Descripción de solicitud", inDesc);
+
+    const inFE = document.createElement("input");
+    inFE.type = "date"; inFE.id = "f_fe"; inFE.value = sol.fechaEstimada;
+    inFE.addEventListener("change", () => {
+        const ns = colorSemaforo(inFE.value);
+        semSpan.style.background = ns.color;
+        semSpan.textContent = ns.texto;
+        m.style.borderTopColor = ns.color;
+    });
+    campo("Fecha estimada de entrega", inFE);
+
+    const inAv = document.createElement("input");
+    inAv.type = "number"; inAv.id = "f_av"; inAv.min = 0; inAv.max = 100;
+    inAv.value = sol.avance;
+    campo("Porcentaje de avance (%)", inAv);
+
+    const divResp = document.createElement("div");
+    divResp.className = "campo";
+    const lblResp = document.createElement("label");
+    lblResp.textContent = "Responsable(s)";
+    divResp.appendChild(lblResp);
+    const contResp = document.createElement("div");
+    contResp.className = "responsables";
+    RESPONSABLES.forEach(nombre => {
+        const lbl = document.createElement("label");
+        const chk = document.createElement("input");
+        chk.type = "checkbox"; chk.value = nombre;
+        chk.checked = sol.responsables.includes(nombre);
+        lbl.appendChild(chk);
+        lbl.appendChild(document.createTextNode(nombre));
+        contResp.appendChild(lbl);
+    });
+    divResp.appendChild(contResp);
+    m.appendChild(divResp);
+
+    const inEnt = document.createElement("textarea");
+    inEnt.id = "f_ent"; inEnt.value = sol.entregables;
+    campo("Entregables", inEnt);
+
+    const inFR = document.createElement("input");
+    inFR.type = "date"; inFR.id = "f_fr"; inFR.value = sol.fechaReal;
+    campo("Fecha real de entrega", inFR);
+
+    const acciones = document.createElement("div");
+    acciones.className = "acciones";
+
+    const izq = document.createElement("label");
+    izq.className = "izquierda";
+    const chkComp = document.createElement("input");
+    chkComp.type = "checkbox"; chkComp.id = "f_comp"; chkComp.checked = sol.completada;
+    chkComp.addEventListener("change", (e) => {
+        if (e.target.checked && !document.getElementById("f_fr").value) {
+            document.getElementById("f_fr").value = hoyISO();
+        }
+    });
+    izq.appendChild(chkComp);
+    izq.appendChild(document.createTextNode("Completada"));
+    acciones.appendChild(izq);
+
+    const btnElim = document.createElement("button");
+    btnElim.className = "btn-rojo";
+    btnElim.textContent = "Eliminar";
+    btnElim.addEventListener("click", () => {
+        if (confirm("¿Eliminar esta solicitud?")) {
+            solicitudes = solicitudes.filter(s => s.id !== sol.id);
+            guardar(); render(); cerrarFicha();
+        }
+    });
+    acciones.appendChild(btnElim);
+
+    const btnCancel = document.createElement("button");
+    btnCancel.className = "btn-gris";
+    btnCancel.textContent = "Cancelar";
+    btnCancel.addEventListener("click", cerrarFicha);
+    acciones.appendChild(btnCancel);
+
+    const btnGuardar = document.createElement("button");
+    btnGuardar.className = "btn-azul";
+    btnGuardar.textContent = "Guardar";
+    btnGuardar.addEventListener("click", () => guardarFicha(sol.id));
+    acciones.appendChild(btnGuardar);
+
+    m.appendChild(acciones);
+    document.getElementById("modalFondo").classList.add("activo");
+}
+
+function guardarFicha(id) {
+    const sol = solicitudes.find(s => s.id === id);
+    if (!sol) return;
+    sol.cliente = document.getElementById("f_cliente").value.trim();
+    sol.fechaSolicitud = document.getElementById("f_fs").value;
+    sol.descripcion = document.getElementById("f_desc").value.trim();
+    sol.fechaEstimada = document.getElementById("f_fe").value;
+    let av = parseInt(document.getElementById("f_av").value, 10);
+    if (isNaN(av)) av = 0;
+    sol.avance = Math.max(0, Math.min(100, av));
+    sol.responsables = Array.from(document.querySelectorAll(".responsables input:checked")).map(c => c.value);
+    sol.entregables = document.getElementById("f_ent").value.trim();
+    sol.fechaReal = document.getElementById("f_fr").value;
+    sol.completada = document.getElementById("f_comp").checked;
+
+    guardar();
+    render();
+    cerrarFicha();
+}
+
+function cerrarFicha() {
+    document.getElementById("modalFondo").classList.remove("activo");
+    solicitudEditandoId = null;
+}
+
+document.getElementById("modalFondo").addEventListener("click", e => {
+    if (e.target.id === "modalFondo") cerrarFicha();
+});
+
+/* =========================================================
+   EXPORTACIÓN
+   ========================================================= */
+function esc(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
+}
+
+function buildExportData(scope) {
+    const base = solicitudes.filter(pasaFiltroResp); // respeta filtro de responsable
+    if (scope === "mes") {
+        const proceso = base.filter(s => !s.completada).filter(s => {
+            if (!s.fechaEstimada) return true;
+            const d = new Date(s.fechaEstimada + "T00:00:00");
+            return d.getMonth() === mesActual && d.getFullYear() === anioActual;
+        });
+        const completados = base.filter(s => s.completada).filter(s => {
+            if (!s.fechaReal) return true;
+            const d = new Date(s.fechaReal + "T00:00:00");
+            return d.getMonth() === mesActual && d.getFullYear() === anioActual;
+        });
+        return { proceso, completados, etiqueta: `${MESES[mesActual]} ${anioActual}` };
+    } else if (scope === "anio") {
+        const proceso = base.filter(s => !s.completada).filter(s => {
+            if (!s.fechaEstimada) return true;
+            return new Date(s.fechaEstimada + "T00:00:00").getFullYear() === anioActual;
+        });
+        const completados = base.filter(s => s.completada).filter(s => {
+            if (!s.fechaReal) return true;
+            return new Date(s.fechaReal + "T00:00:00").getFullYear() === anioActual;
+        });
+        return { proceso, completados, etiqueta: `Año ${anioActual}` };
+    } else {
+        return {
+            proceso: base.filter(s => !s.completada),
+            completados: base.filter(s => s.completada),
+            etiqueta: "Todos los registros"
+        };
+    }
+}
+
+function buildExportHTML(data) {
+    const { proceso, completados, etiqueta } = data;
+    const hoy = new Date().toLocaleDateString("es-CR", { day: "2-digit", month: "long", year: "numeric" });
+    const ths = ["Cliente","Fecha solicitud","Descripción","Fecha estimada","Avance","Responsables","Entregables","Fecha real"];
+    const filtroTxt = filtroResp.size === 0 ? "Todos" : Array.from(filtroResp).join(", ");
+
+    const fila = (s) => `<tr>
+        <td>${esc(s.cliente)}</td>
+        <td>${esc(s.fechaSolicitud)}</td>
+        <td>${esc(s.descripcion)}</td>
+        <td>${esc(s.fechaEstimada)}</td>
+        <td style="text-align:center">${s.avance}%</td>
+        <td>${esc(s.responsables.join(", "))}</td>
+        <td>${esc(s.entregables)}</td>
+        <td>${esc(s.fechaReal)}</td>
+    </tr>`;
+
+    const tablaProceso = proceso.length
+        ? `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:10pt">
+            <thead><tr style="background:#346FC9;color:#fff">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead>
+            <tbody>${proceso.map(fila).join("")}</tbody></table>`
+        : "<p><i>Sin registros en proceso.</i></p>";
+
+    const tablaComp = completados.length
+        ? `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:10pt">
+            <thead><tr style="background:#2e9e4f;color:#fff">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead>
+            <tbody>${completados.map(fila).join("")}</tbody></table>`
+        : "<p><i>Sin registros completados.</i></p>";
+
+    return `
+        <h1 style="color:#346FC9;font-family:Arial;margin:0">Edificaciones · UEN Programación y Control</h1>
+        <h2 style="color:#346FC9;font-family:Arial;margin:4px 0">Instituto Costarricense de Acueductos y Alcantarillados</h2>
+        <h3 style="font-family:Arial;margin:10px 0 4px">Reporte de solicitudes — ${esc(etiqueta)}</h3>
+        <p style="font-family:Arial;font-size:9pt;color:#666">
+            <i>Generado el ${esc(hoy)} · Filtro de responsable: ${esc(filtroTxt)}</i>
+        </p>
+        <h2 style="color:#346FC9;font-family:Arial;margin-top:20px">En proceso (${proceso.length})</h2>
+        ${tablaProceso}
+        <h2 style="color:#2e9e4f;font-family:Arial;margin-top:20px">Completados (${completados.length})</h2>
+        ${tablaComp}
+    `;
+}
+
+function nombreArchivo(etiqueta) {
+    return etiqueta.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "_").replace(/^_|_$/g, "");
+}
+
+function descargar(blob, nombre) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = nombre;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function exportarDOC() {
+    const scope = document.getElementById("selScope").value;
+    const data = buildExportData(scope);
+    const html = `<!DOCTYPE html>
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
+        <head><meta charset="utf-8"><title>Reporte Edificaciones</title></head>
+        <body>${buildExportHTML(data)}</body></html>`;
+    const blob = new Blob(["\ufeff", html], { type: "application/msword" });
+    descargar(blob, `Reporte_Edificaciones_${nombreArchivo(data.etiqueta)}.doc`);
+}
+
+function exportarXLS() {
+    const scope = document.getElementById("selScope").value;
+    const data = buildExportData(scope);
+    const html = `<!DOCTYPE html>
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
+        <head><meta charset="utf-8"><title>Reporte</title>
+        <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+        <x:Name>Reporte</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
+        </x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+        </head><body>${buildExportHTML(data)}</body></html>`;
+    const blob = new Blob(["\ufeff", html], { type: "application/vnd.ms-excel" });
+    descargar(blob, `Reporte_Edificaciones_${nombreArchivo(data.etiqueta)}.xls`);
+}
+
+function exportarPDF() {
+    const scope = document.getElementById("selScope").value;
+    const data = buildExportData(scope);
+    const ventana = window.open("", "_blank");
+    if (!ventana) {
+        alert("Permite las ventanas emergentes para generar el PDF.");
+        return;
+    }
+    ventana.document.write(`<!DOCTYPE html>
+        <html><head><meta charset="utf-8"><title>Reporte Edificaciones</title>
+        <style>
+            body { font-family: Arial, sans-serif; padding: 20px; color: #222; }
+            h1, h2 { color: #346FC9; }
+            table { border-collapse: collapse; width: 100%; font-size: 9pt; }
+            th { background: #346FC9; color: #fff; padding: 6px; text-align: left; }
+            td { padding: 5px; border: 1px solid #999; vertical-align: top; }
+            @media print { @page { size: landscape; margin: 1cm; } }
+        </style></head>
+        <body>${buildExportHTML(data)}</body></html>`);
+    ventana.document.close();
+    ventana.focus();
+    setTimeout(() => { ventana.print(); }, 500);
+}
+
+/* =========================================================
+   INICIALIZACIÓN
+   ========================================================= */
+cargar();
+poblarSelects();
+actualizarChips();
+render();
+</script>
+</body>
+</html>
