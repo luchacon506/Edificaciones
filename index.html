@@ -303,7 +303,6 @@
         outline: none; border-color: var(--azul); background: var(--blanco);
     }
 
-    /* Casilla inline (dentro de un campo) */
     .check-inline {
         display: flex !important;
         align-items: center;
@@ -842,13 +841,11 @@ function crearFilaDOM(sol) {
     const meta = document.createElement("div");
     meta.className = "meta";
 
-    // Fecha principal
     const fechaTxt = sol.completada
         ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha real")
         : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha estimada");
     meta.appendChild(document.createTextNode(fechaTxt));
 
-    // Medio de solicitud
     if (sol.medioSolicitud) {
         meta.appendChild(document.createTextNode(" · "));
         const badge = document.createElement("span");
@@ -861,7 +858,6 @@ function crearFilaDOM(sol) {
         meta.appendChild(badge);
     }
 
-    // Oficio de entrega
     if (sol.medioSolicitud === "Oficio" && sol.requiereOficioEntrega && sol.oficioEntrega) {
         meta.appendChild(document.createTextNode(" · "));
         const badgeE = document.createElement("span");
@@ -873,7 +869,6 @@ function crearFilaDOM(sol) {
         meta.appendChild(badgeE);
     }
 
-    // Responsables
     if (sol.responsables.length) {
         meta.appendChild(document.createTextNode(" · " + sol.responsables.join(", ")));
     }
@@ -934,22 +929,18 @@ function abrirFicha(id) {
         return div;
     }
 
-    // Cliente
     const inCliente = document.createElement("input");
     inCliente.type = "text"; inCliente.id = "f_cliente"; inCliente.value = sol.cliente;
     campo("Cliente", inCliente);
 
-    // Fecha de solicitud
     const inFS = document.createElement("input");
     inFS.type = "date"; inFS.id = "f_fs"; inFS.value = sol.fechaSolicitud;
     campo("Fecha de solicitud", inFS);
 
-    // Descripción
     const inDesc = document.createElement("textarea");
     inDesc.id = "f_desc"; inDesc.value = sol.descripcion;
     campo("Descripción de solicitud", inDesc);
 
-    /* ======== MEDIO DE SOLICITUD ======== */
     const inMedio = document.createElement("select");
     inMedio.id = "f_medio";
     inMedio.innerHTML = `
@@ -959,7 +950,6 @@ function abrirFicha(id) {
     inMedio.value = sol.medioSolicitud || "";
     campo("Medio de solicitud", inMedio);
 
-    /* ======== CONSECUTIVO DE OFICIO (solo si Oficio) ======== */
     const divConsec = document.createElement("div");
     divConsec.className = "campo";
     divConsec.id = "cont_consecutivo";
@@ -974,7 +964,6 @@ function abrirFicha(id) {
     divConsec.appendChild(inConsec);
     m.appendChild(divConsec);
 
-    /* ======== CHECKBOX REQUIERE OFICIO DE ENTREGA (solo si Oficio) ======== */
     const divReq = document.createElement("div");
     divReq.className = "campo";
     divReq.id = "cont_req_oficio";
@@ -989,7 +978,6 @@ function abrirFicha(id) {
     divReq.appendChild(lblReq);
     m.appendChild(divReq);
 
-    // Fecha estimada
     const inFE = document.createElement("input");
     inFE.type = "date"; inFE.id = "f_fe"; inFE.value = sol.fechaEstimada;
     inFE.addEventListener("change", () => {
@@ -1001,13 +989,11 @@ function abrirFicha(id) {
     });
     campo("Fecha estimada de entrega", inFE);
 
-    // Avance
     const inAv = document.createElement("input");
     inAv.type = "number"; inAv.id = "f_av"; inAv.min = 0; inAv.max = 100;
     inAv.value = sol.avance;
     campo("Porcentaje de avance (%)", inAv);
 
-    // Responsables
     const divResp = document.createElement("div");
     divResp.className = "campo";
     const lblResp = document.createElement("label");
@@ -1027,12 +1013,10 @@ function abrirFicha(id) {
     divResp.appendChild(contResp);
     m.appendChild(divResp);
 
-    // Entregables
     const inEnt = document.createElement("textarea");
     inEnt.id = "f_ent"; inEnt.value = sol.entregables;
     campo("Entregables", inEnt);
 
-    /* ======== OFICIO DE ENTREGA (debajo de Entregables, solo si Oficio + requiere) ======== */
     const divOficioEnt = document.createElement("div");
     divOficioEnt.className = "campo";
     divOficioEnt.id = "cont_oficio_entrega";
@@ -1047,12 +1031,10 @@ function abrirFicha(id) {
     divOficioEnt.appendChild(inOE);
     m.appendChild(divOficioEnt);
 
-    // Fecha real
     const inFR = document.createElement("input");
     inFR.type = "date"; inFR.id = "f_fr"; inFR.value = sol.fechaReal;
     campo("Fecha real de entrega", inFR);
 
-    /* ======== VISIBILIDAD CONDICIONAL ======== */
     function actualizarVisibilidadMedio() {
         const esOficio = inMedio.value === "Oficio";
         divConsec.style.display = esOficio ? "block" : "none";
@@ -1064,7 +1046,6 @@ function abrirFicha(id) {
     chkReq.addEventListener("change", actualizarVisibilidadMedio);
     actualizarVisibilidadMedio();
 
-    /* ======== ACCIONES ======== */
     const acciones = document.createElement("div");
     acciones.className = "acciones";
 
@@ -1148,7 +1129,6 @@ async function guardarFicha(id) {
     sol.fechaReal = document.getElementById("f_fr").value;
     sol.completada = document.getElementById("f_comp").checked;
 
-    // Medio y oficios
     sol.medioSolicitud = document.getElementById("f_medio").value;
     if (sol.medioSolicitud === "Oficio") {
         sol.oficioConsecutivo = document.getElementById("f_consec").value.trim();
@@ -1157,7 +1137,6 @@ async function guardarFicha(id) {
             ? document.getElementById("f_oficio_entrega").value.trim()
             : "";
     } else {
-        // Si no es Oficio, limpiar los campos de oficio para no dejar datos huérfanos
         sol.oficioConsecutivo = "";
         sol.requiereOficioEntrega = false;
         sol.oficioEntrega = "";
@@ -1171,9 +1150,11 @@ function cerrarFicha() {
     solicitudEditandoId = null;
 }
 
-document.getElementById("modalFondo").addEventListener("click", e => {
-    if (e.target.id === "modalFondo") cerrarFicha();
-});
+/* =========================================================
+   NOTA: se eliminó el listener que cerraba el modal al hacer
+   clic fuera. Ahora la ficha solo se cierra con los botones
+   Guardar, Eliminar o Cancelar.
+   ========================================================= */
 
 /* =========================================================
    REALTIME
