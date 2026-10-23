@@ -181,11 +181,22 @@
     .fila .info .meta {
         font-size: 0.75rem; color: #666;
         display: flex; gap: 10px; flex-wrap: wrap;
+        align-items: center;
     }
     .fila .info .meta .badge-medio {
         background: #eef3fb; color: #2a5aa8;
         border: 1px solid #c9d8ef; border-radius: 10px;
         padding: 0 8px; font-size: 0.7rem; font-weight: 600;
+    }
+    .fila .info .meta .badge-avance {
+        background: #f0f0f0; color: #333;
+        border: 1px solid #ccc; border-radius: 10px;
+        padding: 0 8px; font-size: 0.7rem; font-weight: 700;
+        white-space: nowrap;
+    }
+    .fila .info .meta .badge-avance.completo {
+        background: #e8f7ec; color: #1e7a3b;
+        border-color: #b8e0c3;
     }
     .fila .sem {
         font-size: 0.72rem; font-weight: 700; color: var(--blanco);
@@ -301,6 +312,11 @@
     .modal .campo select:focus,
     .modal .campo textarea:focus {
         outline: none; border-color: var(--azul); background: var(--blanco);
+    }
+    .modal .campo input[readonly] {
+        background: #f5f5f5;
+        color: #666;
+        cursor: not-allowed;
     }
 
     .check-inline {
@@ -826,7 +842,7 @@ function renderAlertaMeses() {
 }
 
 /* =========================================================
-   FILA DE LA PILA
+   FILA DE LA PILA (con badge de porcentaje de avance)
    ========================================================= */
 function crearFilaDOM(sol) {
     const fila = document.createElement("div");
@@ -845,6 +861,14 @@ function crearFilaDOM(sol) {
         ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha real")
         : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha estimada");
     meta.appendChild(document.createTextNode(fechaTxt));
+
+    /* --------- BADGE DE PORCENTAJE DE AVANCE --------- */
+    meta.appendChild(document.createTextNode(" · "));
+    const badgeAv = document.createElement("span");
+    badgeAv.className = "badge-avance" + (sol.avance >= 100 ? " completo" : "");
+    badgeAv.textContent = sol.avance + "% avance";
+    meta.appendChild(badgeAv);
+    /* ------------------------------------------------- */
 
     if (sol.medioSolicitud) {
         meta.appendChild(document.createTextNode(" · "));
@@ -1054,10 +1078,13 @@ function abrirFicha(id) {
     const chkComp = document.createElement("input");
     chkComp.type = "checkbox"; chkComp.id = "f_comp"; chkComp.checked = sol.completada;
     chkComp.addEventListener("change", (e) => {
-        if (e.target.checked && !document.getElementById("f_fr").value) {
-            document.getElementById("f_fr").value = hoyISO();
-        }
         if (e.target.checked) {
+            /* Autocompletar fecha real si está vacía */
+            if (!document.getElementById("f_fr").value) {
+                document.getElementById("f_fr").value = hoyISO();
+            }
+            /* Forzar avance al 100% */
+            document.getElementById("f_av").value = 100;
             semSpan.style.background = GRIS_COMPLETADO;
             semSpan.textContent = "Completada";
             m.style.borderTopColor = GRIS_COMPLETADO;
@@ -1129,6 +1156,9 @@ async function guardarFicha(id) {
     sol.fechaReal = document.getElementById("f_fr").value;
     sol.completada = document.getElementById("f_comp").checked;
 
+    /* Si está marcada como completada, forzar avance a 100 */
+    if (sol.completada) sol.avance = 100;
+
     sol.medioSolicitud = document.getElementById("f_medio").value;
     if (sol.medioSolicitud === "Oficio") {
         sol.oficioConsecutivo = document.getElementById("f_consec").value.trim();
@@ -1149,12 +1179,6 @@ function cerrarFicha() {
     document.getElementById("modalFondo").classList.remove("activo");
     solicitudEditandoId = null;
 }
-
-/* =========================================================
-   NOTA: se eliminó el listener que cerraba el modal al hacer
-   clic fuera. Ahora la ficha solo se cierra con los botones
-   Guardar, Eliminar o Cancelar.
-   ========================================================= */
 
 /* =========================================================
    REALTIME
