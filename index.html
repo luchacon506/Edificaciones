@@ -24,7 +24,6 @@
         color: var(--texto);
     }
 
-    /* ---------- CABECERA ---------- */
     header {
         background: var(--azul);
         color: var(--blanco);
@@ -57,7 +56,6 @@
         }
     }
 
-    /* ---------- BARRA ---------- */
     .barra {
         display: flex; justify-content: space-between; align-items: center;
         flex-wrap: wrap; gap: 12px; padding: 14px 24px 6px;
@@ -78,6 +76,129 @@
         padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
     }
     .btn-hoy:hover { background: #ddd; }
+
+    .buscador {
+        position: relative;
+        flex: 1 1 auto;
+        max-width: 520px;
+        min-width: 220px;
+        margin: 0 12px;
+    }
+    .buscador input {
+        width: 100%;
+        padding: 9px 40px 9px 16px;
+        border: 1px solid #aaa;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-family: inherit;
+        background: var(--blanco);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .buscador input:focus {
+        outline: none;
+        border-color: var(--azul);
+        box-shadow: 0 2px 10px rgba(52,111,201,0.25);
+    }
+    .buscador .btn-clear-busqueda {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: #888;
+        font-size: 0.95rem;
+        cursor: pointer;
+        padding: 4px 10px;
+        border-radius: 50%;
+        display: none;
+    }
+    .buscador .btn-clear-busqueda.visible { display: block; }
+    .buscador .btn-clear-busqueda:hover { background: #eee; color: #333; }
+
+    .buscador-resultados {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        right: 0;
+        max-height: 420px;
+        overflow-y: auto;
+        background: var(--blanco);
+        border: 1px solid #bbb;
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        z-index: 800;
+        display: none;
+    }
+    .buscador-resultados.visible { display: block; }
+    .buscador-grupo-titulo {
+        padding: 6px 14px;
+        background: #f0f5ff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--azul-oscuro);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 1px solid #d4e0f5;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+    .buscador-item {
+        padding: 10px 14px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background 0.1s;
+    }
+    .buscador-item:last-child { border-bottom: none; }
+    .buscador-item:hover { background: #eef3fb; }
+    .buscador-item .titulo {
+        font-weight: 600;
+        color: var(--azul);
+        font-size: 0.88rem;
+        margin-bottom: 3px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .buscador-item .titulo .estado {
+        font-size: 0.7rem;
+        padding: 1px 8px;
+        border-radius: 10px;
+        color: var(--blanco);
+        font-weight: 700;
+        white-space: nowrap;
+    }
+    .buscador-item .detalle {
+        font-size: 0.75rem;
+        color: #666;
+        line-height: 1.35;
+    }
+    .buscador-item .detalle .match {
+        background: #fff3b0;
+        color: #6b5400;
+        padding: 0 2px;
+        border-radius: 2px;
+        font-weight: 600;
+    }
+    .buscador-vacio {
+        padding: 20px;
+        text-align: center;
+        color: #888;
+        font-style: italic;
+        font-size: 0.85rem;
+    }
+
+    @media (max-width: 900px) {
+        .buscador {
+            order: 3;
+            flex-basis: 100%;
+            max-width: none;
+            margin: 8px 0 0 0;
+        }
+    }
+
     .controles-acciones { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     button.btn-azul {
         background: var(--azul); color: var(--blanco); border: none;
@@ -103,7 +224,6 @@
     }
     .export-grupo button:hover { background: var(--azul-oscuro); }
 
-    /* ---------- LEYENDA ---------- */
     .leyenda {
         display: flex; gap: 18px; flex-wrap: wrap;
         padding: 4px 24px 4px; font-size: 0.85rem; align-items: center;
@@ -114,7 +234,6 @@
     }
     .leyenda .nota { font-size: 0.78rem; color: #555; font-style: italic; }
 
-    /* ---------- FILTRO RESPONSABLE ---------- */
     .filtros {
         display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
         padding: 6px 24px 10px; font-size: 0.85rem;
@@ -131,7 +250,6 @@
     .chip.chip-todos.chip-activo { background: #555; border-color: #555; }
     .filtros .aviso-filtro { font-size: 0.78rem; color: var(--azul); font-weight: 600; margin-left: auto; }
 
-    /* ---------- INDICADOR SYNC ---------- */
     .estado-sync {
         display: inline-flex; align-items: center; gap: 6px;
         font-size: 0.75rem; color: #555; padding: 2px 8px;
@@ -145,7 +263,6 @@
     .estado-sync.error .dot-sync { background: var(--rojo); }
     @keyframes pulso { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-    /* ---------- PILAS ---------- */
     .pilas {
         display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
         padding: 0 24px 18px; align-items: start;
@@ -164,7 +281,6 @@
     }
     .pila .lista { display: flex; flex-direction: column; gap: 8px; }
 
-    /* ---------- FILA ---------- */
     .fila {
         background: var(--blanco); border-radius: 8px; padding: 10px 12px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.15);
@@ -198,6 +314,16 @@
         background: #e8f7ec; color: #1e7a3b;
         border-color: #b8e0c3;
     }
+    .fila .info .meta .badge-enlace {
+        background: #eef3fb; color: #2a5aa8;
+        border: 1px solid #c9d8ef; border-radius: 10px;
+        padding: 0 8px; font-size: 0.7rem; font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .fila .info .meta .badge-enlace:hover {
+        background: var(--azul); color: var(--blanco); border-color: var(--azul);
+    }
     .fila .sem {
         font-size: 0.72rem; font-weight: 700; color: var(--blanco);
         padding: 3px 8px; border-radius: 10px; white-space: nowrap;
@@ -214,7 +340,6 @@
     }
     .sin-fecha-titulo { font-size: 0.8rem; color: #b35a00; font-weight: 700; margin-bottom: 6px; }
 
-    /* ---------- ALERTA MESES ANTERIORES ---------- */
     .alerta-meses {
         margin: 0 24px 20px;
         padding: 10px 14px;
@@ -272,7 +397,6 @@
         color: var(--blanco);
     }
 
-    /* ---------- MODAL ---------- */
     .modal-fondo {
         position: fixed; inset: 0; background: rgba(0,0,0,0.5);
         display: none; justify-content: center; align-items: flex-start;
@@ -294,12 +418,13 @@
         padding: 3px 8px; border-radius: 10px;
     }
     .modal .campo { margin-bottom: 10px; }
-    .modal .campo label {
+    .modal .campo > label {
         display: block; font-weight: 600; color: #555;
         margin-bottom: 3px; font-size: 0.75rem;
         text-transform: uppercase; letter-spacing: 0.5px;
     }
     .modal .campo input[type="text"],
+    .modal .campo input[type="url"],
     .modal .campo input[type="date"],
     .modal .campo input[type="number"],
     .modal .campo select,
@@ -313,10 +438,174 @@
     .modal .campo textarea:focus {
         outline: none; border-color: var(--azul); background: var(--blanco);
     }
-    .modal .campo input[readonly] {
-        background: #f5f5f5;
-        color: #666;
-        cursor: not-allowed;
+
+    .campo-fecha {
+        display: flex;
+        gap: 6px;
+        align-items: stretch;
+        position: relative;
+    }
+    .modal .campo > .campo-fecha > input[type="text"] {
+        width: auto;
+        flex: 1 1 auto;
+        min-width: 0;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.5px;
+    }
+    .modal .campo > .campo-fecha > input[type="text"].invalido {
+        border-color: var(--rojo);
+        background: #fff5f5;
+    }
+    .btn-cal-wrapper {
+        position: relative;
+        display: inline-flex;
+        flex-shrink: 0;
+    }
+    .btn-calendario {
+        background: #eef3fb;
+        border: 1px solid #c9d8ef;
+        color: #2a5aa8;
+        border-radius: 5px;
+        padding: 0 14px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.15s;
+        font-family: inherit;
+    }
+    .btn-calendario:hover {
+        background: var(--azul);
+        color: var(--blanco);
+        border-color: var(--azul);
+    }
+    .date-hidden-picker {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        pointer-events: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* ============ ENLACES MÚLTIPLES ============ */
+    .enlaces-lista {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 8px;
+    }
+    .enlace-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f5f8fd;
+        border: 1px solid #d4e0f5;
+        border-radius: 6px;
+        padding: 6px 8px;
+    }
+    .enlace-url {
+        flex: 1;
+        min-width: 0;
+        font-size: 0.82rem;
+        color: #2a5aa8;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: "Consolas", "Courier New", monospace;
+    }
+    .enlace-acciones {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+    }
+    .enlace-acciones button {
+        background: #fff;
+        border: 1px solid #c9d8ef;
+        color: #2a5aa8;
+        border-radius: 4px;
+        padding: 4px 9px;
+        font-size: 0.72rem;
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: inherit;
+        white-space: nowrap;
+    }
+    .enlace-acciones button:hover {
+        background: var(--azul);
+        color: var(--blanco);
+        border-color: var(--azul);
+    }
+    .enlace-acciones button.btn-enlace-eliminar:hover {
+        background: var(--rojo);
+        border-color: var(--rojo);
+    }
+    .enlace-acciones button.btn-enlace-guardar {
+        background: var(--verde);
+        color: var(--blanco);
+        border-color: var(--verde);
+    }
+    .enlace-acciones button.btn-enlace-guardar:hover {
+        background: #237d3f;
+        border-color: #237d3f;
+    }
+    .enlaces-vacio {
+        font-size: 0.8rem;
+        color: #888;
+        font-style: italic;
+        padding: 8px 4px;
+        text-align: center;
+    }
+    .enlace-agregar {
+        display: flex;
+        gap: 6px;
+        align-items: stretch;
+    }
+    .enlace-agregar input {
+        flex: 1;
+        min-width: 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 7px 9px;
+        font-size: 0.9rem;
+        font-family: inherit;
+        background: #fafafa;
+    }
+    .enlace-agregar input:focus {
+        outline: none;
+        border-color: var(--azul);
+        background: var(--blanco);
+    }
+    .btn-enlace-agregar {
+        background: var(--azul);
+        color: var(--blanco);
+        border: 1px solid var(--azul);
+        border-radius: 5px;
+        padding: 0 14px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 600;
+        font-family: inherit;
+        white-space: nowrap;
+        transition: background 0.15s;
+    }
+    .btn-enlace-agregar:hover {
+        background: var(--azul-oscuro);
+    }
+    .enlace-edit-input {
+        flex: 1;
+        min-width: 0;
+        border: 1px solid var(--azul);
+        border-radius: 5px;
+        padding: 6px 8px;
+        font-size: 0.85rem;
+        font-family: inherit;
+        background: #fff;
+    }
+    .enlace-edit-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(52,111,201,0.2);
     }
 
     .check-inline {
@@ -377,7 +666,6 @@
 </head>
 <body>
 
-<!-- ============ CABECERA ============ -->
 <header>
     <img class="logo" src="https://www.aya.go.cr/assets/img/96cb7f83-6325-4ee1-8e4e-fa1e21262be8.png" alt="Logo AyA">
     <div class="titulos">
@@ -388,7 +676,6 @@
     <div class="titulo-derecha">Solicitudes</div>
 </header>
 
-<!-- ============ BARRA ============ -->
 <div class="barra">
     <div class="nav-mes">
         <button class="btn-nav" onclick="cambiarMes(-1)" title="Mes anterior">◀</button>
@@ -400,6 +687,16 @@
             <span class="dot-sync"></span><span id="textoSync">Conectando…</span>
         </span>
     </div>
+
+    <div class="buscador">
+        <input type="text" id="buscador"
+               placeholder="🔍 Buscar en cliente, descripción o actividades…"
+               autocomplete="off"
+               oninput="onBuscar()">
+        <button type="button" class="btn-clear-busqueda" onclick="limpiarBusqueda()" title="Limpiar búsqueda">✕</button>
+        <div class="buscador-resultados" id="buscadorResultados"></div>
+    </div>
+
     <div class="controles-acciones">
         <button class="btn-azul" id="btnNueva" onclick="nuevaSolicitud()">+ Nueva solicitud</button>
         <div class="export-grupo">
@@ -416,7 +713,6 @@
     </div>
 </div>
 
-<!-- ============ LEYENDA ============ -->
 <div class="leyenda">
     <strong>Semáforo:</strong>
     <span><span class="dot" style="background:var(--verde)"></span>Más de un mes</span>
@@ -426,7 +722,6 @@
     <span class="nota">· En proceso por fecha estimada · Completados por fecha real · Los sin fecha aparecen al final.</span>
 </div>
 
-<!-- ============ FILTRO RESPONSABLE ============ -->
 <div class="filtros">
     <strong>Filtrar por responsable:</strong>
     <button class="chip chip-todos chip-activo" data-resp="">Todos</button>
@@ -436,7 +731,6 @@
     <span class="aviso-filtro" id="avisoFiltro"></span>
 </div>
 
-<!-- ============ PILAS ============ -->
 <div class="pilas">
     <div class="pila">
         <h2>
@@ -462,7 +756,6 @@
     </div>
 </div>
 
-<!-- ============ ALERTA MESES ANTERIORES ============ -->
 <div class="alerta-meses" id="alertaMeses" style="display:none">
     <div class="alerta-titulo">⚠ Pendientes en meses anteriores:</div>
     <div class="alerta-chips" id="alertaChips"></div>
@@ -470,15 +763,12 @@
 
 <footer>Plataforma interna · Edificaciones · UEN Programación y Control · AyA</footer>
 
-<!-- ============ MODAL ============ -->
 <div class="modal-fondo" id="modalFondo">
     <div class="modal" id="modalContenido"></div>
 </div>
 
-<!-- ============ OVERLAY CARGA ============ -->
 <div class="overlay-carga" id="overlayCarga">Cargando datos desde la nube…</div>
 
-<!-- ============ SUPABASE SDK ============ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* =========================================================
@@ -489,7 +779,7 @@ const SUPABASE_KEY = "sb_publishable_OLPsAD1jyyvXKjpsiMKvig_gXTZxW4K";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* =========================================================
-   ESTADO
+   ESTADO GLOBAL
    ========================================================= */
 const RESPONSABLES = ["Harrison Umaña", "Cinthya Meza", "Ricardo Chacón"];
 const MEDIOS = ["Oficio", "Correo", "Teams"];
@@ -497,16 +787,51 @@ const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 const GRIS_COMPLETADO = "#777";
 
 let solicitudes = [];
-let solicitudEditandoId = null;
 let mesActual = new Date().getMonth();
 let anioActual = new Date().getFullYear();
 let filtroResp = new Set();
+let busquedaActual = "";
 let cargando = true;
 
+let solEnEdicion = null;
+let solEnEdicionEsNueva = false;
+/* Array temporal de enlaces durante la edición (se commitea solo al Guardar) */
+let enlacesEnEdicion = [];
+
 /* =========================================================
-   UTILIDADES
+   UTILIDADES DE FECHA
    ========================================================= */
-function hoyISO() { return new Date().toISOString().split("T")[0]; }
+function hoyISO() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return y + "-" + m + "-" + day;
+}
+
+function isoToDDMMYYYY(iso) {
+    if (!iso || typeof iso !== "string") return "";
+    const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return "";
+    return m[3] + "/" + m[2] + "/" + m[1];
+}
+
+function ddmmyyyyToISO(str) {
+    if (!str) return "";
+    const s = String(str).trim().replace(/[.\-]/g, "/");
+    const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (!m) return "";
+    const d = parseInt(m[1], 10);
+    const mo = parseInt(m[2], 10);
+    const y = parseInt(m[3], 10);
+    if (mo < 1 || mo > 12) return "";
+    if (y < 1900 || y > 2100) return "";
+    const diasEnMes = new Date(y, mo, 0).getDate();
+    if (d < 1 || d > diasEnMes) return "";
+    const dd = String(d).padStart(2, "0");
+    const mm = String(mo).padStart(2, "0");
+    return y + "-" + mm + "-" + dd;
+}
 
 function diasRestantes(fechaISO) {
     if (!fechaISO) return null;
@@ -533,12 +858,234 @@ function pasaFiltroResp(sol) {
     return sol.responsables.some(r => filtroResp.has(r));
 }
 
+function pasaBusqueda(sol) {
+    const q = (busquedaActual || "").trim().toLowerCase();
+    if (!q) return true;
+    const palabras = q.split(/\s+/).filter(Boolean);
+    const campos = [
+        sol.cliente || "",
+        sol.descripcion || "",
+        sol.entregables || ""
+    ].map(c => c.toLowerCase());
+    return palabras.every(p => campos.some(c => c.includes(p)));
+}
+
+function pasaTodosFiltros(sol) {
+    return pasaFiltroResp(sol) && pasaBusqueda(sol);
+}
+
 function setEstadoSync(estado, texto) {
     const el = document.getElementById("estadoSync");
     el.classList.remove("online", "sync", "error");
     if (estado) el.classList.add(estado);
     document.getElementById("textoSync").textContent = texto;
 }
+
+function limpiarFiltros() {
+    filtroResp.clear();
+    busquedaActual = "";
+    document.getElementById("buscador").value = "";
+    document.querySelector(".btn-clear-busqueda").classList.remove("visible");
+    actualizarChips();
+}
+
+function normalizarUrl(u) {
+    if (!u) return "";
+    u = u.trim();
+    if (!/^https?:\/\//i.test(u)) u = "https://" + u;
+    return u;
+}
+
+/* =========================================================
+   BUSCADOR + DROPDOWN DE RESULTADOS
+   ========================================================= */
+function onBuscar() {
+    busquedaActual = document.getElementById("buscador").value;
+    const btn = document.querySelector(".btn-clear-busqueda");
+    if (btn) btn.classList.toggle("visible", busquedaActual.trim().length > 0);
+    render();
+    renderBuscadorResultados();
+}
+
+function limpiarBusqueda() {
+    document.getElementById("buscador").value = "";
+    busquedaActual = "";
+    const btn = document.querySelector(".btn-clear-busqueda");
+    if (btn) btn.classList.remove("visible");
+    document.getElementById("buscadorResultados").classList.remove("visible");
+    document.getElementById("buscadorResultados").innerHTML = "";
+    render();
+}
+
+function resaltarCoincidencias(texto, palabras) {
+    const contenedor = document.createElement("span");
+    if (!texto) { contenedor.textContent = ""; return contenedor; }
+    if (!palabras.length) { contenedor.textContent = texto; return contenedor; }
+
+    const low = texto.toLowerCase();
+    const marcas = [];
+    palabras.forEach(p => {
+        if (!p) return;
+        let i = 0;
+        while ((i = low.indexOf(p, i)) !== -1) {
+            marcas.push({ start: i, end: i + p.length });
+            i += p.length;
+        }
+    });
+    if (!marcas.length) { contenedor.textContent = texto; return contenedor; }
+    marcas.sort((a,b) => a.start - b.start);
+    const fusion = [];
+    marcas.forEach(r => {
+        const ult = fusion[fusion.length - 1];
+        if (ult && r.start <= ult.end) ult.end = Math.max(ult.end, r.end);
+        else fusion.push({ start: r.start, end: r.end });
+    });
+
+    let cursor = 0;
+    fusion.forEach(r => {
+        if (r.start > cursor) contenedor.appendChild(document.createTextNode(texto.slice(cursor, r.start)));
+        const span = document.createElement("span");
+        span.className = "match";
+        span.textContent = texto.slice(r.start, r.end);
+        contenedor.appendChild(span);
+        cursor = r.end;
+    });
+    if (cursor < texto.length) contenedor.appendChild(document.createTextNode(texto.slice(cursor)));
+    return contenedor;
+}
+
+function renderBuscadorResultados() {
+    const cont = document.getElementById("buscadorResultados");
+    const q = (busquedaActual || "").trim();
+
+    if (!q) {
+        cont.classList.remove("visible");
+        cont.innerHTML = "";
+        return;
+    }
+
+    const palabras = q.toLowerCase().split(/\s+/).filter(Boolean);
+    const resultados = solicitudes.filter(sol => {
+        const campos = [
+            sol.cliente || "",
+            sol.descripcion || "",
+            sol.entregables || ""
+        ].map(c => c.toLowerCase());
+        const coincideBusqueda = palabras.every(p => campos.some(c => c.includes(p)));
+        return coincideBusqueda && pasaFiltroResp(sol);
+    });
+
+    resultados.sort((a, b) => {
+        if (a.completada !== b.completada) return a.completada ? 1 : -1;
+        const fa = a.fechaEstimada || a.fechaReal || "";
+        const fb = b.fechaEstimada || b.fechaReal || "";
+        return fb.localeCompare(fa);
+    });
+
+    cont.innerHTML = "";
+
+    if (resultados.length === 0) {
+        cont.innerHTML = '<div class="buscador-vacio">Sin coincidencias en ningún mes o año.</div>';
+        cont.classList.add("visible");
+        return;
+    }
+
+    const header = document.createElement("div");
+    header.className = "buscador-grupo-titulo";
+    header.textContent = resultados.length + " coincidencia" + (resultados.length === 1 ? "" : "s") + " en todos los meses y años";
+    cont.appendChild(header);
+
+    const LIMITE = 60;
+    resultados.slice(0, LIMITE).forEach(sol => {
+        const item = document.createElement("div");
+        item.className = "buscador-item";
+
+        const sem = semaforoPara(sol);
+        const fechaTxt = sol.completada
+            ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha real")
+            : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha estimada");
+
+        const titulo = document.createElement("div");
+        titulo.className = "titulo";
+        const tituloCliente = document.createElement("span");
+        tituloCliente.appendChild(resaltarCoincidencias(sol.cliente || "(Sin cliente)", palabras));
+        const estado = document.createElement("span");
+        estado.className = "estado";
+        estado.style.background = sem.color;
+        estado.textContent = sol.completada ? "Completada" : sem.texto;
+        titulo.appendChild(tituloCliente);
+        titulo.appendChild(estado);
+
+        const detalle = document.createElement("div");
+        detalle.className = "detalle";
+        let detalleTxt = fechaTxt + " · " + sol.avance + "% avance";
+        if (sol.responsables.length) detalleTxt += " · " + sol.responsables.join(", ");
+        if (sol.medioSolicitud) detalleTxt += " · " + sol.medioSolicitud;
+        detalle.appendChild(document.createTextNode(detalleTxt));
+
+        const matchDesc = (sol.descripcion || "").toLowerCase().includes(palabras[0]);
+        const matchEnt = (sol.entregables || "").toLowerCase().includes(palabras[0]);
+        if (matchDesc) {
+            const frag = document.createElement("div");
+            frag.className = "detalle";
+            frag.style.marginTop = "3px";
+            const txt = sol.descripcion.length > 100 ? sol.descripcion.slice(0, 100) + "…" : sol.descripcion;
+            frag.appendChild(resaltarCoincidencias(txt, palabras));
+            detalle.appendChild(frag);
+        } else if (matchEnt) {
+            const frag = document.createElement("div");
+            frag.className = "detalle";
+            frag.style.marginTop = "3px";
+            const txt = sol.entregables.length > 100 ? sol.entregables.slice(0, 100) + "…" : sol.entregables;
+            frag.appendChild(resaltarCoincidencias(txt, palabras));
+            detalle.appendChild(frag);
+        }
+
+        item.appendChild(titulo);
+        item.appendChild(detalle);
+
+        item.addEventListener("click", () => {
+            const fechaRef = sol.completada ? sol.fechaReal : sol.fechaEstimada;
+            if (fechaRef) {
+                const d = new Date(fechaRef + "T00:00:00");
+                mesActual = d.getMonth();
+                anioActual = d.getFullYear();
+                sincronizarSelects();
+                render();
+            }
+            cont.classList.remove("visible");
+            abrirFichaPorId(sol.id);
+        });
+
+        cont.appendChild(item);
+    });
+
+    if (resultados.length > LIMITE) {
+        const mas = document.createElement("div");
+        mas.className = "buscador-vacio";
+        mas.textContent = "Mostrando " + LIMITE + " de " + resultados.length + ". Refina tu búsqueda para ver menos.";
+        cont.appendChild(mas);
+    }
+
+    cont.classList.add("visible");
+}
+
+document.getElementById("buscador").addEventListener("focus", () => {
+    if (busquedaActual.trim()) renderBuscadorResultados();
+});
+
+document.addEventListener("click", (e) => {
+    const buscador = document.querySelector(".buscador");
+    if (buscador && !buscador.contains(e.target)) {
+        document.getElementById("buscadorResultados").classList.remove("visible");
+    }
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        document.getElementById("buscadorResultados").classList.remove("visible");
+    }
+});
 
 /* =========================================================
    MAPEO MODELO <-> BASE DE DATOS
@@ -553,6 +1100,7 @@ function toDB(sol) {
         avance: sol.avance || 0,
         responsables: sol.responsables || [],
         entregables: sol.entregables || "",
+        enlace: (sol.enlaces || []).join("\n"),
         fecha_real: sol.fechaReal || null,
         completada: !!sol.completada,
         medio_solicitud: sol.medioSolicitud || "",
@@ -572,6 +1120,9 @@ function fromDB(row) {
         avance: row.avance || 0,
         responsables: row.responsables || [],
         entregables: row.entregables || "",
+        enlaces: row.enlace
+            ? String(row.enlace).split("\n").map(s => s.trim()).filter(Boolean)
+            : [],
         fechaReal: row.fecha_real || "",
         completada: !!row.completada,
         medioSolicitud: row.medio_solicitud || "",
@@ -591,6 +1142,7 @@ function crearSolicitudVacia() {
         avance: 0,
         responsables: [],
         entregables: "",
+        enlaces: [],
         fechaReal: "",
         completada: false,
         medioSolicitud: "",
@@ -598,6 +1150,33 @@ function crearSolicitudVacia() {
         requiereOficioEntrega: false,
         oficioEntrega: ""
     };
+}
+
+/* =========================================================
+   ERRORES DE SUPABASE
+   ========================================================= */
+function mostrarErrorSupabase(error, accion) {
+    console.error("Error " + accion + ":", error);
+    let msg = "Error al " + accion + ": " + error.message;
+    const m = error.message.match(/could not find the '([^']+)' column/i);
+    if (m) {
+        const col = m[1];
+        msg += "\n\n⚠️ Falta la columna '" + col + "' en Supabase.\n\n";
+        const columnas = {
+            enlace: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS enlace text default '';",
+            medio_solicitud: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS medio_solicitud text default '';",
+            oficio_consecutivo: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_consecutivo text default '';",
+            requiere_oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS requiere_oficio_entrega boolean default false;",
+            oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_entrega text default '';"
+        };
+        if (columnas[col]) {
+            msg += "Ejecuta en el SQL Editor de Supabase:\n\n" + columnas[col];
+        } else {
+            msg += "Revisa el esquema de la tabla 'solicitudes' en Supabase.";
+        }
+        msg += "\n\nLuego ve a Settings → API → Reload schema.";
+    }
+    alert(msg);
 }
 
 /* =========================================================
@@ -620,9 +1199,8 @@ async function insertarEnNube(sol) {
     setEstadoSync("sync", "Guardando…");
     const { error } = await supabaseClient.from("solicitudes").insert([toDB(sol)]);
     if (error) {
-        console.error("Error insertando:", error);
         setEstadoSync("error", "Error al guardar");
-        alert("Error al guardar: " + error.message);
+        mostrarErrorSupabase(error, "guardar");
         return false;
     }
     setEstadoSync("online", "En línea");
@@ -633,9 +1211,8 @@ async function actualizarEnNube(sol) {
     setEstadoSync("sync", "Guardando…");
     const { error } = await supabaseClient.from("solicitudes").update(toDB(sol)).eq("id", sol.id);
     if (error) {
-        console.error("Error actualizando:", error);
         setEstadoSync("error", "Error al guardar");
-        alert("Error al guardar: " + error.message);
+        mostrarErrorSupabase(error, "guardar");
         return false;
     }
     setEstadoSync("online", "En línea");
@@ -728,6 +1305,7 @@ document.querySelectorAll(".chip").forEach(chip => {
         else filtroResp.has(r) ? filtroResp.delete(r) : filtroResp.add(r);
         actualizarChips();
         render();
+        if (busquedaActual.trim()) renderBuscadorResultados();
     });
 });
 
@@ -737,7 +1315,7 @@ document.querySelectorAll(".chip").forEach(chip => {
 function render() {
     const procesoMes = [];
     const procesoSinFecha = [];
-    solicitudes.filter(s => !s.completada).filter(pasaFiltroResp).forEach(s => {
+    solicitudes.filter(s => !s.completada).filter(pasaTodosFiltros).forEach(s => {
         if (!s.fechaEstimada) { procesoSinFecha.push(s); return; }
         const d = new Date(s.fechaEstimada + "T00:00:00");
         if (d.getMonth() === mesActual && d.getFullYear() === anioActual) procesoMes.push(s);
@@ -747,7 +1325,7 @@ function render() {
 
     const compMes = [];
     const compSinFecha = [];
-    solicitudes.filter(s => s.completada).filter(pasaFiltroResp).forEach(s => {
+    solicitudes.filter(s => s.completada).filter(pasaTodosFiltros).forEach(s => {
         if (!s.fechaReal) { compSinFecha.push(s); return; }
         const d = new Date(s.fechaReal + "T00:00:00");
         if (d.getMonth() === mesActual && d.getFullYear() === anioActual) compMes.push(s);
@@ -790,16 +1368,13 @@ function renderSinFecha(contId, tituloId, listaId, arr, tipo) {
     });
 }
 
-/* =========================================================
-   ALERTA DE PENDIENTES EN MESES/ANIOS ANTERIORES
-   ========================================================= */
 function renderAlertaMeses() {
     const cont = document.getElementById("alertaMeses");
     const chips = document.getElementById("alertaChips");
 
     const pendientes = solicitudes
         .filter(s => !s.completada)
-        .filter(pasaFiltroResp)
+        .filter(pasaTodosFiltros)
         .filter(s => {
             if (!s.fechaEstimada) return false;
             const d = new Date(s.fechaEstimada + "T00:00:00");
@@ -841,9 +1416,6 @@ function renderAlertaMeses() {
     });
 }
 
-/* =========================================================
-   FILA DE LA PILA (con badge de porcentaje de avance)
-   ========================================================= */
 function crearFilaDOM(sol) {
     const fila = document.createElement("div");
     fila.className = "fila" + (sol.completada ? " completada" : "");
@@ -862,13 +1434,11 @@ function crearFilaDOM(sol) {
         : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha estimada");
     meta.appendChild(document.createTextNode(fechaTxt));
 
-    /* --------- BADGE DE PORCENTAJE DE AVANCE --------- */
     meta.appendChild(document.createTextNode(" · "));
     const badgeAv = document.createElement("span");
     badgeAv.className = "badge-avance" + (sol.avance >= 100 ? " completo" : "");
     badgeAv.textContent = sol.avance + "% avance";
     meta.appendChild(badgeAv);
-    /* ------------------------------------------------- */
 
     if (sol.medioSolicitud) {
         meta.appendChild(document.createTextNode(" · "));
@@ -893,6 +1463,25 @@ function crearFilaDOM(sol) {
         meta.appendChild(badgeE);
     }
 
+    /* Badge de enlaces (múltiples) */
+    if (sol.enlaces && sol.enlaces.length > 0) {
+        meta.appendChild(document.createTextNode(" · "));
+        const firstUrl = normalizarUrl(sol.enlaces[0]);
+        const link = document.createElement("a");
+        link.className = "badge-enlace";
+        link.href = firstUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        if (sol.enlaces.length === 1) {
+            link.textContent = "🔗 Enlace";
+        } else {
+            link.textContent = "🔗 " + sol.enlaces.length + " enlaces";
+        }
+        link.title = sol.enlaces.join("\n");
+        link.addEventListener("click", (e) => e.stopPropagation());
+        meta.appendChild(link);
+    }
+
     if (sol.responsables.length) {
         meta.appendChild(document.createTextNode(" · " + sol.responsables.join(", ")));
     }
@@ -907,34 +1496,40 @@ function crearFilaDOM(sol) {
 
     fila.appendChild(info);
     fila.appendChild(semSpan);
-    fila.addEventListener("click", () => abrirFicha(sol.id));
+    fila.addEventListener("click", () => abrirFichaPorId(sol.id));
     return fila;
 }
 
 /* =========================================================
-   NUEVA / EDITAR
+   ABRIR FICHA
    ========================================================= */
-async function nuevaSolicitud() {
+function nuevaSolicitud() {
     if (cargando) return;
+    if (solEnEdicion) return;
     const sol = crearSolicitudVacia();
-    const ok = await insertarEnNube(sol);
-    if (!ok) return;
-    solicitudes.push(sol);
-    render();
-    abrirFicha(sol.id);
+    abrirFicha(sol, true);
 }
 
-function abrirFicha(id) {
-    solicitudEditandoId = id;
+function abrirFichaPorId(id) {
     const sol = solicitudes.find(s => s.id === id);
     if (!sol) { alert("Esta solicitud ya no existe (pudo haber sido eliminada)."); return; }
+    abrirFicha(sol, false);
+}
+
+function abrirFicha(sol, isNew) {
+    solEnEdicion = sol;
+    solEnEdicionEsNueva = isNew;
+    enlacesEnEdicion = [...(sol.enlaces || [])];
+
+    document.getElementById("buscadorResultados").classList.remove("visible");
+
     const sem = semaforoPara(sol);
     const m = document.getElementById("modalContenido");
     m.style.borderTopColor = sem.color;
     m.innerHTML = "";
 
     const h2 = document.createElement("h2");
-    h2.innerHTML = "<span>Ficha de solicitud</span>";
+    h2.innerHTML = "<span>" + (isNew ? "Nueva solicitud" : "Ficha de solicitud") + "</span>";
     const semSpan = document.createElement("span");
     semSpan.className = "sem";
     semSpan.style.background = sem.color;
@@ -953,13 +1548,132 @@ function abrirFicha(id) {
         return div;
     }
 
+    function campoFecha(labelText, inputId, initialISO, onChange) {
+        const div = document.createElement("div");
+        div.className = "campo";
+        const lbl = document.createElement("label");
+        lbl.textContent = labelText;
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "campo-fecha";
+
+        const textInput = document.createElement("input");
+        textInput.type = "text";
+        textInput.id = inputId;
+        textInput.placeholder = "dd/mm/aaaa";
+        textInput.maxLength = 10;
+        textInput.autocomplete = "off";
+        textInput.inputMode = "numeric";
+        textInput.value = isoToDDMMYYYY(initialISO);
+        textInput.dataset.isoValue = initialISO || "";
+
+        textInput.getISO = () => textInput.dataset.isoValue || "";
+        textInput.setISO = (iso) => {
+            textInput.dataset.isoValue = iso || "";
+            textInput.value = isoToDDMMYYYY(iso || "");
+            textInput.classList.remove("invalido");
+        };
+
+        const datePicker = document.createElement("input");
+        datePicker.type = "date";
+        datePicker.className = "date-hidden-picker";
+        datePicker.tabIndex = -1;
+        datePicker.setAttribute("aria-hidden", "true");
+
+        const btnCal = document.createElement("button");
+        btnCal.type = "button";
+        btnCal.className = "btn-calendario";
+        btnCal.textContent = "📅";
+        btnCal.title = "Abrir calendario";
+        btnCal.addEventListener("click", (e) => {
+            e.preventDefault();
+            const iso = textInput.getISO();
+            datePicker.value = iso || "";
+            if (typeof datePicker.showPicker === "function") {
+                try {
+                    datePicker.showPicker();
+                    return;
+                } catch (err) {
+                    console.warn("showPicker no disponible:", err);
+                }
+            }
+            datePicker.style.pointerEvents = "auto";
+            datePicker.focus();
+            datePicker.click();
+            setTimeout(() => { datePicker.style.pointerEvents = "none"; }, 200);
+        });
+
+        datePicker.addEventListener("change", () => {
+            if (!datePicker.value) return;
+            textInput.value = isoToDDMMYYYY(datePicker.value);
+            textInput.dataset.isoValue = datePicker.value;
+            textInput.classList.remove("invalido");
+            if (onChange) onChange();
+        });
+
+        textInput.addEventListener("input", () => {
+            let v = textInput.value;
+            v = v.replace(/[.\-]/g, "/");
+            v = v.replace(/[^\d/]/g, "");
+            if (v.length > 10) v = v.slice(0, 10);
+            textInput.value = v;
+
+            const iso = ddmmyyyyToISO(v);
+            if (iso) {
+                textInput.dataset.isoValue = iso;
+                textInput.classList.remove("invalido");
+            } else if (!v.trim()) {
+                textInput.dataset.isoValue = "";
+                textInput.classList.remove("invalido");
+            }
+            if (onChange) onChange();
+        });
+
+        textInput.addEventListener("blur", () => {
+            const v = textInput.value.trim();
+            if (!v) {
+                textInput.dataset.isoValue = "";
+                textInput.classList.remove("invalido");
+                if (onChange) onChange();
+                return;
+            }
+            const iso = ddmmyyyyToISO(v);
+            if (iso) {
+                textInput.value = isoToDDMMYYYY(iso);
+                textInput.dataset.isoValue = iso;
+                textInput.classList.remove("invalido");
+            } else {
+                textInput.classList.add("invalido");
+                textInput.dataset.isoValue = "";
+            }
+            if (onChange) onChange();
+        });
+
+        textInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") { e.preventDefault(); textInput.blur(); }
+        });
+
+        const btnWrapper = document.createElement("div");
+        btnWrapper.className = "btn-cal-wrapper";
+        btnWrapper.appendChild(btnCal);
+        btnWrapper.appendChild(datePicker);
+
+        wrapper.appendChild(textInput);
+        wrapper.appendChild(btnWrapper);
+
+        div.appendChild(lbl);
+        div.appendChild(wrapper);
+        m.appendChild(div);
+
+        return { div, input: textInput };
+    }
+
+    /* ---------- Campos ---------- */
     const inCliente = document.createElement("input");
     inCliente.type = "text"; inCliente.id = "f_cliente"; inCliente.value = sol.cliente;
     campo("Cliente", inCliente);
 
-    const inFS = document.createElement("input");
-    inFS.type = "date"; inFS.id = "f_fs"; inFS.value = sol.fechaSolicitud;
-    campo("Fecha de solicitud", inFS);
+    campoFecha("Fecha de solicitud", "f_fs", sol.fechaSolicitud);
 
     const inDesc = document.createElement("textarea");
     inDesc.id = "f_desc"; inDesc.value = sol.descripcion;
@@ -967,10 +1681,8 @@ function abrirFicha(id) {
 
     const inMedio = document.createElement("select");
     inMedio.id = "f_medio";
-    inMedio.innerHTML = `
-        <option value="">— Seleccione —</option>
-        ${MEDIOS.map(x => `<option value="${x}">${x}</option>`).join("")}
-    `;
+    inMedio.innerHTML = `<option value="">— Seleccione —</option>` +
+        MEDIOS.map(x => `<option value="${x}">${x}</option>`).join("");
     inMedio.value = sol.medioSolicitud || "";
     campo("Medio de solicitud", inMedio);
 
@@ -1002,16 +1714,15 @@ function abrirFicha(id) {
     divReq.appendChild(lblReq);
     m.appendChild(divReq);
 
-    const inFE = document.createElement("input");
-    inFE.type = "date"; inFE.id = "f_fe"; inFE.value = sol.fechaEstimada;
-    inFE.addEventListener("change", () => {
-        if (document.getElementById("f_comp").checked) return;
-        const ns = colorSemaforo(inFE.value);
+    const resFE = campoFecha("Fecha estimada de entrega", "f_fe", sol.fechaEstimada, () => {
+        const comp = document.getElementById("f_comp");
+        if (comp && comp.checked) return;
+        const ns = colorSemaforo(resFE.input.getISO());
         semSpan.style.background = ns.color;
         semSpan.textContent = ns.texto;
         m.style.borderTopColor = ns.color;
     });
-    campo("Fecha estimada de entrega", inFE);
+    const inFE = resFE.input;
 
     const inAv = document.createElement("input");
     inAv.type = "number"; inAv.id = "f_av"; inAv.min = 0; inAv.max = 100;
@@ -1039,7 +1750,20 @@ function abrirFicha(id) {
 
     const inEnt = document.createElement("textarea");
     inEnt.id = "f_ent"; inEnt.value = sol.entregables;
-    campo("Entregables", inEnt);
+    campo("Actividades y Entregables", inEnt);
+
+    /* ---------- ENLACES MÚLTIPLES ---------- */
+    const divEnlaces = document.createElement("div");
+    divEnlaces.className = "campo";
+    const lblEnlaces = document.createElement("label");
+    lblEnlaces.textContent = "Enlaces";
+    divEnlaces.appendChild(lblEnlaces);
+
+    const contEnlaces = document.createElement("div");
+    divEnlaces.appendChild(contEnlaces);
+    m.appendChild(divEnlaces);
+
+    renderEnlacesSection(contEnlaces);
 
     const divOficioEnt = document.createElement("div");
     divOficioEnt.className = "campo";
@@ -1055,9 +1779,7 @@ function abrirFicha(id) {
     divOficioEnt.appendChild(inOE);
     m.appendChild(divOficioEnt);
 
-    const inFR = document.createElement("input");
-    inFR.type = "date"; inFR.id = "f_fr"; inFR.value = sol.fechaReal;
-    campo("Fecha real de entrega", inFR);
+    campoFecha("Fecha real de entrega", "f_fr", sol.fechaReal);
 
     function actualizarVisibilidadMedio() {
         const esOficio = inMedio.value === "Oficio";
@@ -1079,17 +1801,14 @@ function abrirFicha(id) {
     chkComp.type = "checkbox"; chkComp.id = "f_comp"; chkComp.checked = sol.completada;
     chkComp.addEventListener("change", (e) => {
         if (e.target.checked) {
-            /* Autocompletar fecha real si está vacía */
-            if (!document.getElementById("f_fr").value) {
-                document.getElementById("f_fr").value = hoyISO();
-            }
-            /* Forzar avance al 100% */
+            const fr = document.getElementById("f_fr");
+            if (fr && fr.getISO && !fr.getISO()) fr.setISO(hoyISO());
             document.getElementById("f_av").value = 100;
             semSpan.style.background = GRIS_COMPLETADO;
             semSpan.textContent = "Completada";
             m.style.borderTopColor = GRIS_COMPLETADO;
         } else {
-            const ns = colorSemaforo(inFE.value);
+            const ns = colorSemaforo(inFE.getISO());
             semSpan.style.background = ns.color;
             semSpan.textContent = ns.texto;
             m.style.borderTopColor = ns.color;
@@ -1101,8 +1820,9 @@ function abrirFicha(id) {
 
     const btnElim = document.createElement("button");
     btnElim.className = "btn-rojo";
-    btnElim.textContent = "Eliminar";
+    btnElim.textContent = isNew ? "Descartar" : "Eliminar";
     btnElim.addEventListener("click", async () => {
+        if (isNew) { cerrarFicha(); return; }
         if (!confirm("¿Eliminar esta solicitud?")) return;
         btnElim.disabled = true;
         const ok = await eliminarEnNube(sol.id);
@@ -1126,10 +1846,11 @@ function abrirFicha(id) {
     btnGuardar.addEventListener("click", async () => {
         btnGuardar.disabled = true;
         btnGuardar.textContent = "Guardando…";
-        const ok = await guardarFicha(sol.id);
+        const ok = await guardarFicha(sol, isNew);
         if (ok) {
             render();
             cerrarFicha();
+            if (busquedaActual.trim()) renderBuscadorResultados();
         } else {
             btnGuardar.disabled = false;
             btnGuardar.textContent = "Guardar";
@@ -1141,22 +1862,200 @@ function abrirFicha(id) {
     document.getElementById("modalFondo").classList.add("activo");
 }
 
-async function guardarFicha(id) {
-    const sol = solicitudes.find(s => s.id === id);
+/* =========================================================
+   SECCIÓN DE ENLACES MÚLTIPLES
+   ========================================================= */
+function renderEnlacesSection(contenedor) {
+    contenedor.innerHTML = "";
+
+    const lista = document.createElement("div");
+    lista.className = "enlaces-lista";
+
+    if (enlacesEnEdicion.length === 0) {
+        const vacio = document.createElement("div");
+        vacio.className = "enlaces-vacio";
+        vacio.textContent = "Sin enlaces agregados.";
+        lista.appendChild(vacio);
+    } else {
+        enlacesEnEdicion.forEach((url, i) => {
+            const item = document.createElement("div");
+            item.className = "enlace-item";
+
+            const urlDiv = document.createElement("div");
+            urlDiv.className = "enlace-url";
+            urlDiv.textContent = url;
+            urlDiv.title = url;
+
+            const acciones = document.createElement("div");
+            acciones.className = "enlace-acciones";
+
+            const btnAbrir = document.createElement("button");
+            btnAbrir.type = "button";
+            btnAbrir.textContent = "🔗";
+            btnAbrir.title = "Abrir en nueva pestaña";
+            btnAbrir.addEventListener("click", () => {
+                window.open(normalizarUrl(url), "_blank", "noopener,noreferrer");
+            });
+
+            const btnEditar = document.createElement("button");
+            btnEditar.type = "button";
+            btnEditar.textContent = "Editar";
+            btnEditar.title = "Editar este enlace";
+            btnEditar.addEventListener("click", () => activarEdicionEnlace(i, lista, contenedor));
+
+            const btnEliminar = document.createElement("button");
+            btnEliminar.type = "button";
+            btnEliminar.className = "btn-enlace-eliminar";
+            btnEliminar.textContent = "🗑";
+            btnEliminar.title = "Eliminar enlace";
+            btnEliminar.addEventListener("click", () => {
+                if (confirm("¿Eliminar este enlace?")) {
+                    enlacesEnEdicion.splice(i, 1);
+                    renderEnlacesSection(contenedor);
+                }
+            });
+
+            acciones.appendChild(btnAbrir);
+            acciones.appendChild(btnEditar);
+            acciones.appendChild(btnEliminar);
+
+            item.appendChild(urlDiv);
+            item.appendChild(acciones);
+            lista.appendChild(item);
+        });
+    }
+
+    contenedor.appendChild(lista);
+
+    /* Fila para agregar nuevo enlace */
+    const agregarWrap = document.createElement("div");
+    agregarWrap.className = "enlace-agregar";
+
+    const input = document.createElement("input");
+    input.type = "url";
+    input.id = "nuevoEnlaceInput";
+    input.placeholder = "https://ejemplo.com/archivo";
+
+    const btnAgregar = document.createElement("button");
+    btnAgregar.type = "button";
+    btnAgregar.className = "btn-enlace-agregar";
+    btnAgregar.innerHTML = "➕ Agregar";
+
+    const agregar = () => {
+        const u = input.value.trim();
+        if (!u) return;
+        enlacesEnEdicion.push(u);
+        renderEnlacesSection(contenedor);
+        setTimeout(() => {
+            const nuevoInput = document.getElementById("nuevoEnlaceInput");
+            if (nuevoInput) nuevoInput.focus();
+        }, 0);
+    };
+
+    btnAgregar.addEventListener("click", agregar);
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); agregar(); }
+    });
+
+    agregarWrap.appendChild(input);
+    agregarWrap.appendChild(btnAgregar);
+    contenedor.appendChild(agregarWrap);
+}
+
+function activarEdicionEnlace(index, lista, contenedor) {
+    const item = lista.children[index];
+    if (!item) return;
+
+    const originalUrl = enlacesEnEdicion[index];
+    item.innerHTML = "";
+
+    const input = document.createElement("input");
+    input.type = "url";
+    input.className = "enlace-edit-input";
+    input.value = originalUrl;
+
+    const acciones = document.createElement("div");
+    acciones.className = "enlace-acciones";
+
+    const btnGuardarLink = document.createElement("button");
+    btnGuardarLink.type = "button";
+    btnGuardarLink.className = "btn-enlace-guardar";
+    btnGuardarLink.textContent = "💾 Guardar";
+    btnGuardarLink.title = "Confirmar cambio";
+    btnGuardarLink.addEventListener("click", () => {
+        const nueva = input.value.trim();
+        if (!nueva) {
+            alert("El enlace no puede quedar vacío. Usa 🗑 para eliminarlo.");
+            return;
+        }
+        enlacesEnEdicion[index] = nueva;
+        renderEnlacesSection(contenedor);
+    });
+
+    const btnCancelarLink = document.createElement("button");
+    btnCancelarLink.type = "button";
+    btnCancelarLink.textContent = "✕";
+    btnCancelarLink.title = "Cancelar (descartar cambio)";
+    btnCancelarLink.addEventListener("click", () => {
+        renderEnlacesSection(contenedor);
+    });
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); btnGuardarLink.click(); }
+        if (e.key === "Escape") { e.preventDefault(); btnCancelarLink.click(); }
+    });
+
+    acciones.appendChild(btnGuardarLink);
+    acciones.appendChild(btnCancelarLink);
+
+    item.appendChild(input);
+    item.appendChild(acciones);
+
+    input.focus();
+    input.select();
+}
+
+/* =========================================================
+   GUARDAR FICHA
+   ========================================================= */
+async function guardarFicha(sol, isNew) {
     if (!sol) return false;
+
+    for (const id of ["f_fs", "f_fe", "f_fr"]) {
+        const el = document.getElementById(id);
+        if (el && el.classList.contains("invalido")) {
+            alert("Hay una fecha con formato inválido.\n\nFormato esperado: dd/mm/aaaa\nEjemplo: 25/12/2025\n\nCorrígela antes de guardar.");
+            el.focus();
+            return false;
+        }
+    }
+
+    function getFechaISO(id) {
+        const el = document.getElementById(id);
+        if (!el) return "";
+        if (typeof el.getISO === "function") return el.getISO();
+        return ddmmyyyyToISO(el.value);
+    }
+
+    /* Recoger enlaces pendientes del input de "Agregar" (si el usuario escribió pero no pulsó Agregar) */
+    const inputNuevo = document.getElementById("nuevoEnlaceInput");
+    if (inputNuevo && inputNuevo.value.trim()) {
+        enlacesEnEdicion.push(inputNuevo.value.trim());
+    }
+
     sol.cliente = document.getElementById("f_cliente").value.trim();
-    sol.fechaSolicitud = document.getElementById("f_fs").value;
+    sol.fechaSolicitud = getFechaISO("f_fs");
     sol.descripcion = document.getElementById("f_desc").value.trim();
-    sol.fechaEstimada = document.getElementById("f_fe").value;
+    sol.fechaEstimada = getFechaISO("f_fe");
     let av = parseInt(document.getElementById("f_av").value, 10);
     if (isNaN(av)) av = 0;
     sol.avance = Math.max(0, Math.min(100, av));
     sol.responsables = Array.from(document.querySelectorAll(".responsables input:checked")).map(c => c.value);
     sol.entregables = document.getElementById("f_ent").value.trim();
-    sol.fechaReal = document.getElementById("f_fr").value;
+    sol.enlaces = enlacesEnEdicion.slice();
+    sol.fechaReal = getFechaISO("f_fr");
     sol.completada = document.getElementById("f_comp").checked;
 
-    /* Si está marcada como completada, forzar avance a 100 */
     if (sol.completada) sol.avance = 100;
 
     sol.medioSolicitud = document.getElementById("f_medio").value;
@@ -1172,12 +2071,24 @@ async function guardarFicha(id) {
         sol.oficioEntrega = "";
     }
 
-    return await actualizarEnNube(sol);
+    if (isNew) {
+        const ok = await insertarEnNube(sol);
+        if (ok) {
+            solicitudes.push(sol);
+            limpiarFiltros();
+            return true;
+        }
+        return false;
+    } else {
+        return await actualizarEnNube(sol);
+    }
 }
 
 function cerrarFicha() {
     document.getElementById("modalFondo").classList.remove("activo");
-    solicitudEditandoId = null;
+    solEnEdicion = null;
+    solEnEdicionEsNueva = false;
+    enlacesEnEdicion = [];
 }
 
 /* =========================================================
@@ -1186,12 +2097,16 @@ function cerrarFicha() {
 function suscribirRealtime() {
     supabaseClient
         .channel("solicitudes-cambios")
-        .on("postgres_changes", { event: "*", schema: "public", table: "solicitudes" }, async (payload) => {
+        .on("postgres_changes", { event: "*", schema: "public", table: "solicitudes" }, async () => {
             await cargarDesdeNube();
             render();
-            if (solicitudEditandoId && !solicitudes.find(s => s.id === solicitudEditandoId)) {
-                cerrarFicha();
-                alert("La solicitud que estabas editando fue eliminada en otro dispositivo.");
+            if (busquedaActual.trim()) renderBuscadorResultados();
+            if (solEnEdicion && !solEnEdicionEsNueva) {
+                const sigueExistiendo = solicitudes.find(s => s.id === solEnEdicion.id);
+                if (!sigueExistiendo) {
+                    cerrarFicha();
+                    alert("La solicitud que estabas editando fue eliminada en otro dispositivo.");
+                }
             }
         })
         .subscribe((status) => {
@@ -1210,7 +2125,7 @@ function esc(v) {
 }
 
 function buildExportData(scope) {
-    const base = solicitudes.filter(pasaFiltroResp);
+    const base = solicitudes.filter(pasaTodosFiltros);
     if (scope === "mes") {
         const proceso = base.filter(s => !s.completada).filter(s => {
             if (!s.fechaEstimada) return true;
@@ -1245,8 +2160,9 @@ function buildExportData(scope) {
 function buildExportHTML(data) {
     const { proceso, completados, etiqueta } = data;
     const hoy = new Date().toLocaleDateString("es-CR", { day: "2-digit", month: "long", year: "numeric" });
-    const ths = ["Cliente","Fecha solicitud","Descripción","Medio","Consecutivo","Fecha estimada","Avance","Responsables","Entregables","Of. entrega","Fecha real"];
+    const ths = ["Cliente","Fecha solicitud","Descripción","Medio","Consecutivo","Fecha estimada","Avance","Responsables","Actividades y Entregables","Enlaces","Of. entrega","Fecha real"];
     const filtroTxt = filtroResp.size === 0 ? "Todos" : Array.from(filtroResp).join(", ");
+    const busqTxt = busquedaActual.trim() ? busquedaActual.trim() : "—";
 
     const fila = (s) => `<tr>
         <td>${esc(s.cliente)}</td>
@@ -1258,6 +2174,7 @@ function buildExportHTML(data) {
         <td style="text-align:center">${s.avance}%</td>
         <td>${esc(s.responsables.join(", "))}</td>
         <td>${esc(s.entregables)}</td>
+        <td>${esc((s.enlaces || []).join(" | "))}</td>
         <td>${esc(s.oficioEntrega)}</td>
         <td>${esc(s.fechaReal)}</td>
     </tr>`;
@@ -1279,7 +2196,7 @@ function buildExportHTML(data) {
         <h2 style="color:#346FC9;font-family:Arial;margin:4px 0">Instituto Costarricense de Acueductos y Alcantarillados</h2>
         <h3 style="font-family:Arial;margin:10px 0 4px">Reporte de solicitudes — ${esc(etiqueta)}</h3>
         <p style="font-family:Arial;font-size:9pt;color:#666">
-            <i>Generado el ${esc(hoy)} · Filtro de responsable: ${esc(filtroTxt)}</i>
+            <i>Generado el ${esc(hoy)} · Filtro de responsable: ${esc(filtroTxt)} · Búsqueda: ${esc(busqTxt)}</i>
         </p>
         <h2 style="color:#346FC9;font-family:Arial;margin-top:20px">En proceso (${proceso.length})</h2>
         ${tablaProceso}
@@ -1333,7 +2250,7 @@ function exportarPDF() {
         <style>
             body { font-family: Arial, sans-serif; padding: 20px; color: #222; }
             h1, h2 { color: #346FC9; }
-            table { border-collapse: collapse; width: 100%; font-size: 8pt; }
+            table { border-collapse: collapse; width: 100%; font-size: 7.5pt; }
             th { background: #346FC9; color: #fff; padding: 5px; text-align: left; }
             td { padding: 4px; border: 1px solid #999; vertical-align: top; }
             @media print { @page { size: landscape; margin: 1cm; } }
