@@ -634,7 +634,7 @@ try {
     if (typeof supabase !== 'undefined') {
         supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     } else {
-        console.warn("El SDK de Supabase no cargó. Verifica tu conexión a internet.");
+        console.warn("El SDK de Supabase no cargó.");
     }
 } catch (e) {
     console.error("Error creando cliente Supabase:", e);
@@ -663,7 +663,7 @@ function fmtDate(d) {
 }
 
 /* ========================================================= */
-/* VISOR CIUDAD NOCTURNA                                     */
+/* VISOR CIUDAD NOCTURNA — CONFIGURACIÓN                     */
 /* ========================================================= */
 const CIUDAD_FH = 0.62;
 const CIUDAD_MEDIO_LEVELS = { 'Teams': 4, 'Correo': 8, 'Oficio': 12 };
@@ -693,6 +693,12 @@ let ciudadDebounceTimer = null;
 let ciudadInteractionReady = false;
 let ciudadLayoutInfo = null;
 
+/* Optimización 4: caché de hash para evitar re-renders innecesarios */
+let lastCiudadHash = '';
+
+/* Optimización 3: rAF para suavizar pan/zoom */
+let ciudadRAF = null;
+
 function mkSvg(tag, attrs, parent) {
     const e = document.createElementNS(CIUDAD_SVGNS, tag);
     if (attrs) for (const k in attrs) {
@@ -712,6 +718,18 @@ function ciudadColorFor(sol) {
     return CIUDAD_DEFAULT_COLOR;
 }
 
+/* Optimización 3: aplica el viewBox en el siguiente frame */
+function scheduleApplyCiudadView() {
+    if (ciudadRAF) return;
+    ciudadRAF = requestAnimationFrame(() => {
+        ciudadRAF = null;
+        applyCiudadView();
+    });
+}
+
+/* ========================================================= */
+/* LAYOUT                                                    */
+/* ========================================================= */
 function buildCiudadData() {
     const groups = new Map();
     const sinFecha = [];
@@ -895,10 +913,31 @@ function drawStreets(parent, defs) {
     }
 }
 
+/* ========================================================= */
+/* RENDER DEL VISOR CON CACHÉ DE HASH                        */
+/* ========================================================= */
+function computeCiudadHash() {
+    const filtros = Array.from(filtroResp).sort().join(',');
+    const datos = solicitudes.map(s =>
+        s.id + ':' + (s.avance || 0) + ':' + (s.medioSolicitud || '') + ':' +
+        (s.fechaEstimada || '') + ':' + (s.fechaReal || '') + ':' +
+        ((s.responsables && s.responsables[0]) || '') + ':' + (s.cliente || '')
+    ).join('|');
+    return filtros + '#' + datos;
+}
+
 function renderCiudad() {
     const svg = document.getElementById('ciudadSvg');
     const viewer = document.getElementById('ciudadViewer');
     if (!svg || !viewer) return;
+
+    /* Optimización 4: si nada cambió, no re-renderizar */
+    const hash = computeCiudadHash();
+    if (hash === lastCiudadHash && svg.childNodes.length > 0 && !ciudadNeedFit) {
+        return;
+    }
+    lastCiudadHash = hash;
+
     const data = buildCiudadData();
     const total = data.reduce((acc, g) => acc + g.items.length, 0);
     if (total === 0) { viewer.style.display = 'none'; return; }
@@ -992,6 +1031,9 @@ function renderCiudad() {
     else applyCiudadView();
 }
 
+/* ========================================================= */
+/* EDIFICIO — CON FILTRO COMPARTIDO (OPTIMIZACIÓN 1)         */
+/* ========================================================= */
 function drawCiudadBuilding(item, parent, getFilter) {
     const { sol, cx, cy, height: floors } = item;
     const H = floors * CIUDAD_FH;
@@ -1002,6 +1044,7 @@ function drawCiudadBuilding(item, parent, getFilter) {
 
     const g = mkSvg('g', { class: 'ciudad-building', 'data-sid': sol.id }, parent);
 
+    /* Caras */
     mkSvg('polygon', { points: [ciudadP(x1, y0, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x1, y0, H)].join(' '), class: 'ciudad-face-r' }, g);
     mkSvg('polygon', { points: [ciudadP(x0, y1, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-l' }, g);
     mkSvg('polygon', { points: [ciudadP(x0, y0, H), ciudadP(x1, y0, H), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-t' }, g);
@@ -1013,17 +1056,28 @@ function drawCiudadBuilding(item, parent, getFilter) {
         mkSvg('line', { x1: c[0].toFixed(3), y1: c[1].toFixed(3), x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'ciudad-floorline' }, g);
     }
 
+    /* OPTIMIZACIÓN CLAVE:
+       Un solo <g> con UN solo filtro para todas las ventanas del edificio.
+       Antes: N ventanas × N filtros → ahora: N ventanas + 1 filtro. */
+    const glowGroup = mkSvg('g', { filter: `url(#${filterId})` }, g);
+    const winGroup = mkSvg('g', {}, g);
+
     const totalWin = floors * 4;
     const litCount = Math.round((sol.avance / 100) * totalWin);
     let wi = 0;
+
     function dibujarVentana(pts) {
         const lit = wi < litCount;
         mkSvg('polygon', {
-            points: pts, fill: color, stroke: 'none',
-            opacity: lit ? '0.9' : '0.18',
-            filter: `url(#${filterId})`
-        }, g);
-        const el = mkSvg('polygon', { points: pts, class: 'ciudad-win' + (lit ? ' lit' : '') }, g);
+            points: pts,
+            fill: color,
+            stroke: 'none',
+            opacity: lit ? '0.85' : '0.18'
+        }, glowGroup);
+        const el = mkSvg('polygon', {
+            points: pts,
+            class: 'ciudad-win' + (lit ? ' lit' : '')
+        }, winGroup);
         if (lit) {
             el.style.fill = color;
             el.style.stroke = '#FFFFFF';
@@ -1031,6 +1085,7 @@ function drawCiudadBuilding(item, parent, getFilter) {
         }
         wi++;
     }
+
     for (let f = 0; f < floors; f++) {
         const zA = f * CIUDAD_FH + CIUDAD_FH * 0.18;
         const zB = f * CIUDAD_FH + CIUDAD_FH * 0.82;
@@ -1046,6 +1101,7 @@ function drawCiudadBuilding(item, parent, getFilter) {
         }
     }
 
+    /* Luz roja sobre tejado de oficios */
     if (floors >= 12) {
         const [lx, ly] = ciudadPT(cx, cy, H + 0.12);
         mkSvg('circle', {
@@ -1061,6 +1117,7 @@ function drawCiudadBuilding(item, parent, getFilter) {
         }, g);
     }
 
+    /* Rótulo */
     const raw = (sol.cliente || '').trim();
     const label = raw ? (raw.length > 18 ? raw.slice(0, 17) + '…' : raw) : 'Solicitud';
     const fs = Math.max(0.32, Math.min(0.85, 4.8 / Math.max(label.length, 4)));
@@ -1075,8 +1132,7 @@ function drawCiudadBuilding(item, parent, getFilter) {
     const t = mkSvg('text', {
         x: cs[0].toFixed(3), y: cs[1].toFixed(3), 'text-anchor': 'middle',
         'dominant-baseline': 'middle', class: 'ciudad-sign',
-        fill: signColor,
-        'font-size': fs.toFixed(3)
+        fill: signColor, 'font-size': fs.toFixed(3)
     }, g);
     t.textContent = label;
 
@@ -1089,6 +1145,9 @@ function drawCiudadBuilding(item, parent, getFilter) {
         (sol.fechaEstimada ? '\nEntrega: ' + sol.fechaEstimada : '');
 }
 
+/* ========================================================= */
+/* CÁMARA                                                    */
+/* ========================================================= */
 function fitCiudadView() {
     const svg = document.getElementById('ciudadSvg');
     if (!svg) return;
@@ -1127,7 +1186,7 @@ function zoomCiudad(k, ax, ay) {
     ciudadView.x = mx - (mx - ciudadView.x) * k;
     ciudadView.y = my - (my - ciudadView.y) * k;
     ciudadView.w *= k; ciudadView.h *= k;
-    applyCiudadView();
+    scheduleApplyCiudadView();
 }
 function setupCiudadInteraction() {
     if (ciudadInteractionReady) return;
@@ -1141,6 +1200,7 @@ function setupCiudadInteraction() {
             ciudadDrag = { x: e.clientX, y: e.clientY, vx: ciudadView ? ciudadView.x : 0, vy: ciudadView ? ciudadView.y : 0, moved: false };
             ciudadSuppressClick = false;
         });
+        /* Optimización 3: rAF en el drag */
         window.addEventListener('mousemove', e => {
             if (!ciudadDrag || !ciudadView) return;
             const dx = e.clientX - ciudadDrag.x, dy = e.clientY - ciudadDrag.y;
@@ -1150,7 +1210,7 @@ function setupCiudadInteraction() {
             const s = Math.max(ciudadView.w / rect.width, ciudadView.h / rect.height);
             ciudadView.x = ciudadDrag.vx - dx * s;
             ciudadView.y = ciudadDrag.vy - dy * s;
-            applyCiudadView();
+            scheduleApplyCiudadView();
         });
         window.addEventListener('mouseup', () => {
             if (ciudadDrag && ciudadDrag.moved) { ciudadSuppressClick = true; setTimeout(() => { ciudadSuppressClick = false; }, 80); }
@@ -1167,12 +1227,14 @@ function setupCiudadInteraction() {
         });
         document.getElementById('btnCiudadZoomIn').addEventListener('click', () => zoomCiudad(0.8));
         document.getElementById('btnCiudadZoomOut').addEventListener('click', () => zoomCiudad(1.25));
-        document.getElementById('btnCiudadFit').addEventListener('click', () => fitCiudadView());
+        document.getElementById('btnCiudadFit').addEventListener('click', () => { lastCiudadHash = ''; fitCiudadView(); });
     } catch (e) { console.error("[Visor] setup:", e); }
 }
 function scheduleCiudadRender() {
     if (ciudadDebounceTimer) clearTimeout(ciudadDebounceTimer);
-    ciudadDebounceTimer = setTimeout(() => { try { renderCiudad(); } catch (e) { console.error("[Visor] render:", e); } }, 120);
+    ciudadDebounceTimer = setTimeout(() => {
+        try { renderCiudad(); } catch (e) { console.error("[Visor] render:", e); }
+    }, 120);
 }
 
 /* ========================================================= */
@@ -1329,7 +1391,7 @@ function crearSolicitudVacia() {
 }
 
 /* ========================================================= */
-/* OPERACIONES SUPABASE                                      */
+/* SUPABASE                                                  */
 /* ========================================================= */
 async function cargarDesdeNube() {
     if (!supabaseClient) {
@@ -1350,7 +1412,7 @@ async function cargarDesdeNube() {
     } catch (e) {
         console.error("Error cargando desde Supabase:", e);
         setEstadoSync("error", "Error de conexión");
-        alert("No se pudo conectar a Supabase:\n\n" + (e.message || e) + "\n\nVerifica tu conexión y las credenciales del proyecto.");
+        alert("No se pudo conectar a Supabase:\n\n" + (e.message || e));
         solicitudes = [];
     }
 }
@@ -1448,7 +1510,7 @@ document.querySelectorAll(".chip").forEach(chip => {
 });
 
 /* ========================================================= */
-/* RENDER                                                    */
+/* RENDER PRINCIPAL (SIN scheduleCiudadRender — Opt. 2)      */
 /* ========================================================= */
 function render() {
     const procesoMes = [], procesoSinFecha = [], compMes = [], compSinFecha = [];
@@ -1476,7 +1538,8 @@ function render() {
     renderSinFecha("sfProceso", "sfProcesoTitulo", "sfProcesoLista", procesoSinFecha, "proceso");
     renderSinFecha("sfCompletados", "sfCompletadosTitulo", "sfCompletadosLista", compSinFecha, "completado");
     renderAlertaMeses();
-    scheduleCiudadRender();
+    /* NOTA: NO llamamos scheduleCiudadRender() aquí para evitar
+       re-renders al teclear en el buscador o cambiar de mes. */
 }
 function renderLista(id, arr, msg) {
     const el = document.getElementById(id); el.innerHTML = "";
@@ -1689,8 +1752,12 @@ function abrirFicha(sol, isNew) {
         if (!confirm("¿Eliminar esta solicitud?")) return;
         be.disabled = true;
         const ok = await eliminarEnNube(sol.id);
-        if (ok) { solicitudes = solicitudes.filter(s => s.id !== sol.id); render(); cerrarFicha(); }
-        else be.disabled = false;
+        if (ok) {
+            solicitudes = solicitudes.filter(s => s.id !== sol.id);
+            render();
+            scheduleCiudadRender();  /* actualizar visor tras eliminar */
+            cerrarFicha();
+        } else be.disabled = false;
     });
     acc.appendChild(be);
     const bc2 = document.createElement("button"); bc2.className = "btn-gris"; bc2.textContent = "Cancelar"; bc2.addEventListener("click", cerrarFicha); acc.appendChild(bc2);
@@ -1698,7 +1765,11 @@ function abrirFicha(sol, isNew) {
     bg.addEventListener("click", async () => {
         bg.disabled = true; bg.textContent = "Guardando…";
         const ok = await guardarFicha(sol, isNew);
-        if (ok) { render(); cerrarFicha(); if (busquedaActual.trim()) renderBuscadorResultados(); scheduleCiudadRender(); }
+        if (ok) {
+            render(); cerrarFicha();
+            if (busquedaActual.trim()) renderBuscadorResultados();
+            scheduleCiudadRender();
+        }
         else { bg.disabled = false; bg.textContent = "Guardar"; }
     });
     acc.appendChild(bg);
@@ -1788,14 +1859,16 @@ function cerrarFicha() {
 }
 
 /* ========================================================= */
-/* REALTIME                                                  */
+/* REALTIME (con scheduleCiudadRender — Opt. 2)              */
 /* ========================================================= */
 function suscribirRealtime() {
     if (!supabaseClient) return;
     try {
         supabaseClient.channel("sol").on("postgres_changes", { event: "*", schema: "public", table: "solicitudes" }, async () => {
-            await cargarDesdeNube(); render();
+            await cargarDesdeNube();
+            render();
             if (busquedaActual.trim()) renderBuscadorResultados();
+            scheduleCiudadRender();
         }).subscribe(s => {
             if (s === "SUBSCRIBED") setEstadoSync("online", "En línea");
         });
