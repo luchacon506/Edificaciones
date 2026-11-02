@@ -624,18 +624,21 @@ footer {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ========================================================= */
-/* SUPABASE + MODO DEMO                                      */
+/* SUPABASE — CONEXIÓN REAL                                  */
 /* ========================================================= */
 const SUPABASE_URL = "https://sqryyhbkgmjvkhgzduwf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_OLPsAD1jyyvXKjpsiMKvig_gXTZxW4K";
-const DEMO_MODE = true;
 
 let supabaseClient = null;
 try {
     if (typeof supabase !== 'undefined') {
         supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } else {
+        console.warn("El SDK de Supabase no cargó. Verifica tu conexión a internet.");
     }
-} catch (e) { console.warn("[Demo] Supabase no cargó:", e); }
+} catch (e) {
+    console.error("Error creando cliente Supabase:", e);
+}
 
 const RESPONSABLES = ["Harrison Umaña", "Cinthya Meza", "Ricardo Chacón"];
 const MEDIOS = ["Oficio", "Correo", "Teams"];
@@ -653,30 +656,10 @@ let solEnEdicionEsNueva = false;
 let enlacesEnEdicion = [];
 
 /* ========================================================= */
-/* DATOS DEMO                                                */
+/* UTILIDADES FECHA                                          */
 /* ========================================================= */
 function fmtDate(d) {
     return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-}
-function fechaDemo(mesOffset, dia) {
-    const d = new Date();
-    d.setMonth(d.getMonth() + mesOffset, dia);
-    return fmtDate(d);
-}
-function datosDemo() {
-    return [
-        { id: "demo-1", cliente: "Municipalidad de San José", medioSolicitud: "Oficio", oficioConsecutivo: "OF-2025-101", avance: 100, completada: true, fechaSolicitud: fechaDemo(0, 2), fechaEstimada: fechaDemo(0, 20), fechaReal: fechaDemo(0, 18), responsables: ["Harrison Umaña"], descripcion: "Revisión planos", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-2", cliente: "Constructora del Valle", medioSolicitud: "Correo", oficioConsecutivo: "", avance: 75, completada: false, fechaSolicitud: fechaDemo(0, 5), fechaEstimada: fechaDemo(0, 25), fechaReal: "", responsables: ["Cinthya Meza"], descripcion: "Inspección", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-3", cliente: "Grupo Inmobiliario CR", medioSolicitud: "Teams", oficioConsecutivo: "", avance: 25, completada: false, fechaSolicitud: fechaDemo(0, 8), fechaEstimada: fechaDemo(0, 28), fechaReal: "", responsables: ["Ricardo Chacón"], descripcion: "Reunión", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-4", cliente: "Clínica Bíblica", medioSolicitud: "Oficio", oficioConsecutivo: "OF-2025-102", avance: 50, completada: false, fechaSolicitud: fechaDemo(0, 10), fechaEstimada: fechaDemo(0, 30), fechaReal: "", responsables: ["Harrison Umaña"], descripcion: "Ampliación", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-5", cliente: "Banco Nacional", medioSolicitud: "Correo", oficioConsecutivo: "", avance: 100, completada: true, fechaSolicitud: fechaDemo(-1, 3), fechaEstimada: fechaDemo(-1, 22), fechaReal: fechaDemo(-1, 20), responsables: ["Ricardo Chacón"], descripcion: "Remodelación", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-6", cliente: "Escuela Central", medioSolicitud: "Teams", oficioConsecutivo: "", avance: 50, completada: false, fechaSolicitud: fechaDemo(-1, 12), fechaEstimada: fechaDemo(-1, 26), fechaReal: "", responsables: ["Harrison Umaña"], descripcion: "Techado", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-7", cliente: "Hospital México", medioSolicitud: "Oficio", oficioConsecutivo: "", avance: 100, completada: true, fechaSolicitud: fechaDemo(-2, 5), fechaEstimada: fechaDemo(-2, 20), fechaReal: fechaDemo(-2, 19), responsables: ["Cinthya Meza"], descripcion: "Revisión", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-8", cliente: "UCR", medioSolicitud: "Correo", oficioConsecutivo: "", avance: 100, completada: true, fechaSolicitud: fechaDemo(-2, 8), fechaEstimada: fechaDemo(-2, 25), fechaReal: fechaDemo(-2, 23), responsables: ["Ricardo Chacón"], descripcion: "Lab", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-9", cliente: "Aeropuerto Juan Santamaría", medioSolicitud: "Oficio", oficioConsecutivo: "", avance: 0, completada: false, fechaSolicitud: fechaDemo(0, 15), fechaEstimada: fechaDemo(1, 10), fechaReal: "", responsables: ["Harrison Umaña"], descripcion: "Terminal", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-10", cliente: "Museo de Arte", medioSolicitud: "Teams", oficioConsecutivo: "", avance: 25, completada: false, fechaSolicitud: fechaDemo(0, 18), fechaEstimada: fechaDemo(1, 20), fechaReal: "", responsables: ["Cinthya Meza"], descripcion: "Restauración", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" },
-        { id: "demo-11", cliente: "Cliente Pendiente", medioSolicitud: "Correo", oficioConsecutivo: "", avance: 50, completada: false, fechaSolicitud: "", fechaEstimada: "", fechaReal: "", responsables: [], descripcion: "Sin fecha", entregables: "", enlaces: [], requiereOficioEntrega: false, oficioEntrega: "" }
-    ];
 }
 
 /* ========================================================= */
@@ -686,7 +669,6 @@ const CIUDAD_FH = 0.62;
 const CIUDAD_MEDIO_LEVELS = { 'Teams': 4, 'Correo': 8, 'Oficio': 12 };
 const CIUDAD_DEFAULT_LEVELS = 4;
 
-/* Temperatura de luz (K) por responsable */
 const CIUDAD_RESP_COLORS = {
     'Harrison Umaña': '#CCF1FF',  /* 6000 K */
     'Cinthya Meza':   '#FFEBCC',  /* 3000 K */
@@ -730,9 +712,6 @@ function ciudadColorFor(sol) {
     return CIUDAD_DEFAULT_COLOR;
 }
 
-/* ========================================================= */
-/* LAYOUT CON CALLES Y DIVISORES DE AÑO                      */
-/* ========================================================= */
 function buildCiudadData() {
     const groups = new Map();
     const sinFecha = [];
@@ -748,7 +727,6 @@ function buildCiudadData() {
     const sorted = [...groups.values()].sort((a, b) => (a.year * 12 + a.month) - (b.year * 12 + b.month));
     if (sinFecha.length) sorted.push({ year: null, month: null, items: sinFecha, isSinFecha: true });
 
-    /* Dimensiones por bloque + orden interno (alto y avance primero) */
     sorted.forEach(g => {
         const N = g.items.length;
         g.cols = Math.max(1, Math.ceil(Math.sqrt(N)));
@@ -766,7 +744,6 @@ function buildCiudadData() {
     const maxBH = Math.max(3, ...sorted.map(g => g.blockH));
     const cellW = maxBW + CIUDAD_STREET;
 
-    /* Asignar col/row (cada año inicia en nueva fila) */
     let col = 0, row = 0, prevYear = null;
     sorted.forEach(g => {
         if (g.year !== prevYear && prevYear !== null) { col = 0; row++; }
@@ -780,7 +757,6 @@ function buildCiudadData() {
     const numRows = Math.max(...sorted.map(g => g.row)) + 1;
     const numCols = Math.max(...sorted.map(g => g.col)) + 1;
 
-    /* rowY: posición Y de cada fila, con separación especial entre años */
     const rowY = new Array(numRows).fill(0);
     const rowYear = new Array(numRows).fill(null);
     let yCursor = 0;
@@ -802,7 +778,6 @@ function buildCiudadData() {
         g.blockY = yCursor + (maxBH - g.blockH) / 2;
     });
 
-    /* Slots de edificios dentro de cada bloque */
     sorted.forEach(g => {
         const slots = [];
         for (let j = 0; j < g.rows; j++) {
@@ -824,9 +799,6 @@ function buildCiudadData() {
     return sorted;
 }
 
-/* ========================================================= */
-/* DIBUJO DE CALLES (2 carriles + 2 aceras, con divisores)   */
-/* ========================================================= */
 function drawStreets(parent, defs) {
     const info = ciudadLayoutInfo;
     if (!info) return;
@@ -846,7 +818,6 @@ function drawStreets(parent, defs) {
         return Math.max(0.15, 1 - norm * 1.1);
     }
 
-    /* Gradientes: fade horizontal (entre extremos izq/der) y vertical (arriba/abajo) */
     function makeGradH(id, color) {
         const g = mkSvg('linearGradient', { id, x1: '0%', y1: '0%', x2: '100%', y2: '0%' }, defs);
         mkSvg('stop', { offset: '0%',  'stop-color': color, 'stop-opacity': '0.25' }, g);
@@ -878,7 +849,6 @@ function drawStreets(parent, defs) {
         }, parent);
     }
 
-    /* CALLES HORIZONTALES entre filas */
     for (let r = 0; r < numRows - 1; r++) {
         if (rowY[r] === undefined || rowY[r + 1] === undefined) continue;
         const yStart = rowY[r] + maxBH;
@@ -891,7 +861,6 @@ function drawStreets(parent, defs) {
         const op = opacityAt(centerX, cy);
 
         if (isYear) {
-            /* Acera · Calle 2 carriles · Camellón verde · Calle 2 carriles · Acera */
             const sw = 1.2;
             const st = 3.0;
             const md = Math.max(0.2, gap - 2 * sw - 2 * st);
@@ -902,7 +871,6 @@ function drawStreets(parent, defs) {
             rect(0, yy, totalWidth, yy + st, gradST_H, op); yy += st;
             rect(0, yy, totalWidth, yy + sw, gradSW_H, op);
         } else {
-            /* Acera · Calle 2 carriles · Acera */
             const sw = 1.2;
             const st = Math.max(0.2, gap - 2 * sw);
             let yy = yStart;
@@ -912,7 +880,6 @@ function drawStreets(parent, defs) {
         }
     }
 
-    /* CALLES VERTICALES entre columnas */
     for (let c = 0; c < numCols - 1; c++) {
         const xStart = c * cellW + maxBW;
         const xEnd = (c + 1) * cellW;
@@ -928,9 +895,6 @@ function drawStreets(parent, defs) {
     }
 }
 
-/* ========================================================= */
-/* RENDER PRINCIPAL DEL VISOR                                */
-/* ========================================================= */
 function renderCiudad() {
     const svg = document.getElementById('ciudadSvg');
     const viewer = document.getElementById('ciudadViewer');
@@ -958,7 +922,6 @@ function renderCiudad() {
         return id;
     };
 
-    /* Fondo de la ciudad (bajo las calles y bloques) */
     if (ciudadLayoutInfo) {
         const { totalWidth, totalHeight } = ciudadLayoutInfo;
         mkSvg('polygon', {
@@ -968,15 +931,12 @@ function renderCiudad() {
         }, svg);
     }
 
-    /* Calles (van debajo de los bloques) */
     drawStreets(svg, defs);
 
-    /* Detección de mes actual */
     const ahora = new Date();
     const mesHoy = ahora.getMonth();
     const anioHoy = ahora.getFullYear();
 
-    /* Bloques: placas + edificios + etiquetas */
     data.forEach(g => {
         const gBlock = mkSvg('g', { class: 'ciudad-block' }, svg);
 
@@ -993,7 +953,6 @@ function renderCiudad() {
         });
         items.forEach(it => drawCiudadBuilding(it, gBlock, getFilter));
 
-        /* Etiqueta del mes debajo del edificio del frente */
         const label = g.isSinFecha ? 'SIN FECHA' : (MESES[g.month] + ' ' + g.year).toUpperCase();
         let labelX = g.blockX + g.blockW / 2;
         if (g.slots.length) {
@@ -1033,9 +992,6 @@ function renderCiudad() {
     else applyCiudadView();
 }
 
-/* ========================================================= */
-/* DIBUJO DE UN EDIFICIO                                     */
-/* ========================================================= */
 function drawCiudadBuilding(item, parent, getFilter) {
     const { sol, cx, cy, height: floors } = item;
     const H = floors * CIUDAD_FH;
@@ -1105,7 +1061,6 @@ function drawCiudadBuilding(item, parent, getFilter) {
         }, g);
     }
 
-    /* Rótulo del edificio (dorado, sin resplandor, grande) */
     const raw = (sol.cliente || '').trim();
     const label = raw ? (raw.length > 18 ? raw.slice(0, 17) + '…' : raw) : 'Solicitud';
     const fs = Math.max(0.32, Math.min(0.85, 4.8 / Math.max(label.length, 4)));
@@ -1134,7 +1089,6 @@ function drawCiudadBuilding(item, parent, getFilter) {
         (sol.fechaEstimada ? '\nEntrega: ' + sol.fechaEstimada : '');
 }
 
-/* Cámara */
 function fitCiudadView() {
     const svg = document.getElementById('ciudadSvg');
     if (!svg) return;
@@ -1351,6 +1305,9 @@ document.getElementById("buscador").addEventListener("focus", () => { if (busque
 document.addEventListener("click", e => { const b = document.querySelector(".buscador"); if (b && !b.contains(e.target)) document.getElementById("buscadorResultados").classList.remove("visible"); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") document.getElementById("buscadorResultados").classList.remove("visible"); });
 
+/* ========================================================= */
+/* MAPEO MODELO <-> DB                                       */
+/* ========================================================= */
 function toDB(sol) {
     return { id: sol.id, cliente: sol.cliente || "", fecha_solicitud: sol.fechaSolicitud || null, descripcion: sol.descripcion || "",
         fecha_estimada: sol.fechaEstimada || null, avance: sol.avance || 0, responsables: sol.responsables || [],
@@ -1371,40 +1328,75 @@ function crearSolicitudVacia() {
         medioSolicitud: "", oficioConsecutivo: "", requiereOficioEntrega: false, oficioEntrega: "" };
 }
 
+/* ========================================================= */
+/* OPERACIONES SUPABASE                                      */
+/* ========================================================= */
 async function cargarDesdeNube() {
-    if (DEMO_MODE || !supabaseClient) { solicitudes = datosDemo(); setEstadoSync("online", "Modo demo"); return; }
+    if (!supabaseClient) {
+        console.error("Supabase no disponible.");
+        setEstadoSync("error", "Supabase no disponible");
+        solicitudes = [];
+        return;
+    }
     setEstadoSync("sync", "Sincronizando…");
     try {
-        const { data, error } = await supabaseClient.from("solicitudes").select("*");
+        const { data, error } = await supabaseClient
+            .from("solicitudes")
+            .select("*")
+            .order("fecha_estimada", { ascending: true, nullsFirst: false });
         if (error) throw error;
         solicitudes = (data || []).map(fromDB);
-        setEstadoSync("online", "En línea");
+        setEstadoSync("online", "En línea · " + solicitudes.length + " registros");
     } catch (e) {
-        console.error("Error cargando:", e);
-        alert("No se pudo conectar a Supabase: " + e.message + "\n\nSe usará modo demo.");
-        solicitudes = datosDemo();
-        setEstadoSync("error", "Modo demo");
+        console.error("Error cargando desde Supabase:", e);
+        setEstadoSync("error", "Error de conexión");
+        alert("No se pudo conectar a Supabase:\n\n" + (e.message || e) + "\n\nVerifica tu conexión y las credenciales del proyecto.");
+        solicitudes = [];
     }
 }
 async function insertarEnNube(sol) {
-    if (DEMO_MODE || !supabaseClient) return true;
+    if (!supabaseClient) { alert("Supabase no disponible."); return false; }
+    setEstadoSync("sync", "Guardando…");
     const { error } = await supabaseClient.from("solicitudes").insert([toDB(sol)]);
-    if (error) { alert("Error: " + error.message); return false; }
+    if (error) {
+        console.error("Error insertando:", error);
+        setEstadoSync("error", "Error al guardar");
+        alert("Error al guardar:\n\n" + error.message);
+        return false;
+    }
+    setEstadoSync("online", "En línea");
     return true;
 }
 async function actualizarEnNube(sol) {
-    if (DEMO_MODE || !supabaseClient) return true;
+    if (!supabaseClient) { alert("Supabase no disponible."); return false; }
+    setEstadoSync("sync", "Guardando…");
     const { error } = await supabaseClient.from("solicitudes").update(toDB(sol)).eq("id", sol.id);
-    if (error) { alert("Error: " + error.message); return false; }
+    if (error) {
+        console.error("Error actualizando:", error);
+        setEstadoSync("error", "Error al guardar");
+        alert("Error al guardar:\n\n" + error.message);
+        return false;
+    }
+    setEstadoSync("online", "En línea");
     return true;
 }
 async function eliminarEnNube(id) {
-    if (DEMO_MODE || !supabaseClient) return true;
+    if (!supabaseClient) { alert("Supabase no disponible."); return false; }
+    setEstadoSync("sync", "Eliminando…");
     const { error } = await supabaseClient.from("solicitudes").delete().eq("id", id);
-    if (error) { alert("Error: " + error.message); return false; }
+    if (error) {
+        console.error("Error eliminando:", error);
+        setEstadoSync("error", "Error al eliminar");
+        alert("Error al eliminar:\n\n" + error.message);
+        return false;
+    }
+    setEstadoSync("online", "En línea");
     return true;
 }
 
+/* ========================================================= */
+/* NAVEGADOR MES/AÑO                                         */
+/* ========================================================= */
 function poblarSelects() {
     const sm = document.getElementById("selMes"), sa = document.getElementById("selAnio");
     sm.innerHTML = MESES.map((m, i) => `<option value="${i}">${m}</option>`).join("");
@@ -1433,6 +1425,9 @@ function cambiarMes(delta) {
 function irAMes() { mesActual = parseInt(document.getElementById("selMes").value, 10); anioActual = parseInt(document.getElementById("selAnio").value, 10); render(); }
 function irHoy() { mesActual = new Date().getMonth(); anioActual = new Date().getFullYear(); sincronizarSelects(); render(); }
 
+/* ========================================================= */
+/* FILTRO RESPONSABLE                                        */
+/* ========================================================= */
 function actualizarChips() {
     document.querySelectorAll(".chip").forEach(chip => {
         const r = chip.dataset.resp;
@@ -1452,6 +1447,9 @@ document.querySelectorAll(".chip").forEach(chip => {
     });
 });
 
+/* ========================================================= */
+/* RENDER                                                    */
+/* ========================================================= */
 function render() {
     const procesoMes = [], procesoSinFecha = [], compMes = [], compSinFecha = [];
     solicitudes.filter(s => !s.completada).filter(pasaTodosFiltros).forEach(s => {
@@ -1555,6 +1553,9 @@ function crearFilaDOM(sol) {
     return fila;
 }
 
+/* ========================================================= */
+/* FICHA                                                     */
+/* ========================================================= */
 function nuevaSolicitud() { if (cargando || solEnEdicion) return; abrirFicha(crearSolicitudVacia(), true); }
 function abrirFichaPorId(id) {
     const sol = solicitudes.find(s => String(s.id) === String(id));
@@ -1705,6 +1706,9 @@ function abrirFicha(sol, isNew) {
     document.getElementById("modalFondo").classList.add("activo");
 }
 
+/* ========================================================= */
+/* ENLACES                                                   */
+/* ========================================================= */
 function renderEnlacesSection(cont) {
     cont.innerHTML = "";
     const lista = document.createElement("div"); lista.className = "enlaces-lista";
@@ -1745,6 +1749,9 @@ function activarEdicionEnlace(i, lista, cont) {
     inp.focus(); inp.select();
 }
 
+/* ========================================================= */
+/* GUARDAR FICHA                                             */
+/* ========================================================= */
 async function guardarFicha(sol, isNew) {
     if (!sol) return false;
     for (const id of ["f_fs", "f_fe", "f_fr"]) {
@@ -1780,16 +1787,24 @@ function cerrarFicha() {
     solEnEdicion = null; solEnEdicionEsNueva = false; enlacesEnEdicion = [];
 }
 
+/* ========================================================= */
+/* REALTIME                                                  */
+/* ========================================================= */
 function suscribirRealtime() {
-    if (DEMO_MODE || !supabaseClient) return;
+    if (!supabaseClient) return;
     try {
         supabaseClient.channel("sol").on("postgres_changes", { event: "*", schema: "public", table: "solicitudes" }, async () => {
             await cargarDesdeNube(); render();
             if (busquedaActual.trim()) renderBuscadorResultados();
-        }).subscribe(s => { if (s === "SUBSCRIBED") setEstadoSync("online", "En línea"); });
-    } catch (e) {}
+        }).subscribe(s => {
+            if (s === "SUBSCRIBED") setEstadoSync("online", "En línea");
+        });
+    } catch (e) { console.warn("Realtime no disponible:", e); }
 }
 
+/* ========================================================= */
+/* EXPORTACIÓN                                               */
+/* ========================================================= */
 function esc(v) { return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
 function buildExportData(scope) {
     const base = solicitudes.filter(pasaTodosFiltros);
@@ -1833,6 +1848,9 @@ function exportarPDF() {
     v.document.close(); v.focus(); setTimeout(() => v.print(), 500);
 }
 
+/* ========================================================= */
+/* INICIALIZACIÓN                                            */
+/* ========================================================= */
 async function init() {
     try {
         document.getElementById("overlayCarga").classList.remove("oculto");
