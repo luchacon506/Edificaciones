@@ -2,1123 +2,2061 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ciudad Nocturna · Constructor de Edificios</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edificaciones - UEN Programación y Control</title>
 <style>
-  :root{
-    --bg:#050a18;
-    --panel:rgba(8,18,38,.88);
-    --line:#17325c;
-    --blue:#2f6fed;
-    --cyan:#22d3ee;
-    --green:#00e5a0;
-    --text:#cfe3ff;
-    --muted:#6b8ab5;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-    background:radial-gradient(circle at 50% -10%,#0c2347 0%,#050a18 55%,#03060f 100%);
-    color:var(--text);
-    overflow:hidden;
-  }
-  #app{display:flex;height:100vh}
+:root {
+    --aya-azul: #1B294E;
+    --aya-dorado: #C9AD6E;
+    --aya-fondo-claro: #F5F6FA;
+    --aya-blanco: #FFFFFF;
+    --aya-gris: #E0E3EB;
+    --aya-texto: #1a1a1a;
+    --aya-peligro: #c0392b;
+    --aya-exito: #27ae60;
+    --aya-warn: #f39c12;
+    --aya-azul-medio: #3A4A70;
+    --aya-dorado-oscuro: #8B7338;
+    --aya-dorado-hover: #B89958;
+    --aya-gris-texto: #5B678A;
+    --aya-gris-suave: #94A0BD;
+    --aya-borde: rgba(27,41,78,.14);
+    --aya-borde-fuerte: rgba(27,41,78,.24);
+    --aya-tinte-dorado: rgba(201,173,110,.18);
+    --aya-vino: #7B1E1E;
+    --aya-vino-oscuro: #5A1414;
+    --gris-fondo: var(--aya-fondo-claro);
+    --azul: var(--aya-azul);
+    --azul-oscuro: var(--aya-azul-medio);
+    --blanco: var(--aya-blanco);
+    --verde: var(--aya-exito);
+    --amarillo: var(--aya-warn);
+    --rojo: var(--aya-peligro);
+    --gris-completado: #777;
+    --texto: var(--aya-azul);
+    --aya-azul-oscuro: #0E172B;
+    --aya-azul-claro: #354880;
+    --aya-dorado-claro: #DEC584;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--aya-fondo-claro);
+    color: var(--aya-azul);
+}
+header {
+    background: var(--aya-azul); color: var(--aya-blanco);
+    display: flex; align-items: center; gap: 20px;
+    padding: 12px 24px;
+    border-bottom: 3px solid var(--aya-dorado);
+    flex-wrap: wrap;
+}
+header img.logo { height: 55px; display: block; flex-shrink: 0; }
+header .titulos h1 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; color: var(--aya-blanco); }
+header .titulos h2 { margin: 2px 0 0; font-size: 0.95rem; font-weight: 400; opacity: 0.92; }
+header .titulos h3 { margin: 2px 0 0; font-size: 0.78rem; font-weight: 300; opacity: 0.75; }
+header .titulo-derecha {
+    margin-left: auto; font-size: 1.2rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--aya-dorado);
+    padding-left: 20px; border-left: 2px solid var(--aya-dorado);
+    white-space: nowrap;
+}
+@media (max-width: 700px) {
+    header .titulo-derecha { margin-left: 0; width: 100%; border-left: none;
+        border-top: 2px solid var(--aya-dorado); padding-left: 0; padding-top: 8px;
+        text-align: right; font-size: 1rem; }
+}
+.barra {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px; padding: 14px 24px 6px;
+    background: var(--aya-fondo-claro);
+}
+.nav-mes { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.nav-mes button.btn-nav {
+    background: var(--aya-azul); color: var(--aya-blanco); border: none;
+    width: 36px; height: 36px; border-radius: 6px; cursor: pointer;
+    font-size: 1rem; transition: background 0.2s;
+}
+.nav-mes button.btn-nav:hover { background: var(--aya-azul-medio); }
+.nav-mes select {
+    padding: 7px 10px; border: 1px solid var(--aya-borde-fuerte);
+    border-radius: 6px; font-size: 0.9rem;
+    background: var(--aya-blanco); color: var(--aya-azul);
+}
+.btn-hoy {
+    background: var(--aya-blanco); color: var(--aya-azul);
+    border: 1px solid var(--aya-borde-fuerte);
+    padding: 7px 12px; border-radius: 6px; cursor: pointer;
+    font-size: 0.85rem; font-weight: 600;
+}
+.btn-hoy:hover { background: var(--aya-tinte-dorado); border-color: var(--aya-dorado); }
+.buscador { position: relative; flex: 1 1 auto; max-width: 520px; min-width: 220px; margin: 0 12px; }
+.buscador input {
+    width: 100%; padding: 9px 40px 9px 16px;
+    border: 1px solid var(--aya-borde-fuerte); border-radius: 20px;
+    font-size: 0.9rem; font-family: inherit;
+    background: var(--aya-blanco); color: var(--aya-azul);
+    box-shadow: 0 1px 4px rgba(27,41,78,0.06);
+}
+.buscador input:focus { outline: none; border-color: var(--aya-dorado); box-shadow: 0 2px 10px rgba(201,173,110,0.3); }
+.buscador .btn-clear-busqueda {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    background: transparent; border: none; color: var(--aya-gris-suave);
+    font-size: 0.95rem; cursor: pointer; padding: 4px 10px; border-radius: 50%;
+    display: none;
+}
+.buscador .btn-clear-busqueda.visible { display: block; }
+.buscador .btn-clear-busqueda:hover { background: var(--aya-fondo-claro); color: var(--aya-azul); }
+.buscador-resultados {
+    position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+    max-height: 420px; overflow-y: auto;
+    background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte);
+    border-radius: 10px; box-shadow: 0 6px 20px rgba(27,41,78,0.2);
+    z-index: 800; display: none;
+}
+.buscador-resultados.visible { display: block; }
+.buscador-grupo-titulo {
+    padding: 6px 14px; background: var(--aya-tinte-dorado);
+    font-size: 0.72rem; font-weight: 700; color: var(--aya-azul);
+    text-transform: uppercase; letter-spacing: 1px;
+    border-bottom: 1px solid var(--aya-borde);
+    position: sticky; top: 0;
+}
+.buscador-item {
+    padding: 10px 14px; border-bottom: 1px solid var(--aya-borde);
+    cursor: pointer; transition: background 0.1s;
+}
+.buscador-item:hover { background: var(--aya-fondo-claro); }
+.buscador-item .titulo {
+    font-weight: 600; color: var(--aya-azul); font-size: 0.88rem;
+    margin-bottom: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.buscador-item .titulo .estado {
+    font-size: 0.7rem; padding: 1px 8px; border-radius: 10px;
+    color: var(--aya-blanco); font-weight: 700; white-space: nowrap;
+}
+.buscador-item .detalle { font-size: 0.75rem; color: var(--aya-gris-texto); line-height: 1.35; }
+.buscador-item .detalle .match { background: var(--aya-dorado); color: var(--aya-azul); padding: 0 2px; border-radius: 2px; font-weight: 600; }
+.buscador-vacio { padding: 20px; text-align: center; color: var(--aya-gris-suave); font-style: italic; font-size: 0.85rem; }
+@media (max-width: 900px) { .buscador { order: 3; flex-basis: 100%; max-width: none; margin: 8px 0 0 0; } }
+.controles-acciones { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+button.btn-azul {
+    background: var(--aya-azul); color: var(--aya-blanco);
+    border: none; padding: 10px 18px; border-radius: 6px;
+    font-size: 0.95rem; cursor: pointer; transition: background 0.2s;
+}
+button.btn-azul:hover { background: var(--aya-azul-medio); }
+button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowed; }
+.export-grupo {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--aya-blanco); padding: 4px 6px;
+    border-radius: 8px; border: 1px solid var(--aya-borde-fuerte);
+}
+.export-label { font-size: 0.82rem; font-weight: 600; color: var(--aya-azul); padding: 0 4px; }
+.export-grupo select {
+    padding: 6px 8px; border: 1px solid var(--aya-borde);
+    border-radius: 5px; font-size: 0.85rem;
+    background: var(--aya-fondo-claro); color: var(--aya-azul);
+}
+.export-grupo button {
+    background: var(--aya-azul); color: var(--aya-blanco);
+    border: none; padding: 7px 10px; border-radius: 5px; cursor: pointer;
+    font-size: 0.82rem; font-weight: 600;
+}
+.export-grupo button:hover { background: var(--aya-azul-medio); }
+.leyenda {
+    display: flex; gap: 18px; flex-wrap: wrap;
+    padding: 4px 24px; font-size: 0.85rem; align-items: center;
+    color: var(--aya-azul);
+}
+.leyenda span.dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+.leyenda .nota { font-size: 0.78rem; color: var(--aya-gris-texto); font-style: italic; }
+.filtros {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    padding: 6px 24px 10px; font-size: 0.85rem;
+}
+.filtros strong { color: var(--aya-azul); margin-right: 4px; }
+.chip {
+    background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte);
+    color: var(--aya-azul); padding: 5px 14px; border-radius: 16px;
+    cursor: pointer; font-size: 0.82rem; font-weight: 500;
+    transition: all 0.15s; font-family: inherit;
+}
+.chip:hover { border-color: var(--aya-dorado); color: var(--aya-dorado-oscuro); }
+.chip.chip-activo { background: var(--aya-azul); color: var(--aya-blanco); border-color: var(--aya-azul); }
+.chip.chip-todos.chip-activo { background: var(--aya-dorado); color: var(--aya-azul); border-color: var(--aya-dorado); }
+.filtros .aviso-filtro { font-size: 0.78rem; color: var(--aya-dorado-oscuro); font-weight: 600; margin-left: auto; }
+.estado-sync {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.75rem; color: var(--aya-azul);
+    padding: 2px 8px; background: var(--aya-blanco);
+    border-radius: 10px; border: 1px solid var(--aya-borde-fuerte);
+}
+.estado-sync .dot-sync { width: 8px; height: 8px; border-radius: 50%; background: var(--aya-gris-suave); }
+.estado-sync.online .dot-sync { background: var(--aya-exito); }
+.estado-sync.sync .dot-sync { background: var(--aya-warn); animation: pulso 1s infinite; }
+.estado-sync.error .dot-sync { background: var(--aya-peligro); }
+@keyframes pulso { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+.pilas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 0 24px 18px; align-items: start; }
+@media (max-width: 800px) { .pilas { grid-template-columns: 1fr; } }
+.pila {
+    background: var(--aya-blanco); border-radius: 10px;
+    padding: 12px; min-height: 200px;
+    border: 1px solid var(--aya-borde);
+    border-top: 3px solid var(--aya-dorado);
+}
+.pila h2 {
+    margin: 0 0 10px; font-size: 1.02rem; color: var(--aya-azul);
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+}
+.pila h2 .contador {
+    background: var(--aya-azul); color: var(--aya-blanco);
+    font-size: 0.8rem; border-radius: 12px; padding: 2px 10px;
+}
+.pila .lista { display: flex; flex-direction: column; gap: 8px; }
+.fila {
+    background: var(--aya-blanco); border-radius: 8px; padding: 10px 12px;
+    box-shadow: 0 1px 3px rgba(27,41,78,0.1);
+    border: 1px solid var(--aya-borde);
+    border-left: 6px solid var(--aya-exito);
+    cursor: pointer; transition: transform 0.1s, box-shadow 0.2s;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+}
+.fila:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(27,41,78,0.15); }
+.fila .info { flex: 1; min-width: 0; }
+.fila .info h3 {
+    margin: 0 0 3px; font-size: 0.95rem; color: var(--aya-azul);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.fila .info .meta {
+    font-size: 0.75rem; color: var(--aya-gris-texto);
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+}
+.fila .info .meta .badge-medio {
+    background: var(--aya-tinte-dorado); color: var(--aya-azul);
+    border: 1px solid var(--aya-dorado); border-radius: 10px;
+    padding: 0 8px; font-size: 0.7rem; font-weight: 600;
+}
+.fila .info .meta .badge-avance {
+    background: var(--aya-fondo-claro); color: var(--aya-azul);
+    border: 1px solid var(--aya-borde); border-radius: 10px;
+    padding: 0 8px; font-size: 0.7rem; font-weight: 700; white-space: nowrap;
+}
+.fila .info .meta .badge-avance.completo {
+    background: rgba(39,174,96,.15); color: var(--aya-exito);
+    border-color: rgba(39,174,96,.4);
+}
+.fila .info .meta .badge-enlace {
+    background: var(--aya-tinte-dorado); color: var(--aya-azul);
+    border: 1px solid var(--aya-dorado); border-radius: 10px;
+    padding: 0 8px; font-size: 0.7rem; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+}
+.fila .info .meta .badge-enlace:hover { background: var(--aya-dorado); color: var(--aya-azul); }
+.fila .info .meta .badge-urgente {
+    background: var(--aya-vino); color: var(--aya-blanco);
+    border: 1px solid var(--aya-vino-oscuro); border-radius: 10px;
+    padding: 0 8px; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.04em;
+}
+.fila .sem {
+    font-size: 0.72rem; font-weight: 700; color: var(--aya-blanco);
+    padding: 3px 8px; border-radius: 10px; white-space: nowrap;
+}
+.fila.completada { opacity: 0.85; }
+.fila.completada .info h3 { text-decoration: line-through; color: var(--aya-gris-texto); }
+.vacio-pila { text-align: center; color: var(--aya-gris-suave); font-size: 0.85rem; padding: 20px; font-style: italic; }
+.sin-fecha { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--aya-dorado); }
+.sin-fecha-titulo { font-size: 0.8rem; color: var(--aya-dorado-oscuro); font-weight: 700; margin-bottom: 6px; }
+.alerta-meses {
+    margin: 0 24px 20px; padding: 10px 14px;
+    background: var(--aya-tinte-dorado);
+    border-left: 4px solid var(--aya-dorado);
+    border-radius: 6px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    font-size: 0.85rem;
+}
+.alerta-titulo { font-weight: 700; color: var(--aya-azul); font-size: 0.85rem; white-space: nowrap; }
+.alerta-chips { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+.alerta-chip {
+    background: var(--aya-blanco); border: 1px solid var(--aya-dorado);
+    color: var(--aya-azul); padding: 4px 12px; border-radius: 14px;
+    cursor: pointer; font-size: 0.8rem; font-weight: 500;
+    transition: all 0.15s; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 6px;
+}
+.alerta-chip:hover { background: var(--aya-dorado); color: var(--aya-azul); transform: translateY(-1px); }
+.alerta-chip .num {
+    background: var(--aya-azul); color: var(--aya-dorado);
+    border-radius: 10px; padding: 1px 7px; font-size: 0.72rem; font-weight: 700;
+}
+.alerta-chip:hover .num { background: var(--aya-blanco); color: var(--aya-azul); }
+.modal-fondo {
+    position: fixed; inset: 0; background: rgba(27,41,78,0.6);
+    display: none; justify-content: center; align-items: flex-start;
+    padding: 30px 15px; z-index: 1000; overflow-y: auto;
+}
+.modal-fondo.activo { display: flex; }
+.modal {
+    background: var(--aya-blanco); border-radius: 10px;
+    width: 100%; max-width: 560px; padding: 20px;
+    box-shadow: 0 6px 24px rgba(27,41,78,0.3);
+    border-top: 4px solid var(--aya-dorado);
+}
+.modal h2 {
+    margin: 0 0 14px; font-size: 1.15rem; color: var(--aya-azul);
+    display: flex; justify-content: space-between; align-items: center;
+}
+.modal h2 .sem { font-size: 0.72rem; font-weight: 700; color: var(--aya-blanco); padding: 3px 8px; border-radius: 10px; }
+.modal .campo { margin-bottom: 10px; }
+.modal .campo > label {
+    display: block; font-weight: 600; color: var(--aya-gris-texto);
+    margin-bottom: 3px; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+.modal .campo input[type="text"],
+.modal .campo input[type="url"],
+.modal .campo input[type="date"],
+.modal .campo input[type="number"],
+.modal .campo select,
+.modal .campo textarea {
+    width: 100%; border: 1px solid var(--aya-borde-fuerte);
+    border-radius: 5px; padding: 7px 9px; font-size: 0.9rem;
+    font-family: inherit; background: var(--aya-fondo-claro);
+    color: var(--aya-azul);
+}
+.modal .campo textarea { resize: vertical; min-height: 50px; }
+.modal .campo input:focus, .modal .campo select:focus, .modal .campo textarea:focus {
+    outline: none; border-color: var(--aya-dorado); background: var(--aya-blanco);
+}
+.campo-fecha { display: flex; gap: 6px; align-items: stretch; position: relative; }
+.modal .campo > .campo-fecha > input[type="text"] { width: auto; flex: 1 1 auto; min-width: 0; font-variant-numeric: tabular-nums; }
+.modal .campo > .campo-fecha > input[type="text"].invalido { border-color: var(--aya-peligro); background: #fff5f5; }
+.btn-cal-wrapper { position: relative; display: inline-flex; flex-shrink: 0; }
+.btn-calendario {
+    background: var(--aya-tinte-dorado); border: 1px solid var(--aya-dorado);
+    color: var(--aya-azul); border-radius: 5px; padding: 0 14px;
+    cursor: pointer; font-size: 1rem;
+}
+.btn-calendario:hover { background: var(--aya-dorado); color: var(--aya-azul); }
+.date-hidden-picker { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
+.enlaces-lista { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.enlace-item {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--aya-fondo-claro);
+    border: 1px solid var(--aya-borde); border-radius: 6px; padding: 6px 8px;
+}
+.enlace-url {
+    flex: 1; min-width: 0; font-size: 0.82rem; color: var(--aya-azul);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: "Consolas", monospace;
+}
+.enlace-acciones { display: flex; gap: 4px; flex-shrink: 0; }
+.enlace-acciones button {
+    background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte);
+    color: var(--aya-azul); border-radius: 4px; padding: 4px 9px;
+    font-size: 0.72rem; cursor: pointer;
+}
+.enlace-acciones button:hover { background: var(--aya-azul); color: var(--aya-blanco); }
+.enlace-acciones button.btn-enlace-eliminar:hover { background: var(--aya-peligro); border-color: var(--aya-peligro); }
+.enlace-acciones button.btn-enlace-guardar { background: var(--aya-exito); color: var(--aya-blanco); border-color: var(--aya-exito); }
+.enlaces-vacio { font-size: 0.8rem; color: var(--aya-gris-suave); font-style: italic; padding: 8px 4px; text-align: center; }
+.enlace-agregar { display: flex; gap: 6px; align-items: stretch; }
+.enlace-agregar input {
+    flex: 1; min-width: 0; border: 1px solid var(--aya-borde-fuerte);
+    border-radius: 5px; padding: 7px 9px; font-size: 0.9rem;
+    background: var(--aya-fondo-claro); color: var(--aya-azul);
+}
+.enlace-agregar input:focus { outline: none; border-color: var(--aya-dorado); background: var(--aya-blanco); }
+.btn-enlace-agregar {
+    background: var(--aya-azul); color: var(--aya-blanco);
+    border: 1px solid var(--aya-azul); border-radius: 5px;
+    padding: 0 14px; cursor: pointer; font-size: 0.85rem;
+    font-weight: 600; white-space: nowrap;
+}
+.btn-enlace-agregar:hover { background: var(--aya-azul-medio); }
+.enlace-edit-input {
+    flex: 1; min-width: 0; border: 1px solid var(--aya-dorado);
+    border-radius: 5px; padding: 6px 8px; font-size: 0.85rem;
+    background: var(--aya-blanco); color: var(--aya-azul);
+}
+.check-inline {
+    display: flex !important; align-items: center; gap: 8px;
+    font-size: 0.85rem !important; font-weight: 600 !important;
+    color: var(--aya-azul) !important;
+    text-transform: none !important; letter-spacing: 0 !important;
+    cursor: pointer; padding: 4px 0; margin-bottom: 0 !important;
+}
+.check-inline input { accent-color: var(--aya-azul); width: 18px; height: 18px; }
+.responsables { display: flex; flex-wrap: wrap; gap: 8px; }
+.responsables label {
+    display: flex; align-items: center; gap: 4px; font-size: 0.8rem;
+    background: var(--aya-tinte-dorado); border: 1px solid var(--aya-dorado);
+    border-radius: 14px; padding: 3px 10px;
+    cursor: pointer; font-weight: 500; color: var(--aya-azul);
+}
+.responsables input { accent-color: var(--aya-azul); }
+.modal .acciones { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.modal .acciones .izquierda {
+    margin-right: auto; display: flex; align-items: center; gap: 16px;
+    font-size: 0.85rem; font-weight: 600; color: var(--aya-azul);
+}
+.modal .acciones .izquierda label {
+    display: flex; align-items: center; gap: 6px; cursor: pointer;
+}
+.modal .acciones .izquierda input {
+    accent-color: var(--aya-exito); width: 18px; height: 18px;
+}
+.modal .acciones .izquierda label.urgente-lbl input {
+    accent-color: var(--aya-vino);
+}
+button.btn-gris {
+    background: var(--aya-gris-suave); color: var(--aya-blanco);
+    border: none; padding: 9px 16px; border-radius: 6px;
+    cursor: pointer; font-size: 0.9rem;
+}
+button.btn-gris:hover { background: var(--aya-gris-texto); }
+button.btn-rojo {
+    background: transparent; color: var(--aya-peligro);
+    border: 1px solid var(--aya-peligro);
+    padding: 9px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+}
+button.btn-rojo:hover { background: var(--aya-peligro); color: var(--aya-blanco); }
+footer {
+    text-align: center; font-size: 0.75rem; padding: 10px;
+    background: var(--aya-azul); color: var(--aya-gris-suave);
+    border-top: 2px solid var(--aya-dorado);
+}
+.overlay-carga {
+    position: fixed; inset: 0; background: rgba(245,246,250,0.9);
+    display: flex; justify-content: center; align-items: center;
+    font-size: 1rem; color: var(--aya-azul); z-index: 2000;
+}
+.overlay-carga.oculto { display: none; }
 
-  /* ---------- Paneles ---------- */
-  .panel{
-    width:300px;flex:0 0 300px;
-    background:var(--panel);
-    backdrop-filter:blur(8px);
-    border-right:1px solid var(--line);
-    padding:16px 14px;
-    overflow-y:auto;
-    display:flex;flex-direction:column;gap:12px;
-  }
-  #right{border-right:none;border-left:1px solid var(--line);width:340px;flex:0 0 340px}
-  .panel::-webkit-scrollbar{width:8px}
-  .panel::-webkit-scrollbar-thumb{background:#15325c;border-radius:4px}
-
-  .brand{display:flex;gap:10px;align-items:center}
-  .logo{
-    font-size:24px;width:44px;height:44px;display:grid;place-items:center;
-    background:linear-gradient(160deg,#0d2c52,#0a4d43);
-    border:1px solid #1d5c8a;border-radius:12px;
-    box-shadow:0 0 18px rgba(34,211,238,.18);
-  }
-  .brand h1{font-size:15px;margin:0;letter-spacing:.02em;color:#dff0ff}
-  .brand p{margin:2px 0 0;font-size:11px;color:var(--muted)}
-
-  .section-title{
-    font-size:11px;text-transform:uppercase;letter-spacing:.14em;
-    color:var(--muted);margin-top:4px;font-weight:600;
-  }
-
-  /* ---------- Botones ---------- */
-  .btn{
-    font-family:inherit;font-size:13px;
-    border-radius:9px;border:1px solid #1e4a7a;
-    background:#0f2444;color:#cfe3ff;
-    padding:9px 12px;cursor:pointer;
-    transition:.15s;
-  }
-  .btn:hover{background:#15325c;border-color:var(--blue)}
-  .btn:active{transform:translateY(1px)}
-  .btn:disabled{opacity:.35;cursor:not-allowed}
-  .btn.primary{
-    background:linear-gradient(180deg,#0f7a5a,#0a5c44);
-    border-color:#12b184;color:#d6fff0;font-weight:600;
-    box-shadow:0 0 16px rgba(0,229,160,.15);
-  }
-  .btn.primary:hover{background:linear-gradient(180deg,#12a074,#0b7a58)}
-  .btn.mini{padding:5px 9px;font-size:12px;border-radius:7px}
-  .btn.ghost{background:transparent}
-  .btn.danger{background:#3a1020;border-color:#7a2040;color:#ffb4c8;width:100%;margin-top:6px}
-  .btn.danger:hover{background:#54162d}
-  .block-btn{width:100%}
-
-  /* ---------- Lista de cuadras ---------- */
-  .list{display:flex;flex-direction:column;gap:8px}
-  .empty{font-size:12px;color:var(--muted);padding:10px;text-align:center;border:1px dashed #17325c;border-radius:10px}
-
-  .block-item{
-    background:#0a1730;border:1px solid #16305a;border-radius:11px;
-    padding:9px 10px;cursor:pointer;transition:.15s;
-  }
-  .block-item:hover{border-color:#24507f;background:#0c1d3a}
-  .block-item.active{border-color:var(--cyan);box-shadow:0 0 14px rgba(34,211,238,.18)}
-  .bi-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}
-  .bi-name-input{
-    flex:1;min-width:0;
-    font-size:13px;font-weight:600;color:#dff0ff;
-    background:transparent;border:1px solid transparent;border-radius:6px;
-    padding:2px 6px;outline:none;font-family:inherit;
-    transition:.15s;
-  }
-  .bi-name-input:hover{border-color:#17325c;background:#0a1730}
-  .bi-name-input:focus{border-color:var(--cyan);background:#0a1730;box-shadow:0 0 0 2px rgba(34,211,238,.14)}
-  .bi-count{font-size:11px;color:var(--muted);background:#0b1f3a;padding:1px 7px;border-radius:20px;border:1px solid #17325c;flex:0 0 auto}
-
-  .prog-list{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
-  .prog-row{
-    display:flex;align-items:center;gap:6px;font-size:11.5px;
-    padding:3px 6px;border-radius:6px;color:#9fc0e6;
-  }
-  .prog-row:hover{background:#12294a}
-  .prog-row.sel{background:#0f3352;color:#b8f5e2}
-  .prog-row .dot{width:6px;height:6px;border-radius:50%;background:#1b3f6e;flex:0 0 6px}
-  .prog-row.sel .dot{box-shadow:0 0 8px currentColor}
-  .prog-row .pname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .prog-row .ppct{font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
-
-  .bi-actions{display:flex;gap:6px}
-  .bi-actions .btn{flex:1}
-
-  .hintbox{
-    margin-top:auto;font-size:11.5px;color:var(--muted);line-height:1.55;
-    border-top:1px solid var(--line);padding-top:12px;
-  }
-  .hintbox b{color:#7fd8c0;display:block;margin-bottom:6px;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
-  .hintbox p{margin:3px 0}
-
-  /* ---------- Escenario ---------- */
-  #stage{flex:1;position:relative;overflow:hidden}
-  svg#city{width:100%;height:100%;display:block;cursor:grab;user-select:none}
-  svg#city:active{cursor:grabbing}
-
-  .stage-tools{
-    position:absolute;bottom:16px;right:16px;display:flex;gap:6px;
-    background:rgba(8,18,38,.8);border:1px solid var(--line);
-    padding:6px;border-radius:11px;backdrop-filter:blur(6px);
-  }
-  .stage-tools .btn{min-width:34px;text-align:center}
-
-  /* ---------- SVG estilos ---------- */
-  .plate{fill:#0b1a30;stroke:#1b3f6e;stroke-width:1;vector-effect:non-scaling-stroke}
-  .plaza{fill:#081426;stroke:#14365c;stroke-width:1;vector-effect:non-scaling-stroke}
-  .plate-label{
-    fill:#37618f;font-size:0.6px;font-weight:600;letter-spacing:.08em;
-    pointer-events:none;font-family:inherit;
-  }
-  .face-l{fill:#0b1c33;stroke:#1a3d68;stroke-width:1;vector-effect:non-scaling-stroke}
-  .face-r{fill:#102a4a;stroke:#1e4877;stroke-width:1;vector-effect:non-scaling-stroke}
-  .face-t{fill:#1b4168;stroke:#2a5c94;stroke-width:1;vector-effect:non-scaling-stroke}
-  .floorline{stroke:#1a3d68;stroke-width:.6;opacity:.65;vector-effect:non-scaling-stroke}
-  .win{
-    fill:#08111f;stroke:#173354;stroke-width:.7;
-    vector-effect:non-scaling-stroke;cursor:pointer;
-    transition:fill .18s,stroke .18s;
-  }
-  .win.lit{fill:#2affb0;stroke:#b6ffe6;filter:drop-shadow(0 0 .35px #00e5a0)}
-  .win:hover{stroke:#67e8f9;stroke-width:1.6}
-  .antenna{stroke:#2a5c94;stroke-width:1;vector-effect:non-scaling-stroke}
-  .antenna-light{fill:#ff5d7a}
-
-  /* --- Rótulo de neón --- */
-  .neon-sign{
-    font-family:inherit;font-weight:800;letter-spacing:.07em;
-    paint-order:stroke;stroke:rgba(255,255,255,.22);stroke-width:.022;
-    pointer-events:none;
-  }
-  .sign-post{stroke:#2a5c94;stroke-width:1.1;vector-effect:non-scaling-stroke}
-
-  .building.selected .face-t{stroke:#22d3ee;stroke-width:2}
-  .building.selected .face-r,.building.selected .face-l{stroke:#22d3ee;stroke-width:1.3}
-
-  /* ---------- Detalle ---------- */
-  .empty-detail{
-    text-align:center;color:var(--muted);font-size:12.5px;
-    padding:50px 10px;line-height:1.6;
-  }
-  .empty-detail .big{font-size:38px;margin-bottom:10px;opacity:.5}
-
-  .detail-head input.name-input{
-    width:100%;background:#0a1a30;border:1px solid #17325c;border-radius:9px;
-    color:#dff0ff;font-size:15px;font-weight:600;font-family:inherit;
-    padding:9px 10px;outline:none;
-  }
-  .detail-head input.name-input:focus{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(34,211,238,.14)}
-  .detail-head .sub{font-size:11px;color:var(--muted);margin-top:6px}
-
-  .color-row{
-    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-    margin-top:12px;font-size:11.5px;color:var(--muted);
-  }
-  .color-row > span:first-child{flex:0 0 auto}
-  .color-row input[type=color]{
-    width:40px;height:28px;padding:0;border:1px solid #17325c;border-radius:7px;
-    background:#081426;cursor:pointer;
-  }
-  .swatches{display:flex;gap:5px;flex-wrap:wrap;flex:1;min-width:120px}
-  .swatch{
-    width:19px;height:19px;border-radius:50%;padding:0;cursor:pointer;
-    border:1px solid rgba(255,255,255,.28);transition:.15s;
-  }
-  .swatch:hover{transform:scale(1.15)}
-  .swatch.active{box-shadow:0 0 0 2px #22d3ee, 0 0 10px rgba(34,211,238,.6)}
-
-  .progress-wrap{margin:14px 0 4px}
-  .progress-label{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:6px}
-  .progress-label span:last-child{color:#9fffe0;font-weight:700;font-variant-numeric:tabular-nums}
-  .progress-bar{height:9px;border-radius:5px;background:#0a1a30;border:1px solid #17325c;overflow:hidden}
-  .progress-fill{
-    height:100%;border-radius:4px;
-    background:linear-gradient(90deg,#0ea5e9,#22d3ee,#00e5a0);
-    transition:width .35s ease;
-  }
-
-  .floors-head{
-    display:flex;align-items:center;justify-content:space-between;gap:8px;
-    font-size:11px;text-transform:uppercase;letter-spacing:.14em;
-    color:var(--muted);font-weight:600;margin:16px 0 8px;
-  }
-  .level-actions{display:flex;gap:5px}
-  .level-actions .btn{padding:3px 8px;font-size:11px;letter-spacing:0;text-transform:none}
-
-  .floors{display:flex;flex-direction:column;gap:7px;padding-bottom:8px}
-  .floor{
-    background:#0a1730;border:1px solid #14305a;border-radius:10px;
-    padding:8px 9px;transition:.15s;
-  }
-  .floor:hover{border-color:#20477a}
-  .floor-row{display:flex;align-items:center;gap:8px}
-  .floor-num{
-    font-size:10.5px;font-weight:700;color:#5b8fc9;
-    background:#0d2444;border:1px solid #17325c;border-radius:6px;
-    padding:2px 6px;flex:0 0 auto;font-variant-numeric:tabular-nums;
-  }
-  .task-input{
-    flex:1;min-width:0;background:transparent;border:none;outline:none;
-    color:#bdd9f7;font-size:12.5px;font-family:inherit;
-    border-bottom:1px dashed transparent;padding:2px 0;
-  }
-  .task-input:focus{border-bottom-color:var(--cyan)}
-  .floor-pct{
-    font-size:11px;font-weight:700;color:#5b8fc9;
-    font-variant-numeric:tabular-nums;flex:0 0 auto;
-  }
-  .floor-pct.done{color:var(--green);text-shadow:0 0 10px rgba(0,229,160,.5)}
-  .floor-del{
-    flex:0 0 auto;background:transparent;border:none;cursor:pointer;
-    color:#4b7099;font-size:12px;line-height:1;padding:2px 3px;border-radius:5px;
-  }
-  .floor-del:hover{color:#ff8fa8;background:#2a0f1c}
-  .wins{display:flex;gap:5px;margin-top:7px}
-  .winbtn{
-    flex:1;height:16px;border-radius:4px;cursor:pointer;
-    background:#081120;border:1px solid #173354;
-    transition:.15s;padding:0;
-  }
-  .winbtn:hover{border-color:var(--cyan);transform:translateY(-1px)}
-  .winbtn.on{
-    background:linear-gradient(180deg,#5ffbc8,#00e5a0);
-    border-color:#b6ffe6;
-    box-shadow:0 0 10px rgba(0,229,160,.55);
-  }
-
-  /* ---------- Modal ---------- */
-  .modal-backdrop{
-    position:fixed;inset:0;background:rgba(2,6,15,.75);
-    backdrop-filter:blur(4px);display:none;
-    align-items:center;justify-content:center;z-index:50;
-  }
-  .modal-backdrop.show{display:flex}
-  .modal{
-    width:380px;background:#0a1730;border:1px solid #1d4a7a;
-    border-radius:16px;padding:22px;
-    box-shadow:0 24px 70px rgba(0,0,0,.7),0 0 40px rgba(34,211,238,.08);
-    animation:pop .18s ease;
-  }
-  @keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
-  .modal h2{margin:0 0 16px;font-size:16px;color:#dff0ff}
-  .modal label{display:block;font-size:11.5px;color:var(--muted);margin:12px 0 6px;letter-spacing:.04em}
-  .modal input[type=text],.modal input[type=number]{
-    width:100%;background:#081426;border:1px solid #17325c;border-radius:9px;
-    color:#dff0ff;font-size:14px;font-family:inherit;padding:10px;outline:none;
-  }
-  .modal input[type=text]:focus,.modal input[type=number]:focus{
-    border-color:var(--cyan);box-shadow:0 0 0 2px rgba(34,211,238,.14);
-  }
-  .color-pick{display:flex;align-items:center;gap:10px}
-  .color-pick input[type=color]{
-    width:48px;height:34px;padding:0;border:1px solid #17325c;border-radius:8px;
-    background:#081426;cursor:pointer;flex:0 0 auto;
-  }
-  .modal-note{font-size:11px;color:var(--muted);margin:14px 0 0;line-height:1.5}
-  .modal-actions{display:flex;gap:8px;margin-top:20px}
-  .modal-actions .btn{flex:1}
-
-  @media (max-width:1000px){
-    .panel{width:250px;flex:0 0 250px}
-    #right{width:290px;flex:0 0 290px}
-  }
-  @media (max-width:760px){
-    #left{display:none}
-    #right{width:240px;flex:0 0 240px}
-  }
+/* ========== VISOR DE CIUDAD NOCTURNA ========== */
+.ciudad-viewer {
+    margin: 0 24px 20px;
+    background: linear-gradient(160deg, var(--aya-azul-oscuro) 0%, var(--aya-azul) 100%);
+    border-radius: 14px; padding: 12px 14px 8px;
+    color: var(--aya-fondo-claro);
+    box-shadow: 0 8px 28px rgba(27,41,78,0.4);
+    border: 1px solid var(--aya-dorado-oscuro);
+}
+.ciudad-header {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 10px;
+}
+.ciudad-title { display: flex; align-items: center; gap: 10px; }
+.ciudad-title h2 { margin: 0; font-size: 1.05rem; color: var(--aya-dorado); letter-spacing: 0.02em; }
+.ciudad-title p { margin: 2px 0 0; font-size: 0.76rem; color: var(--aya-fondo-claro); opacity: 0.75; }
+.ciudad-tools { display: flex; gap: 5px; }
+.ciudad-btn {
+    background: var(--aya-azul-medio); border: 1px solid var(--aya-dorado-oscuro);
+    color: var(--aya-dorado); border-radius: 8px;
+    width: 34px; height: 34px; cursor: pointer;
+    font-size: 1rem; font-weight: 700; font-family: inherit;
+}
+.ciudad-btn:hover { background: var(--aya-azul-claro); border-color: var(--aya-dorado); color: var(--aya-blanco); }
+.ciudad-legend-bar {
+    display: flex; flex-wrap: wrap; gap: 14px;
+    font-size: 0.74rem; color: var(--aya-fondo-claro);
+    padding: 6px 4px;
+    border-bottom: 1px solid var(--aya-dorado-oscuro);
+    margin-bottom: 8px; align-items: center;
+}
+.ciudad-leg b { color: var(--aya-dorado); font-weight: 700; margin-right: 6px; }
+.ciudad-leg-item { display: inline-flex; align-items: center; gap: 4px; margin-right: 8px; }
+.ciudad-leg-swatch {
+    display: inline-block; width: 12px; height: 12px;
+    border-radius: 2px; border: 1.5px solid rgba(27,41,78,0.65);
+    vertical-align: middle;
+}
+.ciudad-canvas {
+    width: 100%; height: 500px; position: relative;
+    border-radius: 10px; overflow: hidden;
+    background: radial-gradient(circle at 50% -10%,
+        var(--aya-azul-medio) 0%, var(--aya-azul-oscuro) 60%, #060B15 100%);
+    border: 1px solid var(--aya-azul-claro);
+}
+#ciudadSvg { width: 100%; height: 100%; display: block; cursor: grab; user-select: none; }
+#ciudadSvg:active { cursor: grabbing; }
+.ciudad-hint {
+    text-align: center; font-size: 0.72rem;
+    color: var(--aya-dorado); opacity: 0.8; padding: 6px 0 2px;
+}
+.ciudad-plate {
+    fill: #16223E; stroke: var(--aya-dorado-oscuro);
+    stroke-width: 1; vector-effect: non-scaling-stroke;
+}
+.ciudad-plate-label {
+    fill: var(--aya-dorado); font-size: 0.85px; font-weight: 800;
+    letter-spacing: 0.08em; pointer-events: none; font-family: inherit;
+}
+.ciudad-plate-label.actual {
+    fill: var(--aya-dorado-claro);
+    text-decoration: underline;
+    text-decoration-thickness: 0.08px;
+    text-underline-offset: 0.18px;
+}
+.ciudad-face-l { fill: #0F1830; stroke: #1E2A4A; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.ciudad-face-r { fill: #182849; stroke: #2A3D6B; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.ciudad-face-t { fill: #243560; stroke: var(--aya-dorado-oscuro); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.ciudad-floorline { stroke: #2A3D6B; stroke-width: 0.6; opacity: 0.65; vector-effect: non-scaling-stroke; }
+.ciudad-win { fill: #0A1428; stroke: #1E2A4A; stroke-width: 0.7; vector-effect: non-scaling-stroke; }
+.ciudad-win.lit { stroke: #FFFFFF; stroke-width: 0.7; }
+.ciudad-sign-post { stroke: var(--aya-dorado); stroke-width: 1.1; vector-effect: non-scaling-stroke; }
+.ciudad-sign {
+    font-family: inherit; font-weight: 800; letter-spacing: 0.06em;
+    paint-order: stroke; stroke: rgba(255,255,255,0.35); stroke-width: 0.03;
+    pointer-events: none;
+}
+.ciudad-building { cursor: pointer; }
+.ciudad-building:hover .ciudad-face-t { stroke: var(--aya-dorado-claro); }
 </style>
 </head>
 <body>
 
-<div id="app">
-  <!-- ======= PANEL IZQUIERDO ======= -->
-  <aside class="panel" id="left">
-    <div class="brand">
-      <div class="logo">🏙️</div>
-      <div>
-        <h1>Ciudad Nocturna</h1>
-        <p>Programas · Edificios · Avance</p>
-      </div>
+<header>
+    <img class="logo" src="https://www.aya.go.cr/assets/img/96cb7f83-6325-4ee1-8e4e-fa1e21262be8.png" alt="Logo AyA">
+    <div class="titulos">
+        <h1>Edificaciones</h1>
+        <h2>UEN Programación y Control</h2>
+        <h3>Instituto Costarricense de Acueductos y Alcantarillados</h3>
     </div>
+    <div class="titulo-derecha">Solicitudes</div>
+</header>
 
-    <button class="btn primary block-btn" id="btnNewBlock">＋ Nueva cuadra</button>
-
-    <div class="section-title">Cuadras</div>
-    <div class="list" id="blockList"></div>
-
-    <div class="hintbox">
-      <b>Cómo funciona</b>
-      <p>• Cada <b>cuadra</b> admite hasta 8 programas.</p>
-      <p>• Haz clic en el <b>nombre de la cuadra</b> para renombrarla.</p>
-      <p>• Cada <b>programa</b> es un edificio: cada tarea = 1 piso.</p>
-      <p>• Cada piso tiene <b>4 ventanas</b> = 25% cada una.</p>
-      <p>• Los edificios se <b>reacomodan automáticamente</b>: los más altos al fondo, los más bajos al frente.</p>
-      <p>• Puedes <b>añadir o quitar niveles</b> cuando quieras.</p>
-      <p>• Arrastra para mover · rueda para zoom.</p>
+<div class="barra">
+    <div class="nav-mes">
+        <button class="btn-nav" onclick="cambiarMes(-1)" title="Mes anterior">◀</button>
+        <select id="selMes" onchange="irAMes()"></select>
+        <select id="selAnio" onchange="irAMes()"></select>
+        <button class="btn-nav" onclick="cambiarMes(1)" title="Mes siguiente">▶</button>
+        <button class="btn-hoy" onclick="irHoy()">Hoy</button>
+        <span class="estado-sync" id="estadoSync">
+            <span class="dot-sync"></span><span id="textoSync">Conectando…</span>
+        </span>
     </div>
-  </aside>
-
-  <!-- ======= ESCENARIO ======= -->
-  <main id="stage">
-    <svg id="city" xmlns="http://www.w3.org/2000/svg"></svg>
-    <div class="stage-tools">
-      <button class="btn mini" id="btnZoomIn" title="Acercar">＋</button>
-      <button class="btn mini" id="btnZoomOut" title="Alejar">－</button>
-      <button class="btn mini" id="btnFit" title="Ajustar">⤢</button>
+    <div class="buscador">
+        <input type="text" id="buscador" placeholder="🔍 Buscar en cliente, descripción o actividades…" autocomplete="off" oninput="onBuscar()">
+        <button type="button" class="btn-clear-busqueda" onclick="limpiarBusqueda()" title="Limpiar búsqueda">✕</button>
+        <div class="buscador-resultados" id="buscadorResultados"></div>
     </div>
-  </main>
-
-  <!-- ======= PANEL DERECHO ======= -->
-  <aside class="panel" id="right">
-    <div id="detail"></div>
-  </aside>
+    <div class="controles-acciones">
+        <button class="btn-azul" id="btnNueva" onclick="nuevaSolicitud()">+ Nueva solicitud</button>
+        <div class="export-grupo">
+            <span class="export-label">Exportar:</span>
+            <select id="selScope">
+                <option value="mes">Mes actual</option>
+                <option value="anio">Año actual</option>
+                <option value="todo">Todo</option>
+            </select>
+            <button onclick="exportarDOC()" title="Descargar Word">📄 DOC</button>
+            <button onclick="exportarXLS()" title="Descargar Excel">📊 XLS</button>
+            <button onclick="exportarPDF()" title="Imprimir / PDF">🖨 PDF</button>
+        </div>
+    </div>
 </div>
 
-<!-- ======= MODAL ======= -->
-<div class="modal-backdrop" id="modal">
-  <div class="modal">
-    <h2>🏗️ Nuevo programa</h2>
-    <label>Nombre del programa</label>
-    <input id="progName" type="text" maxlength="30" placeholder="Ej. Torre Aurora">
-    <label>Número de niveles (tareas = pisos)</label>
-    <input id="progLevels" type="number" min="1" max="40" value="5">
-    <label>Color del rótulo de neón</label>
-    <div class="color-pick">
-      <input id="progColor" type="color" value="#22d3ee">
-      <div class="swatches" id="progSwatches"></div>
-    </div>
-    <p class="modal-note">Cada nivel tendrá 4 ventanas · cada ventana = 25% de avance.
-      Podrás añadir o quitar niveles después de crearlo.</p>
-    <div class="modal-actions">
-      <button class="btn ghost" id="cancelProg">Cancelar</button>
-      <button class="btn primary" id="createProg">Crear edificio</button>
-    </div>
-  </div>
+<div class="leyenda">
+    <strong>Semáforo:</strong>
+    <span><span class="dot" style="background:var(--aya-exito)"></span>Más de un mes</span>
+    <span><span class="dot" style="background:var(--aya-warn)"></span>Entre 15 días y un mes</span>
+    <span><span class="dot" style="background:var(--aya-peligro)"></span>Menos de 15 días / vencida</span>
+    <span><span class="dot" style="background:var(--gris-completado)"></span>Completada</span>
+    <span><span class="dot" style="background:var(--aya-vino)"></span>Urgente</span>
+    <span class="nota">· En proceso por fecha estimada · Completados por fecha real.</span>
 </div>
 
+<div class="filtros">
+    <strong>Filtrar por responsable:</strong>
+    <button class="chip chip-todos chip-activo" data-resp="">Todos</button>
+    <button class="chip" data-resp="Harrison Umaña">Harrison Umaña</button>
+    <button class="chip" data-resp="Cinthya Meza">Cinthya Meza</button>
+    <button class="chip" data-resp="Ricardo Chacón">Ricardo Chacón</button>
+    <span class="aviso-filtro" id="avisoFiltro"></span>
+</div>
+
+<div class="pilas">
+    <div class="pila">
+        <h2><span id="tituloProceso">En proceso</span><span class="contador" id="contProceso">0</span></h2>
+        <div class="lista" id="listaProceso"></div>
+        <div class="sin-fecha" id="sfProceso" style="display:none">
+            <div class="sin-fecha-titulo" id="sfProcesoTitulo"></div>
+            <div class="lista" id="sfProcesoLista"></div>
+        </div>
+    </div>
+    <div class="pila">
+        <h2><span id="tituloCompletados">Completados</span><span class="contador" id="contCompletados">0</span></h2>
+        <div class="lista" id="listaCompletados"></div>
+        <div class="sin-fecha" id="sfCompletados" style="display:none">
+            <div class="sin-fecha-titulo" id="sfCompletadosTitulo"></div>
+            <div class="lista" id="sfCompletadosLista"></div>
+        </div>
+    </div>
+</div>
+
+<div class="alerta-meses" id="alertaMeses" style="display:none">
+    <div class="alerta-titulo">⚠ Pendientes en meses anteriores:</div>
+    <div class="alerta-chips" id="alertaChips"></div>
+</div>
+
+<section class="ciudad-viewer" id="ciudadViewer" style="display:none">
+    <div class="ciudad-header">
+        <div class="ciudad-title">
+            <div>
+                <h2>Vista de Ciudad · Solicitudes</h2>
+                <p>Cada cuadra es un mes · Cada edificio es una solicitud · Altura = medio · Ventanas = avance</p>
+            </div>
+        </div>
+        <div class="ciudad-tools">
+            <button class="ciudad-btn" id="btnCiudadZoomIn" title="Acercar">＋</button>
+            <button class="ciudad-btn" id="btnCiudadZoomOut" title="Alejar">－</button>
+            <button class="ciudad-btn" id="btnCiudadFit" title="Ajustar vista">⤢</button>
+        </div>
+    </div>
+    <div class="ciudad-legend-bar">
+        <span class="ciudad-leg"><b>Altura = medio:</b> Teams (4) · Correo (8) · Oficio (12)</span>
+        <span class="ciudad-leg"><b>Temperatura de luz:</b>
+            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#CCF1FF"></span>Harrison 6000 K</span>
+            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#FFEBCC"></span>Cinthya 3000 K</span>
+            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#FFFFFF"></span>Ricardo 4500 K</span>
+        </span>
+        <span class="ciudad-leg"><b>Urgente:</b>
+            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#7B1E1E"></span>Vino + antena con luz roja</span>
+        </span>
+        <span class="ciudad-leg"><b>Ventanas encendidas = % avance</b> (de abajo hacia arriba)</span>
+    </div>
+    <div class="ciudad-canvas">
+        <svg id="ciudadSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div class="ciudad-hint">Arrastra para mover · Rueda para zoom · Clic en edificio para abrir ficha</div>
+</section>
+
+<footer>Plataforma interna · Edificaciones · UEN Programación y Control · AyA</footer>
+
+<div class="modal-fondo" id="modalFondo"><div class="modal" id="modalContenido"></div></div>
+<div class="overlay-carga" id="overlayCarga">Cargando datos desde la nube…</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* =========================================================
-   CIUDAD NOCTURNA — lógica
-   ========================================================= */
-const SVGNS = 'http://www.w3.org/2000/svg';
-const COS30 = Math.cos(Math.PI / 6);
-const SIN30 = 0.5;
+/* ========================================================= */
+/* SUPABASE — CONEXIÓN REAL                                  */
+/* ========================================================= */
+const SUPABASE_URL = "https://sqryyhbkgmjvkhgzduwf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_OLPsAD1jyyvXKjpsiMKvig_gXTZxW4K";
 
-const BLOCK  = 9;      // lado de la cuadra (unidades de mundo)
-const STREET = 4.5;    // separación entre cuadras
-const COLS   = 3;      // cuadras por fila
-const FH     = 0.62;   // altura de cada piso
-const MAX_PROGS = 8;
-const MAX_LEVELS = 40;
-
-/* Paleta de neón */
-const NEON = ['#22d3ee','#00e5a0','#7c5cff','#ff4d8d','#ffd166','#4dabff','#ff7a45','#b0ff4d'];
-
-/* Slots: rejilla 3x3 con el centro libre (plaza) = 8 edificios */
-const SLOTS = [];
-for (let j = 0; j < 3; j++) {
-  for (let i = 0; i < 3; i++) {
-    if (i === 1 && j === 1) continue;
-    SLOTS.push([1.5 + 3 * i, 1.5 + 3 * j]);
-  }
+let supabaseClient = null;
+try {
+    if (typeof supabase !== 'undefined') {
+        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } else {
+        console.warn("El SDK de Supabase no cargó.");
+    }
+} catch (e) {
+    console.error("Error creando cliente Supabase:", e);
 }
 
-/* ---------------- Estado ---------------- */
-const state = { blocks: [], nextId: 1 };
-let selectedBlockId   = null;
-let selectedProgramId = null;
-let view      = null;
-let needFit   = true;
-let suppressClick = false;
+const RESPONSABLES = ["Harrison Umaña", "Cinthya Meza", "Ricardo Chacón"];
+const MEDIOS = ["Oficio", "Correo", "Teams"];
+const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const GRIS_COMPLETADO = "#777";
 
-/* ---------------- Utilidades SVG ---------------- */
-function mk(tag, attrs = {}, parent = null) {
-  const e = document.createElementNS(SVGNS, tag);
-  for (const k in attrs) {
-    if (k === 'text') e.textContent = attrs[k];
-    else e.setAttribute(k, attrs[k]);
-  }
-  if (parent) parent.appendChild(e);
-  return e;
-}
-function PT(x, y, z) {
-  return [ (x - y) * COS30, (x + y) * SIN30 - z ];
-}
-function P(x, y, z) {
-  const p = PT(x, y, z);
-  return p[0].toFixed(3) + ',' + p[1].toFixed(3);
-}
-function esc(s) {
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let solicitudes = [];
+let mesActual = new Date().getMonth();
+let anioActual = new Date().getFullYear();
+let filtroResp = new Set();
+let busquedaActual = "";
+let cargando = true;
+let solEnEdicion = null;
+let solEnEdicionEsNueva = false;
+let enlacesEnEdicion = [];
+
+/* ========================================================= */
+/* UTILIDADES FECHA                                          */
+/* ========================================================= */
+function fmtDate(d) {
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
 
-/* ---------------- Modelo ---------------- */
-function newLevel(n) {
-  return { name: 'Nivel ' + n, windows: [false, false, false, false] };
-}
-function findBlock(id)   { return state.blocks.find(b => b.id === id) || null; }
-function findProgram(id) {
-  for (const b of state.blocks) {
-    const p = b.programs.find(p => p.id === id);
-    if (p) return p;
-  }
-  return null;
-}
-function blockOfProgram(id) {
-  for (const b of state.blocks) if (b.programs.some(p => p.id === id)) return b;
-  return null;
-}
-function makeProgram(name, levels, color) {
-  const tasks = [];
-  for (let i = 0; i < levels; i++) tasks.push(newLevel(i + 1));
-  return { id: state.nextId++, name, color: color || NEON[0], tasks };
-}
-function progProgress(p) {
-  let lit = 0;
-  const total = p.tasks.length * 4;
-  p.tasks.forEach(t => t.windows.forEach(w => { if (w) lit++; }));
-  return total ? Math.round(lit / total * 100) : 0;
-}
-function blockOrigin(index) {
-  const col = index % COLS;
-  const row = Math.floor(index / COLS);
-  return [col * (BLOCK + STREET), row * (BLOCK + STREET)];
-}
+/* ========================================================= */
+/* VISOR CIUDAD NOCTURNA — CONFIGURACIÓN                     */
+/* ========================================================= */
+const CIUDAD_FH = 0.62;
+const CIUDAD_MEDIO_LEVELS = { 'Teams': 4, 'Correo': 8, 'Oficio': 12 };
+const CIUDAD_DEFAULT_LEVELS = 4;
 
-/* =========================================================
-   AUTO-REACOMODO POR ALTURA
-   Asigna a los edificios más altos los slots del fondo
-   (menor profundidad x+y) y a los más bajos los del frente
-   (mayor profundidad). Así los pequeños nunca tapan a los altos.
-   ========================================================= */
-const SLOTS_BY_DEPTH = SLOTS
-  .map((s, i) => ({ x: s[0], y: s[1], depth: s[0] + s[1], idx: i }))
-  .sort((a, b) => a.depth - b.depth || a.idx - b.idx);
+const CIUDAD_RESP_COLORS = {
+    'Harrison Umaña': '#CCF1FF',
+    'Cinthya Meza':   '#FFEBCC',
+    'Ricardo Chacón': '#FFFFFF'
+};
+const CIUDAD_DEFAULT_COLOR = '#B8B8B8';
+const CIUDAD_SIGN_COLOR = '#C9AD6E';
+const CIUDAD_URGENTE_COLOR = '#7B1E1E';       /* vino */
+const CIUDAD_URGENTE_LUZ = '#FF1A1A';          /* rojo antena */
 
-function computeSlotAssignment(programs) {
-  const result = new Map();
-  if (!programs.length) return result;
+const CIUDAD_COS30 = Math.cos(Math.PI / 6);
+const CIUDAD_SIN30 = 0.5;
+const CIUDAD_PITCH = 3.2;
+const CIUDAD_STREET = 6;
+const CIUDAD_BLOCKS_PER_ROW = 4;
+const CIUDAD_SVGNS = 'http://www.w3.org/2000/svg';
+const YEAR_DIVIDER_HEIGHT = 10;
 
-  // Orden descendente de altura; empate → orden de creación
-  const sorted = programs
-    .map((p, i) => ({ p, i, h: p.tasks.length }))
-    .sort((a, b) => b.h - a.h || a.i - b.i);
+let ciudadView = null;
+let ciudadNeedFit = true;
+let ciudadDrag = null;
+let ciudadSuppressClick = false;
+let ciudadDebounceTimer = null;
+let ciudadInteractionReady = false;
+let ciudadLayoutInfo = null;
+let lastCiudadHash = '';
+let ciudadRAF = null;
 
-  sorted.forEach((item, k) => {
-    if (k < SLOTS_BY_DEPTH.length) result.set(item.p.id, SLOTS_BY_DEPTH[k]);
-  });
-  return result;
+function mkSvg(tag, attrs, parent) {
+    const e = document.createElementNS(CIUDAD_SVGNS, tag);
+    if (attrs) for (const k in attrs) {
+        if (k === 'text') e.textContent = attrs[k];
+        else e.setAttribute(k, attrs[k]);
+    }
+    if (parent) parent.appendChild(e);
+    return e;
+}
+function ciudadPT(x, y, z) { return [ (x - y) * CIUDAD_COS30, (x + y) * CIUDAD_SIN30 - z ]; }
+function ciudadP(x, y, z) { const p = ciudadPT(x, y, z); return p[0].toFixed(3) + ',' + p[1].toFixed(3); }
+function ciudadLevelsFor(medio) { return CIUDAD_MEDIO_LEVELS[medio] || CIUDAD_DEFAULT_LEVELS; }
+function ciudadColorFor(sol) {
+    /* Urgente: color vino para todo el edificio */
+    if (sol.urgente) return CIUDAD_URGENTE_COLOR;
+    if (sol.responsables && sol.responsables.length) {
+        return CIUDAD_RESP_COLORS[sol.responsables[0]] || CIUDAD_DEFAULT_COLOR;
+    }
+    return CIUDAD_DEFAULT_COLOR;
 }
 
-/* ---------------- Datos iniciales ---------------- */
-function randomize(p, prob) {
-  p.tasks.forEach(t => t.windows.forEach((_, k) => { t.windows[k] = Math.random() < prob; }));
-}
-function seed() {
-  const b1 = { id: state.nextId++, name: 'Cuadra 1', programs: [] };
-  const p1 = makeProgram('Torre Aurora', 9, '#22d3ee'); randomize(p1, .68);
-  const p2 = makeProgram('Edificio Cian', 6, '#00e5a0'); randomize(p2, .38);
-  const p3 = makeProgram('Bloque Verde', 4, '#7c5cff'); randomize(p3, .9);
-  b1.programs.push(p1, p2, p3);
-  state.blocks.push(b1);
-
-  const b2 = { id: state.nextId++, name: 'Cuadra 2', programs: [] };
-  const p4 = makeProgram('Mirador Azul', 12, '#ff4d8d'); randomize(p4, .22);
-  b2.programs.push(p4);
-  state.blocks.push(b2);
-
-  selectedBlockId   = b1.id;
-  selectedProgramId = p1.id;
+function scheduleApplyCiudadView() {
+    if (ciudadRAF) return;
+    ciudadRAF = requestAnimationFrame(() => {
+        ciudadRAF = null;
+        applyCiudadView();
+    });
 }
 
-/* =========================================================
-   FILTRO DE NEÓN
-   ========================================================= */
-let neonFilter = () => null;
+/* ========================================================= */
+/* LAYOUT                                                    */
+/* ========================================================= */
+function buildCiudadData() {
+    const groups = new Map();
+    const sinFecha = [];
+    const filtradas = solicitudes.filter(s => filtroResp.size === 0 || s.responsables.some(r => filtroResp.has(r)));
+    filtradas.forEach(s => {
+        const dateStr = s.fechaEstimada || s.fechaReal;
+        if (!dateStr) { sinFecha.push(s); return; }
+        const d = new Date(dateStr + 'T00:00:00');
+        const key = d.getFullYear() * 12 + d.getMonth();
+        if (!groups.has(key)) groups.set(key, { year: d.getFullYear(), month: d.getMonth(), items: [] });
+        groups.get(key).items.push(s);
+    });
+    const sorted = [...groups.values()].sort((a, b) => (a.year * 12 + a.month) - (b.year * 12 + b.month));
+    if (sinFecha.length) sorted.push({ year: null, month: null, items: sinFecha, isSinFecha: true });
 
-/* =========================================================
-   RENDER DEL SVG
-   ========================================================= */
-function render() {
-  const svg = document.getElementById('city');
-  svg.innerHTML = '';
+    sorted.forEach(g => {
+        const N = g.items.length;
+        g.cols = Math.max(1, Math.ceil(Math.sqrt(N)));
+        g.rows = Math.max(1, Math.ceil(N / g.cols));
+        g.blockW = (g.cols - 1) * CIUDAD_PITCH + 3;
+        g.blockH = (g.rows - 1) * CIUDAD_PITCH + 3;
+        /* Urgentes primero al fondo (más grandes primero, luego urgentes al frente por prioridad visual) */
+        g.itemsSorted = [...g.items].sort((a, b) => {
+            const hA = ciudadLevelsFor(a.medioSolicitud);
+            const hB = ciudadLevelsFor(b.medioSolicitud);
+            if (hB !== hA) return hB - hA;
+            return (b.avance || 0) - (a.avance || 0);
+        });
+    });
+    const maxBW = Math.max(3, ...sorted.map(g => g.blockW));
+    const maxBH = Math.max(3, ...sorted.map(g => g.blockH));
+    const cellW = maxBW + CIUDAD_STREET;
 
-  /* --- defs con filtros de neón bajo demanda --- */
-  const defs = mk('defs', {}, svg);
-  const cache = new Map();
-  neonFilter = (color) => {
-    const key = String(color).toLowerCase();
-    if (cache.has(key)) return cache.get(key);
-    const id = 'neon-' + cache.size;
-    const f = mk('filter', { id, x: '-90%', y: '-220%', width: '280%', height: '540%' }, defs);
-    mk('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '0.09', result: 'g1' }, f);
-    mk('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '0.28', result: 'g2' }, f);
-    const m = mk('feMerge', {}, f);
-    mk('feMergeNode', { in: 'g2' }, m);
-    mk('feMergeNode', { in: 'g1' }, m);
-    mk('feMergeNode', { in: 'SourceGraphic' }, m);
-    cache.set(key, id);
-    return id;
-  };
+    let col = 0, row = 0, prevYear = null;
+    sorted.forEach(g => {
+        if (g.year !== prevYear && prevYear !== null) { col = 0; row++; }
+        g.col = col;
+        g.row = row;
+        col++;
+        if (col >= CIUDAD_BLOCKS_PER_ROW) { col = 0; row++; }
+        prevYear = g.year;
+    });
 
-  /* --- 1. Suelo de cada cuadra --- */
-  state.blocks.forEach((block, bi) => {
-    const [bx, by] = blockOrigin(bi);
-    const g = mk('g', { class: 'block' }, svg);
-    mk('polygon', {
-      points: [P(bx, by, 0), P(bx + BLOCK, by, 0),
-               P(bx + BLOCK, by + BLOCK, 0), P(bx, by + BLOCK, 0)].join(' '),
-      class: 'plate'
+    const numRows = Math.max(...sorted.map(g => g.row)) + 1;
+    const numCols = Math.max(...sorted.map(g => g.col)) + 1;
+
+    const rowY = new Array(numRows).fill(0);
+    const rowYear = new Array(numRows).fill(null);
+    let yCursor = 0;
+    let lastRowIdx = -1;
+    let lastYear = null;
+
+    sorted.forEach(g => {
+        if (g.row !== lastRowIdx) {
+            if (lastRowIdx >= 0) {
+                const isYearChange = (g.year !== lastYear);
+                yCursor += maxBH + (isYearChange ? YEAR_DIVIDER_HEIGHT : CIUDAD_STREET);
+            }
+            rowY[g.row] = yCursor;
+            rowYear[g.row] = g.year;
+            lastRowIdx = g.row;
+            lastYear = g.year;
+        }
+        g.blockX = g.col * cellW + (maxBW - g.blockW) / 2;
+        g.blockY = yCursor + (maxBH - g.blockH) / 2;
+    });
+
+    sorted.forEach(g => {
+        const slots = [];
+        for (let j = 0; j < g.rows; j++) {
+            for (let i = 0; i < g.cols; i++) {
+                if (slots.length >= g.items.length) break;
+                const sx = g.blockX + 1.5 + i * CIUDAD_PITCH;
+                const sy = g.blockY + 1.5 + j * CIUDAD_PITCH;
+                slots.push({ x: sx, y: sy, depth: sx + sy, idx: slots.length });
+            }
+        }
+        slots.sort((a, b) => a.depth - b.depth || a.idx - b.idx);
+        g.slots = slots;
+    });
+
+    const totalWidth = numCols * cellW;
+    const totalHeight = rowY[numRows - 1] + maxBH;
+
+    ciudadLayoutInfo = { data: sorted, rowY, rowYear, maxBW, maxBH, cellW, numRows, numCols, totalWidth, totalHeight };
+    return sorted;
+}
+
+function drawStreets(parent, defs) {
+    const info = ciudadLayoutInfo;
+    if (!info) return;
+    const { rowY, rowYear, maxBH, maxBW, cellW, numRows, numCols, totalWidth, totalHeight } = info;
+
+    const SIDEWALK = '#4D4D4D';
+    const STREET = '#2B2B2B';
+    const MEDIAN = '#2A4A2A';
+
+    const centerX = totalWidth / 2;
+    const centerY = totalHeight / 2;
+    const maxDist = Math.sqrt(centerX * centerX + centerY * centerY) || 1;
+
+    function opacityAt(x, y) {
+        const dist = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+        const norm = Math.min(1, dist / maxDist);
+        return Math.max(0.15, 1 - norm * 1.1);
+    }
+
+    function makeGradH(id, color) {
+        const g = mkSvg('linearGradient', { id, x1: '0%', y1: '0%', x2: '100%', y2: '0%' }, defs);
+        mkSvg('stop', { offset: '0%',  'stop-color': color, 'stop-opacity': '0.25' }, g);
+        mkSvg('stop', { offset: '18%', 'stop-color': color, 'stop-opacity': '1' }, g);
+        mkSvg('stop', { offset: '82%', 'stop-color': color, 'stop-opacity': '1' }, g);
+        mkSvg('stop', { offset: '100%','stop-color': color, 'stop-opacity': '0.25' }, g);
+        return 'url(#' + id + ')';
+    }
+    function makeGradV(id, color) {
+        const g = mkSvg('linearGradient', { id, x1: '0%', y1: '0%', x2: '0%', y2: '100%' }, defs);
+        mkSvg('stop', { offset: '0%',  'stop-color': color, 'stop-opacity': '0.25' }, g);
+        mkSvg('stop', { offset: '18%', 'stop-color': color, 'stop-opacity': '1' }, g);
+        mkSvg('stop', { offset: '82%', 'stop-color': color, 'stop-opacity': '1' }, g);
+        mkSvg('stop', { offset: '100%','stop-color': color, 'stop-opacity': '0.25' }, g);
+        return 'url(#' + id + ')';
+    }
+    const gradSW_H = makeGradH('gradSW_H', SIDEWALK);
+    const gradST_H = makeGradH('gradST_H', STREET);
+    const gradMD_H = makeGradH('gradMD_H', MEDIAN);
+    const gradSW_V = makeGradV('gradSW_V', SIDEWALK);
+    const gradST_V = makeGradV('gradST_V', STREET);
+
+    function rect(x1, y1, x2, y2, fillUrl, opacity) {
+        mkSvg('polygon', {
+            points: [ciudadP(x1, y1, 0), ciudadP(x2, y1, 0), ciudadP(x2, y2, 0), ciudadP(x1, y2, 0)].join(' '),
+            fill: fillUrl,
+            opacity: String(opacity),
+            stroke: 'none'
+        }, parent);
+    }
+
+    for (let r = 0; r < numRows - 1; r++) {
+        if (rowY[r] === undefined || rowY[r + 1] === undefined) continue;
+        const yStart = rowY[r] + maxBH;
+        const yEnd = rowY[r + 1];
+        const gap = yEnd - yStart;
+        if (gap <= 0.1) continue;
+
+        const isYear = (rowYear[r] !== rowYear[r + 1]);
+        const cy = (yStart + yEnd) / 2;
+        const op = opacityAt(centerX, cy);
+
+        if (isYear) {
+            const sw = 1.2;
+            const st = 3.0;
+            const md = Math.max(0.2, gap - 2 * sw - 2 * st);
+            let yy = yStart;
+            rect(0, yy, totalWidth, yy + sw, gradSW_H, op); yy += sw;
+            rect(0, yy, totalWidth, yy + st, gradST_H, op); yy += st;
+            rect(0, yy, totalWidth, yy + md, gradMD_H, op); yy += md;
+            rect(0, yy, totalWidth, yy + st, gradST_H, op); yy += st;
+            rect(0, yy, totalWidth, yy + sw, gradSW_H, op);
+        } else {
+            const sw = 1.2;
+            const st = Math.max(0.2, gap - 2 * sw);
+            let yy = yStart;
+            rect(0, yy, totalWidth, yy + sw, gradSW_H, op); yy += sw;
+            rect(0, yy, totalWidth, yy + st, gradST_H, op); yy += st;
+            rect(0, yy, totalWidth, yy + sw, gradSW_H, op);
+        }
+    }
+
+    for (let c = 0; c < numCols - 1; c++) {
+        const xStart = c * cellW + maxBW;
+        const xEnd = (c + 1) * cellW;
+        const cx = (xStart + xEnd) / 2;
+        const op = opacityAt(cx, centerY);
+
+        const sw = 1.2;
+        const st = Math.max(0.2, (xEnd - xStart) - 2 * sw);
+        let xx = xStart;
+        rect(xx, 0, xx + sw, totalHeight, gradSW_V, op); xx += sw;
+        rect(xx, 0, xx + st, totalHeight, gradST_V, op); xx += st;
+        rect(xx, 0, xx + sw, totalHeight, gradSW_V, op);
+    }
+}
+
+/* ========================================================= */
+/* RENDER DEL VISOR                                          */
+/* ========================================================= */
+function computeCiudadHash() {
+    const filtros = Array.from(filtroResp).sort().join(',');
+    const datos = solicitudes.map(s =>
+        s.id + ':' + (s.avance || 0) + ':' + (s.medioSolicitud || '') + ':' +
+        (s.fechaEstimada || '') + ':' + (s.fechaReal || '') + ':' +
+        ((s.responsables && s.responsables[0]) || '') + ':' + (s.cliente || '') + ':' +
+        (s.urgente ? '1' : '0')
+    ).join('|');
+    return filtros + '#' + datos;
+}
+
+function renderCiudad() {
+    const svg = document.getElementById('ciudadSvg');
+    const viewer = document.getElementById('ciudadViewer');
+    if (!svg || !viewer) return;
+
+    const hash = computeCiudadHash();
+    if (hash === lastCiudadHash && svg.childNodes.length > 0 && !ciudadNeedFit) {
+        return;
+    }
+    lastCiudadHash = hash;
+
+    const data = buildCiudadData();
+    const total = data.reduce((acc, g) => acc + g.items.length, 0);
+    if (total === 0) { viewer.style.display = 'none'; return; }
+    viewer.style.display = 'block';
+    svg.innerHTML = '';
+
+    const defs = mkSvg('defs', {}, svg);
+    const filterCache = new Map();
+    const getFilter = (color) => {
+        const key = String(color).toLowerCase();
+        if (filterCache.has(key)) return filterCache.get(key);
+        const id = 'ciudad-f-' + filterCache.size;
+        const f = mkSvg('filter', { id, x: '-90%', y: '-220%', width: '280%', height: '540%' }, defs);
+        mkSvg('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '0.1', result: 'g1' }, f);
+        mkSvg('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '0.3', result: 'g2' }, f);
+        const m = mkSvg('feMerge', {}, f);
+        mkSvg('feMergeNode', { in: 'g2' }, m);
+        mkSvg('feMergeNode', { in: 'g1' }, m);
+        mkSvg('feMergeNode', { in: 'SourceGraphic' }, m);
+        filterCache.set(key, id);
+        return id;
+    };
+
+    if (ciudadLayoutInfo) {
+        const { totalWidth, totalHeight } = ciudadLayoutInfo;
+        mkSvg('polygon', {
+            points: [ciudadP(0, 0, 0), ciudadP(totalWidth, 0, 0),
+                     ciudadP(totalWidth, totalHeight, 0), ciudadP(0, totalHeight, 0)].join(' '),
+            fill: '#0A1428'
+        }, svg);
+    }
+
+    drawStreets(svg, defs);
+
+    const ahora = new Date();
+    const mesHoy = ahora.getMonth();
+    const anioHoy = ahora.getFullYear();
+
+    data.forEach(g => {
+        const gBlock = mkSvg('g', { class: 'ciudad-block' }, svg);
+
+        mkSvg('polygon', {
+            points: [ciudadP(g.blockX, g.blockY, 0), ciudadP(g.blockX + g.blockW, g.blockY, 0),
+                     ciudadP(g.blockX + g.blockW, g.blockY + g.blockH, 0), ciudadP(g.blockX, g.blockY + g.blockH, 0)].join(' '),
+            class: 'ciudad-plate',
+            style: g.isSinFecha ? 'stroke:#7a3a3a;' : ''
+        }, gBlock);
+
+        const items = g.slots.map((slot, i) => {
+            const sol = g.itemsSorted[i];
+            return { sol, cx: slot.x, cy: slot.y, depth: slot.depth, height: ciudadLevelsFor(sol.medioSolicitud) };
+        });
+        items.forEach(it => drawCiudadBuilding(it, gBlock, getFilter));
+
+        const label = g.isSinFecha ? 'SIN FECHA' : (MESES[g.month] + ' ' + g.year).toUpperCase();
+        let labelX = g.blockX + g.blockW / 2;
+        if (g.slots.length) {
+            const frontSlot = g.slots.reduce((a, b) => a.depth > b.depth ? a : b);
+            labelX = frontSlot.x;
+        }
+        const lp = ciudadPT(labelX, g.blockY + g.blockH + 1.6, 0);
+        const esMesActual = !g.isSinFecha && g.month === mesHoy && g.year === anioHoy;
+
+        const textAttrs = {
+            x: lp[0].toFixed(3), y: lp[1].toFixed(3),
+            class: 'ciudad-plate-label' + (esMesActual ? ' actual' : ''),
+            'text-anchor': 'middle',
+            text: label
+        };
+        if (g.isSinFecha) {
+            textAttrs.style = 'fill:#c26a6a;';
+        } else if (esMesActual) {
+            textAttrs['text-decoration'] = 'underline';
+            textAttrs['text-decoration-thickness'] = '0.08';
+            textAttrs.style = 'fill:#DEC584;';
+        }
+        mkSvg('text', textAttrs, gBlock);
+
+        if (esMesActual) {
+            const approxWidth = label.length * 0.55;
+            const yLine = lp[1] + 0.28;
+            mkSvg('line', {
+                x1: (lp[0] - approxWidth / 2).toFixed(3), y1: yLine.toFixed(3),
+                x2: (lp[0] + approxWidth / 2).toFixed(3), y2: yLine.toFixed(3),
+                stroke: '#DEC584', 'stroke-width': '0.09', 'stroke-linecap': 'round'
+            }, gBlock);
+        }
+    });
+
+    if (ciudadNeedFit) { fitCiudadView(); ciudadNeedFit = false; }
+    else applyCiudadView();
+}
+
+/* ========================================================= */
+/* EDIFICIO — CON SOPORTE DE URGENCIA                        */
+/* ========================================================= */
+function drawCiudadBuilding(item, parent, getFilter) {
+    const { sol, cx, cy, height: floors } = item;
+    const H = floors * CIUDAD_FH;
+    const x0 = cx - 1, x1 = cx + 1, y0 = cy - 1, y1 = cy + 1;
+    const color = ciudadColorFor(sol);           /* vino si urgente, si no temperatura */
+    const signColor = CIUDAD_SIGN_COLOR;
+    const filterId = getFilter(color);
+    const urgente = !!sol.urgente;
+
+    const g = mkSvg('g', { class: 'ciudad-building', 'data-sid': sol.id }, parent);
+
+    /* Caras */
+    mkSvg('polygon', { points: [ciudadP(x1, y0, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x1, y0, H)].join(' '), class: 'ciudad-face-r' }, g);
+    mkSvg('polygon', { points: [ciudadP(x0, y1, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-l' }, g);
+    mkSvg('polygon', { points: [ciudadP(x0, y0, H), ciudadP(x1, y0, H), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-t' }, g);
+
+    for (let f = 1; f < floors; f++) {
+        const z = f * CIUDAD_FH;
+        const a = ciudadPT(x1, y0, z), b = ciudadPT(x1, y1, z), c = ciudadPT(x0, y1, z);
+        mkSvg('line', { x1: a[0].toFixed(3), y1: a[1].toFixed(3), x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'ciudad-floorline' }, g);
+        mkSvg('line', { x1: c[0].toFixed(3), y1: c[1].toFixed(3), x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'ciudad-floorline' }, g);
+    }
+
+    /* Ventanas: un solo grupo con filtro compartido */
+    const glowGroup = mkSvg('g', { filter: `url(#${filterId})` }, g);
+    const winGroup = mkSvg('g', {}, g);
+
+    const totalWin = floors * 4;
+    const litCount = Math.round((sol.avance / 100) * totalWin);
+    let wi = 0;
+
+    function dibujarVentana(pts) {
+        const lit = wi < litCount;
+        mkSvg('polygon', {
+            points: pts,
+            fill: color,
+            stroke: 'none',
+            opacity: lit ? '0.85' : '0.18'
+        }, glowGroup);
+        const el = mkSvg('polygon', {
+            points: pts,
+            class: 'ciudad-win' + (lit ? ' lit' : '')
+        }, winGroup);
+        if (lit) {
+            el.style.fill = color;
+            el.style.stroke = '#FFFFFF';
+            el.style.strokeWidth = '0.6';
+        }
+        wi++;
+    }
+
+    for (let f = 0; f < floors; f++) {
+        const zA = f * CIUDAD_FH + CIUDAD_FH * 0.18;
+        const zB = f * CIUDAD_FH + CIUDAD_FH * 0.82;
+        const yRanges = [[y0 + 0.20, y0 + 0.92], [y0 + 1.08, y0 + 1.80]];
+        for (let k = 0; k < 2; k++) {
+            const r = yRanges[k];
+            dibujarVentana([ciudadP(x1, r[0], zA), ciudadP(x1, r[1], zA), ciudadP(x1, r[1], zB), ciudadP(x1, r[0], zB)].join(' '));
+        }
+        const xRanges = [[x1 - 0.92, x1 - 0.20], [x0 + 0.20, x0 + 0.92]];
+        for (let k = 0; k < 2; k++) {
+            const r = xRanges[k];
+            dibujarVentana([ciudadP(r[0], y1, zA), ciudadP(r[1], y1, zA), ciudadP(r[1], y1, zB), ciudadP(r[0], y1, zB)].join(' '));
+        }
+    }
+
+    /* ===== ANTENA DE RADIO + LUZ ROJA para URGENTES ===== */
+    if (urgente) {
+        const antennaH = 1.6;
+        const [px1, py1] = ciudadPT(cx, cy, H);
+        const [px2, py2] = ciudadPT(cx, cy, H + antennaH);
+
+        /* Poste principal */
+        mkSvg('line', {
+            x1: px1.toFixed(3), y1: py1.toFixed(3),
+            x2: px2.toFixed(3), y2: py2.toFixed(3),
+            stroke: '#D0D0D0', 'stroke-width': '0.09'
+        }, g);
+
+        /* Travesaños horizontales (look de antena de radio) */
+        const crossBars = [
+            { h: 0.35, w: 0.38 },
+            { h: 0.75, w: 0.30 },
+            { h: 1.10, w: 0.22 },
+            { h: 1.38, w: 0.14 }
+        ];
+        crossBars.forEach(bar => {
+            const [lx1, ly1] = ciudadPT(cx - bar.w, cy, H + bar.h);
+            const [lx2, ly2] = ciudadPT(cx + bar.w, cy, H + bar.h);
+            mkSvg('line', {
+                x1: lx1.toFixed(3), y1: ly1.toFixed(3),
+                x2: lx2.toFixed(3), y2: ly2.toFixed(3),
+                stroke: '#D0D0D0', 'stroke-width': '0.07'
+            }, g);
+        });
+
+        /* Pequeño tripié/tope en la punta */
+        const [t1, t2] = ciudadPT(cx - 0.10, cy, H + antennaH);
+        const [t3, t4] = ciudadPT(cx + 0.10, cy, H + antennaH);
+        const [ap1, ap2] = ciudadPT(cx, cy, H + antennaH + 0.12);
+        mkSvg('line', { x1: t1.toFixed(3), y1: t2.toFixed(3), x2: ap1.toFixed(3), y2: ap2.toFixed(3), stroke: '#D0D0D0', 'stroke-width': '0.06' }, g);
+        mkSvg('line', { x1: t3.toFixed(3), y1: t4.toFixed(3), x2: ap1.toFixed(3), y2: ap2.toFixed(3), stroke: '#D0D0D0', 'stroke-width': '0.06' }, g);
+
+        /* Luz roja parpadeante en la punta */
+        const [lx, ly] = ciudadPT(cx, cy, H + antennaH + 0.18);
+        const light = mkSvg('circle', {
+            cx: lx.toFixed(3), cy: ly.toFixed(3), r: '0.16',
+            fill: CIUDAD_URGENTE_LUZ,
+            filter: `url(#${getFilter(CIUDAD_URGENTE_LUZ)})`
+        }, g);
+        /* Animación de pulso sutil (barata: solo opacidad) */
+        const anim = document.createElementNS(CIUDAD_SVGNS, 'animate');
+        anim.setAttribute('attributeName', 'opacity');
+        anim.setAttribute('values', '1;0.35;1');
+        anim.setAttribute('dur', '1.4s');
+        anim.setAttribute('repeatCount', 'indefinite');
+        light.appendChild(anim);
+    }
+    /* Luz roja normal sobre tejado solo si NO es urgente y es Oficio (12 niveles) */
+    else if (floors >= 12) {
+        const [lx, ly] = ciudadPT(cx, cy, H + 0.12);
+        mkSvg('circle', {
+            cx: lx.toFixed(3), cy: ly.toFixed(3), r: '0.13',
+            fill: '#FF2D2D',
+            filter: `url(#${getFilter('#FF2D2D')})`
+        }, g);
+        const [px, py] = ciudadPT(cx, cy, H);
+        mkSvg('line', {
+            x1: px.toFixed(3), y1: py.toFixed(3),
+            x2: lx.toFixed(3), y2: ly.toFixed(3),
+            stroke: '#FF2D2D', 'stroke-width': '0.06'
+        }, g);
+    }
+
+    /* Rótulo dorado */
+    const raw = (sol.cliente || '').trim();
+    const label = raw ? (raw.length > 18 ? raw.slice(0, 17) + '…' : raw) : 'Solicitud';
+    const fs = Math.max(0.32, Math.min(0.85, 4.8 / Math.max(label.length, 4)));
+    const zSign = H + (urgente ? 2.4 : 0.55) + fs * 0.55;
+
+    [-0.8, 0.8].forEach(dx => {
+        const a = ciudadPT(cx + dx, cy, Math.max(H - 0.02, 0));
+        const b = ciudadPT(cx + dx, cy, zSign - fs * 0.5);
+        mkSvg('line', { x1: a[0].toFixed(3), y1: a[1].toFixed(3), x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'ciudad-sign-post' }, g);
+    });
+    const cs = ciudadPT(cx, cy, zSign);
+    const t = mkSvg('text', {
+        x: cs[0].toFixed(3), y: cs[1].toFixed(3), 'text-anchor': 'middle',
+        'dominant-baseline': 'middle', class: 'ciudad-sign',
+        fill: signColor, 'font-size': fs.toFixed(3)
     }, g);
-    /* plaza central */
-    mk('polygon', {
-      points: [P(bx + 3, by + 3, 0), P(bx + 6, by + 3, 0),
-               P(bx + 6, by + 6, 0), P(bx + 3, by + 6, 0)].join(' '),
-      class: 'plaza'
-    }, g);
-    const c = PT(bx + 4.5, by + 4.5, 0.02);
-    mk('text', {
-      x: c[0].toFixed(3), y: c[1].toFixed(3), class: 'plate-label',
-      'text-anchor': 'middle', text: (block.name || 'Cuadra').toUpperCase()
-    }, g);
-  });
+    t.textContent = label;
 
-  /* --- 2. Edificios con auto-reacomodo ---
-     a) computeSlotAssignment: asigna altos al fondo, bajos al frente.
-     b) Se dibujan por profundidad ascendente (fondo → frente).
-     c) Desempate: a igual profundidad, el más alto va detrás. */
-  const items = [];
-  state.blocks.forEach((block, bi) => {
-    const [bx, by] = blockOrigin(bi);
-    const assignment = computeSlotAssignment(block.programs);
-    block.programs.forEach(prog => {
-      const slot = assignment.get(prog.id);
-      if (!slot) return;
-      const cx = bx + slot.x, cy = by + slot.y;
-      items.push({
-        block, prog, cx, cy,
-        height: prog.tasks.length,
-        depth: cx + cy
-      });
-    });
-  });
-  items.sort((a, b) => (a.depth - b.depth) || (b.height - a.height));
-  items.forEach(it => drawBuilding(it.block, it.prog, it.cx, it.cy, svg));
-
-  /* --- 3. Ajustar cámara --- */
-  if (needFit) { fitView(); needFit = false; }
-  else applyView();
+    const titleEl = mkSvg('title', {}, g);
+    titleEl.textContent =
+        (urgente ? '🚨 URGENTE · ' : '') +
+        (sol.cliente || 'Sin cliente') + '\n' +
+        'Avance: ' + sol.avance + '% · ' + (sol.medioSolicitud || 'Sin medio') + '\n' +
+        'Niveles: ' + floors +
+        (sol.responsables.length ? '\nResp: ' + sol.responsables.join(', ') : '') +
+        (sol.fechaEstimada ? '\nEntrega: ' + sol.fechaEstimada : '');
 }
 
-function drawBuilding(block, prog, cx, cy, parent) {
-  const floors = prog.tasks.length;
-  const H  = Math.max(floors, 1) * FH;
-  const x0 = cx - 1, x1 = cx + 1;
-  const y0 = cy - 1, y1 = cy + 1;
-  const selected = prog.id === selectedProgramId;
-
-  const g = mk('g', {
-    class: 'building' + (selected ? ' selected' : ''),
-    'data-bid': block.id, 'data-pid': prog.id
-  }, parent);
-
-  /* Caras visibles */
-  mk('polygon', {
-    points: [P(x1, y0, 0), P(x1, y1, 0), P(x1, y1, H), P(x1, y0, H)].join(' '),
-    class: 'face-r'
-  }, g);
-  mk('polygon', {
-    points: [P(x0, y1, 0), P(x1, y1, 0), P(x1, y1, H), P(x0, y1, H)].join(' '),
-    class: 'face-l'
-  }, g);
-  mk('polygon', {
-    points: [P(x0, y0, H), P(x1, y0, H), P(x1, y1, H), P(x0, y1, H)].join(' '),
-    class: 'face-t'
-  }, g);
-
-  /* Líneas de piso */
-  for (let f = 1; f < floors; f++) {
-    const z = f * FH;
-    const a = PT(x1, y0, z), b = PT(x1, y1, z);
-    mk('line', { x1: a[0].toFixed(3), y1: a[1].toFixed(3),
-                 x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'floorline' }, g);
-    const c = PT(x0, y1, z);
-    mk('line', { x1: c[0].toFixed(3), y1: c[1].toFixed(3),
-                 x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'floorline' }, g);
-  }
-
-  /* Ventanas: 4 por piso */
-  for (let f = 0; f < floors; f++) {
-    const zA = f * FH + FH * 0.18;
-    const zB = f * FH + FH * 0.82;
-    const wins = prog.tasks[f].windows;
-
-    const yRanges = [
-      [y0 + 0.20, y0 + 0.92],
-      [y0 + 1.08, y0 + 1.80]
-    ];
-    yRanges.forEach((r, k) => {
-      addWin(g, block, prog, f, k, [
-        P(x1, r[0], zA), P(x1, r[1], zA), P(x1, r[1], zB), P(x1, r[0], zB)
-      ], wins[k]);
-    });
-
-    const xRanges = [
-      [x1 - 0.92, x1 - 0.20],
-      [x0 + 0.20, x0 + 0.92]
-    ];
-    xRanges.forEach((r, k) => {
-      addWin(g, block, prog, f, 2 + k, [
-        P(r[0], y1, zA), P(r[1], y1, zA), P(r[1], y1, zB), P(r[0], y1, zB)
-      ], wins[2 + k]);
-    });
-  }
-
-  /* Antena decorativa en edificios altos */
-  if (floors >= 8) {
-    const top = PT(cx, cy, H);
-    const tip = PT(cx, cy, H + 0.9);
-    mk('line', { x1: top[0].toFixed(3), y1: top[1].toFixed(3),
-                 x2: tip[0].toFixed(3), y2: tip[1].toFixed(3), class: 'antenna' }, g);
-    mk('circle', { cx: tip[0].toFixed(3), cy: tip[1].toFixed(3), r: 0.07, class: 'antenna-light' }, g);
-  }
-
-  /* Rótulo de neón */
-  drawNeonSign(g, prog, cx, cy, H);
+/* ========================================================= */
+/* CÁMARA                                                    */
+/* ========================================================= */
+function fitCiudadView() {
+    const svg = document.getElementById('ciudadSvg');
+    if (!svg) return;
+    let b;
+    try { b = svg.getBBox(); } catch (e) { b = { x: 0, y: 0, width: 20, height: 20 }; }
+    if (!b || b.width === 0 || b.height === 0) { ciudadView = { x: -2, y: -2, w: 30, h: 30 }; applyCiudadView(); return; }
+    const pad = 2;
+    const rect = svg.getBoundingClientRect();
+    const aspect = rect.width > 0 && rect.height > 0 ? rect.width / rect.height : 1.6;
+    let h = b.height + pad * 2;
+    let w = h * aspect;
+    if (w > b.width + pad * 2) { w = b.width + pad * 2; h = w / aspect; }
+    ciudadView = { x: b.x - pad, y: b.y - pad, w, h };
+    applyCiudadView();
+}
+function applyCiudadView() {
+    if (!ciudadView) return;
+    const svg = document.getElementById('ciudadSvg');
+    if (!svg) return;
+    svg.setAttribute('viewBox',
+        `${ciudadView.x.toFixed(3)} ${ciudadView.y.toFixed(3)} ${ciudadView.w.toFixed(3)} ${ciudadView.h.toFixed(3)}`);
+}
+function zoomCiudad(k, ax, ay) {
+    if (!ciudadView) return;
+    const svg = document.getElementById('ciudadSvg');
+    const rect = svg.getBoundingClientRect();
+    let mx, my;
+    if (ax != null && ay != null) {
+        const s = Math.max(ciudadView.w / rect.width, ciudadView.h / rect.height);
+        mx = ciudadView.x + (ax - rect.left) * s;
+        my = ciudadView.y + (ay - rect.top) * s;
+    } else {
+        mx = ciudadView.x + ciudadView.w / 2;
+        my = ciudadView.y + ciudadView.h / 2;
+    }
+    ciudadView.x = mx - (mx - ciudadView.x) * k;
+    ciudadView.y = my - (my - ciudadView.y) * k;
+    ciudadView.w *= k; ciudadView.h *= k;
+    scheduleApplyCiudadView();
+}
+function setupCiudadInteraction() {
+    if (ciudadInteractionReady) return;
+    ciudadInteractionReady = true;
+    try {
+        const svg = document.getElementById('ciudadSvg');
+        if (!svg) return;
+        svg.addEventListener('wheel', e => { e.preventDefault(); zoomCiudad(e.deltaY > 0 ? 1.12 : 1/1.12, e.clientX, e.clientY); }, { passive: false });
+        svg.addEventListener('mousedown', e => {
+            if (e.button !== 0) return;
+            ciudadDrag = { x: e.clientX, y: e.clientY, vx: ciudadView ? ciudadView.x : 0, vy: ciudadView ? ciudadView.y : 0, moved: false };
+            ciudadSuppressClick = false;
+        });
+        window.addEventListener('mousemove', e => {
+            if (!ciudadDrag || !ciudadView) return;
+            const dx = e.clientX - ciudadDrag.x, dy = e.clientY - ciudadDrag.y;
+            if (!ciudadDrag.moved && Math.abs(dx) + Math.abs(dy) > 5) ciudadDrag.moved = true;
+            if (!ciudadDrag.moved) return;
+            const rect = svg.getBoundingClientRect();
+            const s = Math.max(ciudadView.w / rect.width, ciudadView.h / rect.height);
+            ciudadView.x = ciudadDrag.vx - dx * s;
+            ciudadView.y = ciudadDrag.vy - dy * s;
+            scheduleApplyCiudadView();
+        });
+        window.addEventListener('mouseup', () => {
+            if (ciudadDrag && ciudadDrag.moved) { ciudadSuppressClick = true; setTimeout(() => { ciudadSuppressClick = false; }, 80); }
+            ciudadDrag = null;
+        });
+        svg.addEventListener('click', e => {
+            if (ciudadSuppressClick) return;
+            const bld = e.target.closest('.ciudad-building');
+            if (!bld) return;
+            const sid = bld.getAttribute('data-sid');
+            if (!sid) return;
+            const sol = solicitudes.find(s => String(s.id) === String(sid));
+            if (sol) abrirFichaPorId(sol.id);
+        });
+        document.getElementById('btnCiudadZoomIn').addEventListener('click', () => zoomCiudad(0.8));
+        document.getElementById('btnCiudadZoomOut').addEventListener('click', () => zoomCiudad(1.25));
+        document.getElementById('btnCiudadFit').addEventListener('click', () => { lastCiudadHash = ''; fitCiudadView(); });
+    } catch (e) { console.error("[Visor] setup:", e); }
+}
+function scheduleCiudadRender() {
+    if (ciudadDebounceTimer) clearTimeout(ciudadDebounceTimer);
+    ciudadDebounceTimer = setTimeout(() => {
+        try { renderCiudad(); } catch (e) { console.error("[Visor] render:", e); }
+    }, 120);
 }
 
-function drawNeonSign(g, prog, cx, cy, H) {
-  const raw = (prog.name || '').trim();
-  const label = raw || 'Programa';
-  const color = prog.color || NEON[0];
-  const fid = neonFilter(color);
-
-  const fs = Math.max(0.15, Math.min(0.5, 2.9 / Math.max(label.length, 3)));
-  const zSign = H + 0.58;
-
-  [-0.62, 0.62].forEach(dx => {
-    const a = PT(cx + dx, cy, Math.max(H - 0.02, 0));
-    const b = PT(cx + dx, cy, zSign - fs * 0.55);
-    mk('line', {
-      x1: a[0].toFixed(3), y1: a[1].toFixed(3),
-      x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'sign-post'
-    }, g);
-  });
-
-  const cs = PT(cx, cy, zSign);
-  const t = mk('text', {
-    x: cs[0].toFixed(3),
-    y: cs[1].toFixed(3),
-    'text-anchor': 'middle',
-    'dominant-baseline': 'middle',
-    class: 'neon-sign',
-    fill: color,
-    'font-size': fs.toFixed(3),
-    filter: 'url(#' + fid + ')'
-  }, g);
-  t.textContent = label;
+/* ========================================================= */
+/* UTILIDADES                                                */
+/* ========================================================= */
+function hoyISO() { return fmtDate(new Date()); }
+function isoToDDMMYYYY(iso) { if (!iso) return ""; const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/); if (!m) return ""; return m[3] + "/" + m[2] + "/" + m[1]; }
+function ddmmyyyyToISO(str) {
+    if (!str) return "";
+    const s = String(str).trim().replace(/[.\-]/g, "/");
+    const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (!m) return "";
+    const d = parseInt(m[1],10), mo = parseInt(m[2],10), y = parseInt(m[3],10);
+    if (mo < 1 || mo > 12 || y < 1900 || y > 2100) return "";
+    const dim = new Date(y, mo, 0).getDate();
+    if (d < 1 || d > dim) return "";
+    return y + "-" + String(mo).padStart(2,"0") + "-" + String(d).padStart(2,"0");
 }
-
-function addWin(g, block, prog, f, k, pts, lit) {
-  mk('polygon', {
-    points: pts.join(' '),
-    class: 'win' + (lit ? ' lit' : ''),
-    'data-bid': block.id,
-    'data-pid': prog.id,
-    'data-f': f,
-    'data-k': k
-  }, g);
+function diasRestantes(fechaISO) {
+    if (!fechaISO) return null;
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    return Math.ceil((new Date(fechaISO + "T00:00:00") - hoy) / 86400000);
 }
-
-/* =========================================================
-   CÁMARA (viewBox)
-   ========================================================= */
-function fitView() {
-  const svg = document.getElementById('city');
-  if (!state.blocks.length) {
-    view = { x: -10, y: -10, w: 20, h: 20 };
-    applyView();
-    return;
-  }
-  const b = svg.getBBox();
-  const pad = 2.5;
-  view = {
-    x: b.x - pad,
-    y: b.y - pad,
-    w: Math.max(b.width + pad * 2, 1),
-    h: Math.max(b.height + pad * 2, 1)
-  };
-  applyView();
+function colorSemaforo(fechaISO) {
+    const d = diasRestantes(fechaISO);
+    if (d === null) return { color: "#27ae60", texto: "Sin fecha" };
+    if (d < 15) return { color: "#c0392b", texto: d < 0 ? "Vencida (" + Math.abs(d) + "d)" : d + "d" };
+    if (d <= 30) return { color: "#f39c12", texto: d + "d" };
+    return { color: "#27ae60", texto: d + "d" };
 }
-function applyView() {
-  if (!view) return;
-  document.getElementById('city')
-    .setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`);
+function semaforoPara(sol) { if (sol.completada) return { color: GRIS_COMPLETADO, texto: "Completada" }; return colorSemaforo(sol.fechaEstimada); }
+function pasaFiltroResp(sol) { return filtroResp.size === 0 || sol.responsables.some(r => filtroResp.has(r)); }
+function pasaBusqueda(sol) {
+    const q = (busquedaActual || "").trim().toLowerCase();
+    if (!q) return true;
+    const palabras = q.split(/\s+/).filter(Boolean);
+    const campos = [sol.cliente || "", sol.descripcion || "", sol.entregables || ""].map(c => c.toLowerCase());
+    return palabras.every(p => campos.some(c => c.includes(p)));
 }
-function zoom(k) {
-  if (!view) return;
-  const cx = view.x + view.w / 2;
-  const cy = view.y + view.h / 2;
-  view.w *= k; view.h *= k;
-  view.x = cx - view.w / 2;
-  view.y = cy - view.h / 2;
-  applyView();
+function pasaTodosFiltros(sol) { return pasaFiltroResp(sol) && pasaBusqueda(sol); }
+function setEstadoSync(estado, texto) {
+    const el = document.getElementById("estadoSync");
+    if (!el) return;
+    el.classList.remove("online", "sync", "error");
+    if (estado) el.classList.add(estado);
+    document.getElementById("textoSync").textContent = texto;
 }
-
-/* =========================================================
-   PANEL IZQUIERDO (cuadras y programas)
-   ========================================================= */
-function renderBlocks() {
-  const list = document.getElementById('blockList');
-  list.innerHTML = '';
-
-  if (!state.blocks.length) {
-    list.innerHTML = '<div class="empty">Aún no hay cuadras.<br>Crea la primera 👆</div>';
-    return;
-  }
-
-  state.blocks.forEach(block => {
-    const div = document.createElement('div');
-    div.className = 'block-item' + (block.id === selectedBlockId ? ' active' : '');
-
-    const progsHtml = block.programs.map(p => `
-      <div class="prog-row ${p.id === selectedProgramId ? 'sel' : ''}" data-pid="${p.id}">
-        <span class="dot" style="background:${p.color};opacity:${p.id === selectedProgramId ? 1 : .55}"></span>
-        <span class="pname">${esc(p.name)}</span>
-        <span class="ppct">${progProgress(p)}%</span>
-      </div>`).join('');
-
-    div.innerHTML = `
-      <div class="bi-head">
-        <input class="bi-name-input" value="${esc(block.name)}" maxlength="24"
-               data-bid="${block.id}" title="Haz clic para renombrar la cuadra">
-        <span class="bi-count">${block.programs.length}/${MAX_PROGS}</span>
-      </div>
-      <div class="prog-list">${progsHtml || '<div style="font-size:11px;color:#3f6390;padding:2px 6px">Sin programas</div>'}</div>
-      <div class="bi-actions">
-        <button class="btn mini" data-act="add" ${block.programs.length >= MAX_PROGS ? 'disabled' : ''}>＋ Programa</button>
-        <button class="btn mini ghost" data-act="del">🗑️</button>
-      </div>`;
-
-    /* --- Nombre de la cuadra editable --- */
-    const nameInput = div.querySelector('.bi-name-input');
-    nameInput.oninput = e => {
-      block.name = e.target.value;
-      render(); // refresca el rótulo del suelo en el SVG
-    };
-    nameInput.onclick    = e => e.stopPropagation();
-    nameInput.onmousedown = e => e.stopPropagation();
-    nameInput.onkeydown  = e => { if (e.key === 'Enter') e.target.blur(); };
-
-    div.querySelector('[data-act="add"]').onclick = e => {
-      e.stopPropagation();
-      openModal(block.id);
-    };
-    div.querySelector('[data-act="del"]').onclick = e => {
-      e.stopPropagation();
-      deleteBlock(block.id);
-    };
-    div.querySelectorAll('.prog-row').forEach(row => {
-      row.onclick = e => {
-        e.stopPropagation();
-        selectedProgramId = +row.dataset.pid;
-        selectedBlockId = block.id;
-        render(); renderBlocks(); renderDetail();
-      };
-    });
-    div.onclick = () => {
-      selectedBlockId = block.id;
-      renderBlocks(); render();
-    };
-
-    list.appendChild(div);
-  });
+function limpiarFiltros() {
+    filtroResp.clear(); busquedaActual = "";
+    document.getElementById("buscador").value = "";
+    const b = document.querySelector(".btn-clear-busqueda"); if (b) b.classList.remove("visible");
+    actualizarChips();
 }
+function normalizarUrl(u) { if (!u) return ""; u = u.trim(); if (!/^https?:\/\//i.test(u)) u = "https://" + u; return u; }
 
-/* =========================================================
-   PANEL DERECHO (detalle y avance)
-   ========================================================= */
-function renderDetail() {
-  const box = document.getElementById('detail');
-  const prog = findProgram(selectedProgramId);
-
-  if (!prog) {
-    box.innerHTML = `
-      <div class="empty-detail">
-        <div class="big">🏢</div>
-        <p>Selecciona un edificio en la ciudad<br>para gestionar su avance.</p>
-      </div>`;
-    return;
-  }
-
-  const block = blockOfProgram(prog.id);
-  const pct = progProgress(prog);
-  const color = prog.color || NEON[0];
-
-  let html = `
-    <div class="detail-head">
-      <input class="name-input" id="progNameEdit" value="${esc(prog.name)}" maxlength="30">
-      <div class="sub">${esc(block ? block.name : '')} · ${prog.tasks.length} niveles · ${prog.tasks.length * 4} ventanas</div>
-    </div>
-
-    <div class="color-row">
-      <span>Rótulo de neón</span>
-      <input type="color" id="signColor" value="${color}">
-      <div class="swatches" id="signSwatches">
-        ${NEON.map(c => `<button class="swatch ${c.toLowerCase() === color.toLowerCase() ? 'active' : ''}"
-            data-color="${c}" style="background:${c}" title="${c}"></button>`).join('')}
-      </div>
-    </div>
-
-    <div class="progress-wrap">
-      <div class="progress-label"><span>Avance total</span><span>${pct}%</span></div>
-      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-    </div>
-
-    <div class="floors-head">
-      <span>Niveles del edificio</span>
-      <span class="level-actions">
-        <button class="btn mini" id="addLevel" title="Añadir un nivel">＋ Nivel</button>
-        <button class="btn mini" id="remLevel" title="Quitar el último nivel">－ Nivel</button>
-      </span>
-    </div>
-    <div class="floors">`;
-
-  for (let f = prog.tasks.length - 1; f >= 0; f--) {
-    const t = prog.tasks[f];
-    const lit = t.windows.filter(Boolean).length;
-    const p = lit * 25;
-    html += `
-      <div class="floor">
-        <div class="floor-row">
-          <span class="floor-num">N${f + 1}</span>
-          <input class="task-input" data-f="${f}" value="${esc(t.name)}" maxlength="26">
-          <span class="floor-pct ${p === 100 ? 'done' : ''}">${p}%</span>
-          <button class="floor-del" data-f="${f}" title="Eliminar este nivel">✕</button>
-        </div>
-        <div class="wins">
-          ${t.windows.map((w, k) => `
-            <button class="winbtn ${w ? 'on' : ''}" data-f="${f}" data-k="${k}"
-                    title="Ventana ${k + 1} · 25%"></button>`).join('')}
-        </div>
-      </div>`;
-  }
-
-  html += `</div><button class="btn danger" id="delProg">Eliminar programa</button>`;
-  box.innerHTML = html;
-
-  box.querySelectorAll('.winbtn').forEach(btn => {
-    btn.onclick = () => {
-      const f = +btn.dataset.f, k = +btn.dataset.k;
-      prog.tasks[f].windows[k] = !prog.tasks[f].windows[k];
-      render(); renderDetail(); renderBlocks();
-    };
-  });
-
-  box.querySelectorAll('.task-input').forEach(inp => {
-    inp.oninput = () => { prog.tasks[+inp.dataset.f].name = inp.value; };
-  });
-  document.getElementById('progNameEdit').oninput = e => {
-    prog.name = e.target.value;
-    render(); renderBlocks();
-  };
-
-  const colorInput = document.getElementById('signColor');
-  const markSwatches = () => {
-    box.querySelectorAll('#signSwatches .swatch').forEach(sw => {
-      sw.classList.toggle('active',
-        sw.dataset.color.toLowerCase() === (prog.color || '').toLowerCase());
-    });
-  };
-  colorInput.oninput = () => {
-    prog.color = colorInput.value;
-    markSwatches();
+function onBuscar() {
+    busquedaActual = document.getElementById("buscador").value;
+    const btn = document.querySelector(".btn-clear-busqueda");
+    if (btn) btn.classList.toggle("visible", busquedaActual.trim().length > 0);
+    render(); renderBuscadorResultados();
+}
+function limpiarBusqueda() {
+    document.getElementById("buscador").value = ""; busquedaActual = "";
+    const btn = document.querySelector(".btn-clear-busqueda"); if (btn) btn.classList.remove("visible");
+    const c = document.getElementById("buscadorResultados"); c.classList.remove("visible"); c.innerHTML = "";
     render();
-  };
-  box.querySelectorAll('#signSwatches .swatch').forEach(sw => {
-    sw.onclick = () => {
-      prog.color = sw.dataset.color;
-      colorInput.value = prog.color;
-      markSwatches();
-      render();
-    };
-  });
+}
+function resaltarCoincidencias(texto, palabras) {
+    const c = document.createElement("span");
+    if (!texto) { c.textContent = ""; return c; }
+    if (!palabras.length) { c.textContent = texto; return c; }
+    const low = texto.toLowerCase(); const marcas = [];
+    palabras.forEach(p => { if (!p) return; let i = 0; while ((i = low.indexOf(p, i)) !== -1) { marcas.push({ start: i, end: i + p.length }); i += p.length; } });
+    if (!marcas.length) { c.textContent = texto; return c; }
+    marcas.sort((a,b) => a.start - b.start);
+    const fusion = [];
+    marcas.forEach(r => { const u = fusion[fusion.length-1]; if (u && r.start <= u.end) u.end = Math.max(u.end, r.end); else fusion.push({ start: r.start, end: r.end }); });
+    let cur = 0;
+    fusion.forEach(r => {
+        if (r.start > cur) c.appendChild(document.createTextNode(texto.slice(cur, r.start)));
+        const s = document.createElement("span"); s.className = "match"; s.textContent = texto.slice(r.start, r.end); c.appendChild(s);
+        cur = r.end;
+    });
+    if (cur < texto.length) c.appendChild(document.createTextNode(texto.slice(cur)));
+    return c;
+}
+function renderBuscadorResultados() {
+    const cont = document.getElementById("buscadorResultados");
+    const q = (busquedaActual || "").trim();
+    if (!q) { cont.classList.remove("visible"); cont.innerHTML = ""; return; }
+    const palabras = q.toLowerCase().split(/\s+/).filter(Boolean);
+    const resultados = solicitudes.filter(sol => {
+        const campos = [sol.cliente || "", sol.descripcion || "", sol.entregables || ""].map(c => c.toLowerCase());
+        return palabras.every(p => campos.some(c => c.includes(p))) && pasaFiltroResp(sol);
+    });
+    resultados.sort((a, b) => {
+        if (a.completada !== b.completada) return a.completada ? 1 : -1;
+        return (b.fechaEstimada || b.fechaReal || "").localeCompare(a.fechaEstimada || a.fechaReal || "");
+    });
+    cont.innerHTML = "";
+    if (!resultados.length) { cont.innerHTML = '<div class="buscador-vacio">Sin coincidencias.</div>'; cont.classList.add("visible"); return; }
+    const h = document.createElement("div");
+    h.className = "buscador-grupo-titulo";
+    h.textContent = resultados.length + " coincidencia" + (resultados.length === 1 ? "" : "s");
+    cont.appendChild(h);
+    resultados.slice(0, 60).forEach(sol => {
+        const item = document.createElement("div"); item.className = "buscador-item";
+        const sem = semaforoPara(sol);
+        const fechaTxt = sol.completada ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha") : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha");
+        const tit = document.createElement("div"); tit.className = "titulo";
+        const tc = document.createElement("span"); tc.appendChild(resaltarCoincidencias(sol.cliente || "(Sin cliente)", palabras));
+        if (sol.urgente) {
+            const urg = document.createElement("span");
+            urg.className = "estado";
+            urg.style.background = "var(--aya-vino)";
+            urg.textContent = "🚨 URGENTE";
+            tit.appendChild(urg);
+        }
+        const est = document.createElement("span"); est.className = "estado"; est.style.background = sem.color; est.textContent = sol.completada ? "Completada" : sem.texto;
+        tit.appendChild(tc); tit.appendChild(est);
+        const det = document.createElement("div"); det.className = "detalle";
+        let txt = fechaTxt + " · " + sol.avance + "% avance";
+        if (sol.responsables.length) txt += " · " + sol.responsables.join(", ");
+        if (sol.medioSolicitud) txt += " · " + sol.medioSolicitud;
+        det.textContent = txt;
+        item.appendChild(tit); item.appendChild(det);
+        item.addEventListener("click", () => {
+            const fr = sol.completada ? sol.fechaReal : sol.fechaEstimada;
+            if (fr) { const d = new Date(fr + "T00:00:00"); mesActual = d.getMonth(); anioActual = d.getFullYear(); sincronizarSelects(); render(); }
+            cont.classList.remove("visible"); abrirFichaPorId(sol.id);
+        });
+        cont.appendChild(item);
+    });
+    cont.classList.add("visible");
+}
+document.getElementById("buscador").addEventListener("focus", () => { if (busquedaActual.trim()) renderBuscadorResultados(); });
+document.addEventListener("click", e => { const b = document.querySelector(".buscador"); if (b && !b.contains(e.target)) document.getElementById("buscadorResultados").classList.remove("visible"); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.getElementById("buscadorResultados").classList.remove("visible"); });
 
-  document.getElementById('addLevel').onclick = () => {
-    if (prog.tasks.length >= MAX_LEVELS) return;
-    prog.tasks.push(newLevel(prog.tasks.length + 1));
-    render(); renderBlocks(); renderDetail();
-  };
-  document.getElementById('remLevel').onclick = () => {
-    if (prog.tasks.length <= 1) return;
-    prog.tasks.pop();
-    render(); renderBlocks(); renderDetail();
-  };
-  box.querySelectorAll('.floor-del').forEach(btn => {
-    btn.onclick = () => {
-      if (prog.tasks.length <= 1) return;
-      prog.tasks.splice(+btn.dataset.f, 1);
-      render(); renderBlocks(); renderDetail();
-    };
-  });
-
-  document.getElementById('delProg').onclick = () => {
-    if (!confirm('¿Eliminar el programa "' + prog.name + '"?')) return;
-    const b = blockOfProgram(prog.id);
-    if (b) b.programs = b.programs.filter(p => p.id !== prog.id);
-    selectedProgramId = null;
-    renderAll();
-  };
+/* ========================================================= */
+/* MAPEO MODELO <-> DB                                       */
+/* ========================================================= */
+function toDB(sol) {
+    return { id: sol.id, cliente: sol.cliente || "", fecha_solicitud: sol.fechaSolicitud || null, descripcion: sol.descripcion || "",
+        fecha_estimada: sol.fechaEstimada || null, avance: sol.avance || 0, responsables: sol.responsables || [],
+        entregables: sol.entregables || "", enlace: (sol.enlaces || []).join("\n"), fecha_real: sol.fechaReal || null,
+        completada: !!sol.completada, medio_solicitud: sol.medioSolicitud || "", oficio_consecutivo: sol.oficioConsecutivo || "",
+        requiere_oficio_entrega: !!sol.requiereOficioEntrega, oficio_entrega: sol.oficioEntrega || "",
+        urgente: !!sol.urgente };
+}
+function fromDB(row) {
+    return { id: row.id, cliente: row.cliente || "", fechaSolicitud: row.fecha_solicitud || "", descripcion: row.descripcion || "",
+        fechaEstimada: row.fecha_estimada || "", avance: row.avance || 0, responsables: row.responsables || [],
+        entregables: row.entregables || "", enlaces: row.enlace ? String(row.enlace).split("\n").map(s => s.trim()).filter(Boolean) : [],
+        fechaReal: row.fecha_real || "", completada: !!row.completada, medioSolicitud: row.medio_solicitud || "",
+        oficioConsecutivo: row.oficio_consecutivo || "", requiereOficioEntrega: !!row.requiere_oficio_entrega, oficioEntrega: row.oficio_entrega || "",
+        urgente: !!row.urgente };
+}
+function crearSolicitudVacia() {
+    return { id: "s_" + Date.now() + "_" + Math.floor(Math.random()*1000), cliente: "", fechaSolicitud: hoyISO(), descripcion: "",
+        fechaEstimada: "", avance: 0, responsables: [], entregables: "", enlaces: [], fechaReal: "", completada: false,
+        medioSolicitud: "", oficioConsecutivo: "", requiereOficioEntrega: false, oficioEntrega: "",
+        urgente: false };
 }
 
-/* =========================================================
-   ACCIONES
-   ========================================================= */
-function renderAll() {
-  render();
-  renderBlocks();
-  renderDetail();
+/* ========================================================= */
+/* SUPABASE                                                  */
+/* ========================================================= */
+async function cargarDesdeNube() {
+    if (!supabaseClient) {
+        console.error("Supabase no disponible.");
+        setEstadoSync("error", "Supabase no disponible");
+        solicitudes = [];
+        return;
+    }
+    setEstadoSync("sync", "Sincronizando…");
+    try {
+        const { data, error } = await supabaseClient
+            .from("solicitudes")
+            .select("*")
+            .order("fecha_estimada", { ascending: true, nullsFirst: false });
+        if (error) throw error;
+        solicitudes = (data || []).map(fromDB);
+        setEstadoSync("online", "En línea · " + solicitudes.length + " registros");
+    } catch (e) {
+        console.error("Error cargando desde Supabase:", e);
+        setEstadoSync("error", "Error de conexión");
+        alert("No se pudo conectar a Supabase:\n\n" + (e.message || e));
+        solicitudes = [];
+    }
+}
+async function insertarEnNube(sol) {
+    if (!supabaseClient) { alert("Supabase no disponible."); return false; }
+    setEstadoSync("sync", "Guardando…");
+    const { error } = await supabaseClient.from("solicitudes").insert([toDB(sol)]);
+    if (error) {
+        console.error("Error insertando:", error);
+        setEstadoSync("error", "Error al guardar");
+        alert("Error al guardar:\n\n" + error.message);
+        return false;
+    }
+    setEstadoSync("online", "En línea");
+    return true;
+}
+async function actualizarEnNube(sol) {
+    if (!supabaseClient) { alert("Supabase no disponible."); return false; }
+    setEstadoSync("sync", "Guardando…");
+    const { error } = await supabaseClient.from("solicitudes").update(toDB(sol)).eq("id", sol.id);
+    if (error) {
+        console.error("Error actualizando:", error);
+        setEstadoSync("error", "Error al guardar");
+        alert("Error al guardar:\n\n" + error.message);
+        return false;
+    }
+    setEstadoSync("online", "En línea");
+    return true;
+}
+async function eliminarEnNube(id) {
+    if (!supabaseClient) { alert("Supabase no disponible."); return false; }
+    setEstadoSync("sync", "Eliminando…");
+    const { error } = await supabaseClient.from("solicitudes").delete().eq("id", id);
+    if (error) {
+        console.error("Error eliminando:", error);
+        setEstadoSync("error", "Error al eliminar");
+        alert("Error al eliminar:\n\n" + error.message);
+        return false;
+    }
+    setEstadoSync("online", "En línea");
+    return true;
 }
 
-function deleteBlock(id) {
-  const b = findBlock(id);
-  if (!b) return;
-  if (!confirm('¿Eliminar "' + b.name + '" y todos sus programas?')) return;
-  state.blocks = state.blocks.filter(x => x.id !== id);
-  if (selectedBlockId === id) selectedBlockId = null;
-  if (!findProgram(selectedProgramId)) selectedProgramId = null;
-  needFit = true;
-  renderAll();
+/* ========================================================= */
+/* NAVEGADOR MES/AÑO                                         */
+/* ========================================================= */
+function poblarSelects() {
+    const sm = document.getElementById("selMes"), sa = document.getElementById("selAnio");
+    sm.innerHTML = MESES.map((m, i) => `<option value="${i}">${m}</option>`).join("");
+    const anios = new Set();
+    for (let y = anioActual - 5; y <= anioActual + 5; y++) anios.add(y);
+    solicitudes.forEach(s => [s.fechaEstimada, s.fechaReal, s.fechaSolicitud].forEach(f => { if (f) anios.add(new Date(f + "T00:00:00").getFullYear()); }));
+    sa.innerHTML = Array.from(anios).sort((a,b) => a-b).map(y => `<option value="${y}">${y}</option>`).join("");
+    sincronizarSelects();
+}
+function sincronizarSelects() {
+    const sm = document.getElementById("selMes"), sa = document.getElementById("selAnio");
+    sm.value = mesActual;
+    if (!Array.from(sa.options).some(o => parseInt(o.value, 10) === anioActual)) {
+        const o = document.createElement("option"); o.value = anioActual; o.textContent = anioActual; sa.appendChild(o);
+        const opts = Array.from(sa.options).sort((a,b) => parseInt(a.value,10) - parseInt(b.value,10));
+        sa.innerHTML = ""; opts.forEach(x => sa.appendChild(x));
+    }
+    sa.value = anioActual;
+}
+function cambiarMes(delta) {
+    mesActual += delta;
+    if (mesActual < 0) { mesActual = 11; anioActual--; }
+    else if (mesActual > 11) { mesActual = 0; anioActual++; }
+    sincronizarSelects(); render();
+}
+function irAMes() { mesActual = parseInt(document.getElementById("selMes").value, 10); anioActual = parseInt(document.getElementById("selAnio").value, 10); render(); }
+function irHoy() { mesActual = new Date().getMonth(); anioActual = new Date().getFullYear(); sincronizarSelects(); render(); }
+
+/* ========================================================= */
+/* FILTRO RESPONSABLE                                        */
+/* ========================================================= */
+function actualizarChips() {
+    document.querySelectorAll(".chip").forEach(chip => {
+        const r = chip.dataset.resp;
+        if (r === "") chip.classList.toggle("chip-activo", filtroResp.size === 0);
+        else chip.classList.toggle("chip-activo", filtroResp.has(r));
+    });
+    const av = document.getElementById("avisoFiltro");
+    if (av) av.textContent = filtroResp.size === 0 ? "" : "Mostrando: " + Array.from(filtroResp).join(", ");
+}
+document.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+        const r = chip.dataset.resp;
+        if (r === "") filtroResp.clear(); else filtroResp.has(r) ? filtroResp.delete(r) : filtroResp.add(r);
+        actualizarChips(); render();
+        if (busquedaActual.trim()) renderBuscadorResultados();
+        scheduleCiudadRender();
+    });
+});
+
+/* ========================================================= */
+/* RENDER PRINCIPAL                                          */
+/* ========================================================= */
+function render() {
+    const procesoMes = [], procesoSinFecha = [], compMes = [], compSinFecha = [];
+    solicitudes.filter(s => !s.completada).filter(pasaTodosFiltros).forEach(s => {
+        if (!s.fechaEstimada) { procesoSinFecha.push(s); return; }
+        const d = new Date(s.fechaEstimada + "T00:00:00");
+        if (d.getMonth() === mesActual && d.getFullYear() === anioActual) procesoMes.push(s);
+    });
+    procesoMes.sort((a,b) => diasRestantes(a.fechaEstimada) - diasRestantes(b.fechaEstimada));
+    procesoSinFecha.sort((a,b) => (a.cliente || "").localeCompare(b.cliente || ""));
+    solicitudes.filter(s => s.completada).filter(pasaTodosFiltros).forEach(s => {
+        if (!s.fechaReal) { compSinFecha.push(s); return; }
+        const d = new Date(s.fechaReal + "T00:00:00");
+        if (d.getMonth() === mesActual && d.getFullYear() === anioActual) compMes.push(s);
+    });
+    compMes.sort((a,b) => (b.fechaReal || "").localeCompare(a.fechaReal || ""));
+    compSinFecha.sort((a,b) => (a.cliente || "").localeCompare(b.cliente || ""));
+
+    document.getElementById("tituloProceso").textContent = `En proceso · ${MESES[mesActual]} ${anioActual}`;
+    document.getElementById("tituloCompletados").textContent = `Completados · ${MESES[mesActual]} ${anioActual}`;
+    document.getElementById("contProceso").textContent = procesoMes.length;
+    document.getElementById("contCompletados").textContent = compMes.length;
+    renderLista("listaProceso", procesoMes, "Sin solicitudes en proceso este mes.");
+    renderLista("listaCompletados", compMes, "Sin solicitudes completadas este mes.");
+    renderSinFecha("sfProceso", "sfProcesoTitulo", "sfProcesoLista", procesoSinFecha, "proceso");
+    renderSinFecha("sfCompletados", "sfCompletadosTitulo", "sfCompletadosLista", compSinFecha, "completado");
+    renderAlertaMeses();
+}
+function renderLista(id, arr, msg) {
+    const el = document.getElementById(id); el.innerHTML = "";
+    if (!arr.length) el.innerHTML = `<div class="vacio-pila">${msg}</div>`;
+    else arr.forEach(s => el.appendChild(crearFilaDOM(s)));
+}
+function renderSinFecha(cid, tid, lid, arr, tipo) {
+    const c = document.getElementById(cid);
+    if (!arr.length) { c.style.display = "none"; return; }
+    c.style.display = "block";
+    const et = tipo === "proceso" ? "sin fecha estimada" : "sin fecha real";
+    document.getElementById(tid).textContent = `⚠ ${arr.length} registro(s) ${et}`;
+    const l = document.getElementById(lid); l.innerHTML = "";
+    arr.forEach(s => { const f = crearFilaDOM(s); f.style.opacity = "0.85"; l.appendChild(f); });
+}
+function renderAlertaMeses() {
+    const cont = document.getElementById("alertaMeses"), chips = document.getElementById("alertaChips");
+    const pend = solicitudes.filter(s => !s.completada).filter(pasaTodosFiltros).filter(s => {
+        if (!s.fechaEstimada) return false;
+        const d = new Date(s.fechaEstimada + "T00:00:00");
+        const y = d.getFullYear(), m = d.getMonth();
+        return (y < anioActual) || (y === anioActual && m < mesActual);
+    });
+    const g = {};
+    pend.forEach(s => { const d = new Date(s.fechaEstimada + "T00:00:00"); const k = d.getFullYear() + "-" + d.getMonth(); if (!g[k]) g[k] = { anio: d.getFullYear(), mes: d.getMonth(), count: 0 }; g[k].count++; });
+    const arr = Object.values(g).sort((a,b) => (b.anio - a.anio) || (b.mes - a.mes));
+    if (!arr.length) { cont.style.display = "none"; chips.innerHTML = ""; return; }
+    cont.style.display = "flex"; chips.innerHTML = "";
+    arr.forEach(g => {
+        const b = document.createElement("button");
+        b.className = "alerta-chip";
+        b.title = `Ir a ${MESES[g.mes]} ${g.anio}`;
+        b.innerHTML = `${MESES[g.mes]} ${g.anio}<span class="num">${g.count}</span>`;
+        b.addEventListener("click", () => { mesActual = g.mes; anioActual = g.anio; sincronizarSelects(); render(); });
+        chips.appendChild(b);
+    });
+}
+function crearFilaDOM(sol) {
+    const fila = document.createElement("div");
+    fila.className = "fila" + (sol.completada ? " completada" : "");
+    const sem = semaforoPara(sol);
+    /* Urgente: borde vino para destacar en la lista */
+    fila.style.borderLeftColor = sol.urgente ? "var(--aya-vino)" : sem.color;
+    const info = document.createElement("div"); info.className = "info";
+    const h3 = document.createElement("h3"); h3.textContent = sol.cliente || "(Sin cliente)";
+    const meta = document.createElement("div"); meta.className = "meta";
+    const ft = sol.completada ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha") : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha");
+    meta.appendChild(document.createTextNode(ft));
+    meta.appendChild(document.createTextNode(" · "));
+    const ba = document.createElement("span");
+    ba.className = "badge-avance" + (sol.avance >= 100 ? " completo" : "");
+    ba.textContent = sol.avance + "% avance";
+    meta.appendChild(ba);
+    if (sol.medioSolicitud) {
+        meta.appendChild(document.createTextNode(" · "));
+        const bm = document.createElement("span"); bm.className = "badge-medio";
+        bm.textContent = (sol.medioSolicitud === "Oficio" && sol.oficioConsecutivo) ? "Oficio " + sol.oficioConsecutivo : sol.medioSolicitud;
+        meta.appendChild(bm);
+    }
+    if (sol.urgente) {
+        meta.appendChild(document.createTextNode(" · "));
+        const bU = document.createElement("span");
+        bU.className = "badge-urgente";
+        bU.textContent = "🚨 URGENTE";
+        meta.appendChild(bU);
+    }
+    if (sol.enlaces && sol.enlaces.length > 0) {
+        meta.appendChild(document.createTextNode(" · "));
+        const a = document.createElement("a"); a.className = "badge-enlace";
+        a.href = normalizarUrl(sol.enlaces[0]); a.target = "_blank"; a.rel = "noopener noreferrer";
+        a.textContent = sol.enlaces.length === 1 ? "🔗 Enlace" : "🔗 " + sol.enlaces.length + " enlaces";
+        a.title = sol.enlaces.join("\n");
+        a.addEventListener("click", e => e.stopPropagation());
+        meta.appendChild(a);
+    }
+    if (sol.responsables.length) meta.appendChild(document.createTextNode(" · " + sol.responsables.join(", ")));
+    info.appendChild(h3); info.appendChild(meta);
+    const semSpan = document.createElement("span");
+    semSpan.className = "sem"; semSpan.style.background = sem.color; semSpan.textContent = sem.texto;
+    fila.appendChild(info); fila.appendChild(semSpan);
+    fila.addEventListener("click", () => abrirFichaPorId(sol.id));
+    return fila;
 }
 
-/* --- Modal --- */
-let modalBlockId = null;
-
-function syncProgSwatches() {
-  const val = (document.getElementById('progColor').value || '').toLowerCase();
-  document.querySelectorAll('#progSwatches .swatch').forEach(sw => {
-    sw.classList.toggle('active', sw.dataset.color.toLowerCase() === val);
-  });
+/* ========================================================= */
+/* FICHA                                                     */
+/* ========================================================= */
+function nuevaSolicitud() { if (cargando || solEnEdicion) return; abrirFicha(crearSolicitudVacia(), true); }
+function abrirFichaPorId(id) {
+    const sol = solicitudes.find(s => String(s.id) === String(id));
+    if (!sol) { alert("Esta solicitud ya no existe."); return; }
+    abrirFicha(sol, false);
 }
-function openModal(blockId) {
-  const b = findBlock(blockId);
-  if (!b || b.programs.length >= MAX_PROGS) return;
-  modalBlockId = blockId;
-  document.getElementById('progName').value = 'Programa ' + (b.programs.length + 1);
-  document.getElementById('progLevels').value = 5;
-  document.getElementById('progColor').value =
-    NEON[Math.floor(Math.random() * NEON.length)];
-  syncProgSwatches();
-  document.getElementById('modal').classList.add('show');
-  setTimeout(() => document.getElementById('progName').select(), 40);
-}
-function closeModal() {
-  document.getElementById('modal').classList.remove('show');
-  modalBlockId = null;
-}
-function createProgram() {
-  const b = findBlock(modalBlockId);
-  if (!b) return;
-  if (b.programs.length >= MAX_PROGS) { closeModal(); return; }
+function abrirFicha(sol, isNew) {
+    solEnEdicion = sol; solEnEdicionEsNueva = isNew; enlacesEnEdicion = [...(sol.enlaces || [])];
+    document.getElementById("buscadorResultados").classList.remove("visible");
+    const sem = semaforoPara(sol);
+    const m = document.getElementById("modalContenido");
+    m.style.borderTopColor = sol.urgente ? "var(--aya-vino)" : sem.color;
+    m.innerHTML = "";
+    const h2 = document.createElement("h2");
+    h2.innerHTML = "<span>" + (isNew ? "Nueva solicitud" : "Ficha de solicitud") + "</span>";
+    const semSpan = document.createElement("span");
+    semSpan.className = "sem"; semSpan.style.background = sem.color; semSpan.textContent = sem.texto;
+    h2.appendChild(semSpan); m.appendChild(h2);
 
-  const name = (document.getElementById('progName').value || '').trim() || 'Programa';
-  let n = parseInt(document.getElementById('progLevels').value, 10);
-  if (isNaN(n)) n = 1;
-  n = Math.max(1, Math.min(MAX_LEVELS, n));
-  const color = document.getElementById('progColor').value || NEON[0];
-
-  const prog = makeProgram(name, n, color);
-  b.programs.push(prog);
-
-  selectedBlockId = b.id;
-  selectedProgramId = prog.id;
-  closeModal();
-  renderAll();
-}
-
-/* =========================================================
-   EVENTOS GLOBALES
-   ========================================================= */
-function wireUI() {
-  document.getElementById('progSwatches').innerHTML = NEON.map(c =>
-    `<button class="swatch" data-color="${c}" style="background:${c}" title="${c}"></button>`
-  ).join('');
-  document.querySelectorAll('#progSwatches .swatch').forEach(sw => {
-    sw.onclick = () => {
-      document.getElementById('progColor').value = sw.dataset.color;
-      syncProgSwatches();
-    };
-  });
-  document.getElementById('progColor').oninput = syncProgSwatches;
-
-  document.getElementById('btnNewBlock').onclick = () => {
-    const b = { id: state.nextId++, name: 'Cuadra ' + (state.blocks.length + 1), programs: [] };
-    state.blocks.push(b);
-    selectedBlockId = b.id;
-    needFit = true;
-    renderAll();
-  };
-
-  document.getElementById('btnZoomIn').onclick  = () => zoom(0.8);
-  document.getElementById('btnZoomOut').onclick = () => zoom(1.25);
-  document.getElementById('btnFit').onclick     = () => { fitView(); };
-
-  document.getElementById('cancelProg').onclick = closeModal;
-  document.getElementById('createProg').onclick = createProgram;
-  document.getElementById('modal').addEventListener('click', e => {
-    if (e.target.id === 'modal') closeModal();
-  });
-  document.getElementById('progLevels').addEventListener('keydown', e => {
-    if (e.key === 'Enter') createProgram();
-  });
-
-  const svg = document.getElementById('city');
-
-  svg.addEventListener('click', e => {
-    if (suppressClick) return;
-
-    const win = e.target.closest('.win');
-    if (win) {
-      const prog = findProgram(+win.dataset.pid);
-      if (!prog) return;
-      const f = +win.dataset.f, k = +win.dataset.k;
-      prog.tasks[f].windows[k] = !prog.tasks[f].windows[k];
-      selectedProgramId = prog.id;
-      selectedBlockId   = +win.dataset.bid;
-      render(); renderBlocks(); renderDetail();
-      return;
+    function campo(lblTxt, inputEl) {
+        const d = document.createElement("div"); d.className = "campo";
+        const l = document.createElement("label"); l.textContent = lblTxt;
+        d.appendChild(l); d.appendChild(inputEl); m.appendChild(d); return d;
+    }
+    function campoFecha(lblTxt, inputId, initialISO, onChange) {
+        const d = document.createElement("div"); d.className = "campo";
+        const l = document.createElement("label"); l.textContent = lblTxt;
+        const w = document.createElement("div"); w.className = "campo-fecha";
+        const ti = document.createElement("input");
+        ti.type = "text"; ti.id = inputId; ti.placeholder = "dd/mm/aaaa"; ti.maxLength = 10;
+        ti.autocomplete = "off"; ti.inputMode = "numeric";
+        ti.value = isoToDDMMYYYY(initialISO); ti.dataset.isoValue = initialISO || "";
+        ti.getISO = () => ti.dataset.isoValue || "";
+        ti.setISO = iso => { ti.dataset.isoValue = iso || ""; ti.value = isoToDDMMYYYY(iso || ""); ti.classList.remove("invalido"); };
+        const dp = document.createElement("input"); dp.type = "date"; dp.className = "date-hidden-picker"; dp.tabIndex = -1;
+        const bc = document.createElement("button"); bc.type = "button"; bc.className = "btn-calendario"; bc.textContent = "📅";
+        bc.addEventListener("click", e => { e.preventDefault(); dp.value = ti.getISO() || "";
+            if (typeof dp.showPicker === "function") { try { dp.showPicker(); return; } catch(err){} }
+            dp.style.pointerEvents = "auto"; dp.focus(); dp.click(); setTimeout(() => { dp.style.pointerEvents = "none"; }, 200);
+        });
+        dp.addEventListener("change", () => { if (!dp.value) return; ti.value = isoToDDMMYYYY(dp.value); ti.dataset.isoValue = dp.value; ti.classList.remove("invalido"); if (onChange) onChange(); });
+        ti.addEventListener("input", () => {
+            let v = ti.value.replace(/[.\-]/g, "/").replace(/[^\d/]/g, "");
+            if (v.length > 10) v = v.slice(0, 10);
+            ti.value = v;
+            const iso = ddmmyyyyToISO(v);
+            if (iso) { ti.dataset.isoValue = iso; ti.classList.remove("invalido"); }
+            else if (!v.trim()) { ti.dataset.isoValue = ""; ti.classList.remove("invalido"); }
+            if (onChange) onChange();
+        });
+        ti.addEventListener("blur", () => {
+            const v = ti.value.trim();
+            if (!v) { ti.dataset.isoValue = ""; ti.classList.remove("invalido"); if (onChange) onChange(); return; }
+            const iso = ddmmyyyyToISO(v);
+            if (iso) { ti.value = isoToDDMMYYYY(iso); ti.dataset.isoValue = iso; ti.classList.remove("invalido"); }
+            else { ti.classList.add("invalido"); ti.dataset.isoValue = ""; }
+            if (onChange) onChange();
+        });
+        const bw = document.createElement("div"); bw.className = "btn-cal-wrapper"; bw.appendChild(bc); bw.appendChild(dp);
+        w.appendChild(ti); w.appendChild(bw);
+        d.appendChild(l); d.appendChild(w); m.appendChild(d);
+        return { input: ti };
     }
 
-    const bld = e.target.closest('.building');
-    if (bld) {
-      selectedProgramId = +bld.dataset.pid;
-      selectedBlockId   = +bld.dataset.bid;
-      render(); renderBlocks(); renderDetail();
+    const ic = document.createElement("input"); ic.type = "text"; ic.id = "f_cliente"; ic.value = sol.cliente;
+    campo("Cliente", ic);
+    campoFecha("Fecha de solicitud", "f_fs", sol.fechaSolicitud);
+    const idd = document.createElement("textarea"); idd.id = "f_desc"; idd.value = sol.descripcion;
+    campo("Descripción", idd);
+    const im = document.createElement("select"); im.id = "f_medio";
+    im.innerHTML = `<option value="">— Seleccione —</option>` + MEDIOS.map(x => `<option value="${x}">${x}</option>`).join("");
+    im.value = sol.medioSolicitud || ""; campo("Medio de solicitud", im);
+    const dc = document.createElement("div"); dc.className = "campo"; dc.id = "cont_consecutivo";
+    dc.innerHTML = `<label>Consecutivo de oficio</label><input type="text" id="f_consec" value="${sol.oficioConsecutivo || ''}" placeholder="Ej: OF-2025-001">`;
+    m.appendChild(dc);
+    const dr = document.createElement("div"); dr.className = "campo"; dr.id = "cont_req_oficio";
+    dr.innerHTML = `<label class="check-inline"><input type="checkbox" id="f_req_oficio" ${sol.requiereOficioEntrega ? 'checked' : ''}> Se requiere oficio de entrega</label>`;
+    m.appendChild(dr);
+    const resFE = campoFecha("Fecha estimada de entrega", "f_fe", sol.fechaEstimada, () => {
+        const cc = document.getElementById("f_comp"); if (cc && cc.checked) return;
+        const uu = document.getElementById("f_urgente"); if (uu && uu.checked) return;
+        const ns = colorSemaforo(resFE.input.getISO());
+        semSpan.style.background = ns.color; semSpan.textContent = ns.texto; m.style.borderTopColor = ns.color;
+    });
+    const ia = document.createElement("input"); ia.type = "number"; ia.id = "f_av"; ia.min = 0; ia.max = 100; ia.value = sol.avance;
+    campo("Porcentaje de avance (%)", ia);
+    const drr = document.createElement("div"); drr.className = "campo";
+    drr.innerHTML = `<label>Responsable(s)</label><div class="responsables" id="resp_list"></div>`;
+    m.appendChild(drr);
+    const contResp = drr.querySelector("#resp_list");
+    RESPONSABLES.forEach(n => {
+        const lb = document.createElement("label");
+        const ck = document.createElement("input"); ck.type = "checkbox"; ck.value = n; ck.checked = sol.responsables.includes(n);
+        lb.appendChild(ck); lb.appendChild(document.createTextNode(n)); contResp.appendChild(lb);
+    });
+    const ie = document.createElement("textarea"); ie.id = "f_ent"; ie.value = sol.entregables;
+    campo("Actividades y Entregables", ie);
+    const den = document.createElement("div"); den.className = "campo";
+    den.innerHTML = `<label>Enlaces</label><div id="enlaces_container"></div>`;
+    m.appendChild(den);
+    renderEnlacesSection(den.querySelector("#enlaces_container"));
+    const doe = document.createElement("div"); doe.className = "campo"; doe.id = "cont_oficio_entrega";
+    doe.innerHTML = `<label>Oficio de entrega</label><input type="text" id="f_oficio_entrega" value="${sol.oficioEntrega || ''}" placeholder="Ej: OF-2025-042">`;
+    m.appendChild(doe);
+    campoFecha("Fecha real de entrega", "f_fr", sol.fechaReal);
+    function vis() {
+        const of = im.value === "Oficio";
+        dc.style.display = of ? "block" : "none";
+        dr.style.display = of ? "block" : "none";
+        const req = of && document.getElementById("f_req_oficio").checked;
+        doe.style.display = req ? "block" : "none";
     }
-  });
+    im.addEventListener("change", vis); document.getElementById("f_req_oficio").addEventListener("change", vis); vis();
 
-  svg.addEventListener('wheel', e => {
-    e.preventDefault();
-    if (!view) return;
-    const rect = svg.getBoundingClientRect();
-    const s = Math.max(view.w / rect.width, view.h / rect.height);
-    const mx = view.x + (e.clientX - rect.left) * s;
-    const my = view.y + (e.clientY - rect.top)  * s;
-    const k = e.deltaY > 0 ? 1.12 : 1 / 1.12;
-    view.x = mx - (mx - view.x) * k;
-    view.y = my - (my - view.y) * k;
-    view.w *= k; view.h *= k;
-    applyView();
-  }, { passive: false });
+    const acc = document.createElement("div"); acc.className = "acciones";
+    /* Contenedor de checks (Completada + Urgencia) */
+    const izq = document.createElement("div"); izq.className = "izquierda";
 
-  let drag = null;
-  svg.addEventListener('mousedown', e => {
-    if (e.button !== 0) return;
-    drag = { x: e.clientX, y: e.clientY, vx: view ? view.x : 0, vy: view ? view.y : 0, moved: false };
-    suppressClick = false;
-  });
-  window.addEventListener('mousemove', e => {
-    if (!drag || !view) return;
-    const dx = e.clientX - drag.x;
-    const dy = e.clientY - drag.y;
-    if (!drag.moved && Math.abs(dx) + Math.abs(dy) > 5) drag.moved = true;
-    if (!drag.moved) return;
-    const rect = svg.getBoundingClientRect();
-    const s = Math.max(view.w / rect.width, view.h / rect.height);
-    view.x = drag.vx - dx * s;
-    view.y = drag.vy - dy * s;
-    applyView();
-  });
-  window.addEventListener('mouseup', () => {
-    if (drag && drag.moved) {
-      suppressClick = true;
-      setTimeout(() => { suppressClick = false; }, 60);
-    }
-    drag = null;
-  });
+    /* Completada */
+    const lblComp = document.createElement("label");
+    const ck = document.createElement("input"); ck.type = "checkbox"; ck.id = "f_comp"; ck.checked = sol.completada;
+    ck.addEventListener("change", e => {
+        if (e.target.checked) {
+            const fr = document.getElementById("f_fr");
+            if (fr && fr.getISO && !fr.getISO()) fr.setISO(hoyISO());
+            document.getElementById("f_av").value = 100;
+            semSpan.style.background = GRIS_COMPLETADO; semSpan.textContent = "Completada";
+            if (!document.getElementById("f_urgente").checked) m.style.borderTopColor = GRIS_COMPLETADO;
+        } else {
+            const ns = colorSemaforo(resFE.input.getISO());
+            semSpan.style.background = ns.color; semSpan.textContent = ns.texto;
+            if (!document.getElementById("f_urgente").checked) m.style.borderTopColor = ns.color;
+        }
+    });
+    lblComp.appendChild(ck);
+    lblComp.appendChild(document.createTextNode("Completada"));
 
-  window.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
+    /* Urgencia */
+    const lblUrg = document.createElement("label");
+    lblUrg.className = "urgente-lbl";
+    const ckUrg = document.createElement("input"); ckUrg.type = "checkbox"; ckUrg.id = "f_urgente"; ckUrg.checked = !!sol.urgente;
+    ckUrg.addEventListener("change", e => {
+        if (e.target.checked) {
+            m.style.borderTopColor = "var(--aya-vino)";
+        } else {
+            if (ck.checked) { m.style.borderTopColor = GRIS_COMPLETADO; }
+            else {
+                const ns = colorSemaforo(resFE.input.getISO());
+                m.style.borderTopColor = ns.color;
+            }
+        }
+    });
+    lblUrg.appendChild(ckUrg);
+    lblUrg.appendChild(document.createTextNode("Urgencia"));
+
+    izq.appendChild(lblComp);
+    izq.appendChild(lblUrg);
+    acc.appendChild(izq);
+
+    const be = document.createElement("button"); be.className = "btn-rojo"; be.textContent = isNew ? "Descartar" : "Eliminar";
+    be.addEventListener("click", async () => {
+        if (isNew) { cerrarFicha(); return; }
+        if (!confirm("¿Eliminar esta solicitud?")) return;
+        be.disabled = true;
+        const ok = await eliminarEnNube(sol.id);
+        if (ok) {
+            solicitudes = solicitudes.filter(s => s.id !== sol.id);
+            render(); scheduleCiudadRender(); cerrarFicha();
+        } else be.disabled = false;
+    });
+    acc.appendChild(be);
+    const bc2 = document.createElement("button"); bc2.className = "btn-gris"; bc2.textContent = "Cancelar"; bc2.addEventListener("click", cerrarFicha); acc.appendChild(bc2);
+    const bg = document.createElement("button"); bg.className = "btn-azul"; bg.textContent = "Guardar";
+    bg.addEventListener("click", async () => {
+        bg.disabled = true; bg.textContent = "Guardando…";
+        const ok = await guardarFicha(sol, isNew);
+        if (ok) {
+            render(); cerrarFicha();
+            if (busquedaActual.trim()) renderBuscadorResultados();
+            scheduleCiudadRender();
+        }
+        else { bg.disabled = false; bg.textContent = "Guardar"; }
+    });
+    acc.appendChild(bg);
+    m.appendChild(acc);
+    document.getElementById("modalFondo").classList.add("activo");
 }
 
-/* =========================================================
-   ARRANQUE
-   ========================================================= */
-seed();
-wireUI();
-renderAll();
+/* ========================================================= */
+/* ENLACES                                                   */
+/* ========================================================= */
+function renderEnlacesSection(cont) {
+    cont.innerHTML = "";
+    const lista = document.createElement("div"); lista.className = "enlaces-lista";
+    if (!enlacesEnEdicion.length) { const v = document.createElement("div"); v.className = "enlaces-vacio"; v.textContent = "Sin enlaces."; lista.appendChild(v); }
+    else enlacesEnEdicion.forEach((url, i) => {
+        const it = document.createElement("div"); it.className = "enlace-item";
+        const ud = document.createElement("div"); ud.className = "enlace-url"; ud.textContent = url; ud.title = url;
+        const ac = document.createElement("div"); ac.className = "enlace-acciones";
+        const ba = document.createElement("button"); ba.type = "button"; ba.textContent = "🔗"; ba.title = "Abrir";
+        ba.addEventListener("click", () => window.open(normalizarUrl(url), "_blank", "noopener,noreferrer"));
+        const be = document.createElement("button"); be.type = "button"; be.textContent = "Editar";
+        be.addEventListener("click", () => activarEdicionEnlace(i, lista, cont));
+        const bx = document.createElement("button"); bx.type = "button"; bx.className = "btn-enlace-eliminar"; bx.textContent = "🗑";
+        bx.addEventListener("click", () => { if (confirm("¿Eliminar enlace?")) { enlacesEnEdicion.splice(i, 1); renderEnlacesSection(cont); } });
+        ac.appendChild(ba); ac.appendChild(be); ac.appendChild(bx);
+        it.appendChild(ud); it.appendChild(ac); lista.appendChild(it);
+    });
+    cont.appendChild(lista);
+    const aw = document.createElement("div"); aw.className = "enlace-agregar";
+    const inp = document.createElement("input"); inp.type = "url"; inp.id = "nuevoEnlaceInput"; inp.placeholder = "https://ejemplo.com";
+    const btn = document.createElement("button"); btn.type = "button"; btn.className = "btn-enlace-agregar"; btn.innerHTML = "➕ Agregar";
+    const add = () => { const u = inp.value.trim(); if (!u) return; enlacesEnEdicion.push(u); renderEnlacesSection(cont); setTimeout(() => { const n = document.getElementById("nuevoEnlaceInput"); if (n) n.focus(); }, 0); };
+    btn.addEventListener("click", add);
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); add(); } });
+    aw.appendChild(inp); aw.appendChild(btn); cont.appendChild(aw);
+}
+function activarEdicionEnlace(i, lista, cont) {
+    const it = lista.children[i]; if (!it) return;
+    it.innerHTML = "";
+    const inp = document.createElement("input"); inp.type = "url"; inp.className = "enlace-edit-input"; inp.value = enlacesEnEdicion[i];
+    const ac = document.createElement("div"); ac.className = "enlace-acciones";
+    const bg = document.createElement("button"); bg.type = "button"; bg.className = "btn-enlace-guardar"; bg.textContent = "💾";
+    bg.addEventListener("click", () => { const n = inp.value.trim(); if (!n) return; enlacesEnEdicion[i] = n; renderEnlacesSection(cont); });
+    const bc = document.createElement("button"); bc.type = "button"; bc.textContent = "✕";
+    bc.addEventListener("click", () => renderEnlacesSection(cont));
+    ac.appendChild(bg); ac.appendChild(bc);
+    it.appendChild(inp); it.appendChild(ac);
+    inp.focus(); inp.select();
+}
+
+/* ========================================================= */
+/* GUARDAR FICHA                                             */
+/* ========================================================= */
+async function guardarFicha(sol, isNew) {
+    if (!sol) return false;
+    for (const id of ["f_fs", "f_fe", "f_fr"]) {
+        const el = document.getElementById(id);
+        if (el && el.classList.contains("invalido")) { alert("Fecha inválida (dd/mm/aaaa)."); el.focus(); return false; }
+    }
+    function getFechaISO(id) { const el = document.getElementById(id); if (!el) return ""; if (typeof el.getISO === "function") return el.getISO(); return ddmmyyyyToISO(el.value); }
+    const inpN = document.getElementById("nuevoEnlaceInput");
+    if (inpN && inpN.value.trim()) enlacesEnEdicion.push(inpN.value.trim());
+    sol.cliente = document.getElementById("f_cliente").value.trim();
+    sol.fechaSolicitud = getFechaISO("f_fs");
+    sol.descripcion = document.getElementById("f_desc").value.trim();
+    sol.fechaEstimada = getFechaISO("f_fe");
+    let av = parseInt(document.getElementById("f_av").value, 10); if (isNaN(av)) av = 0;
+    sol.avance = Math.max(0, Math.min(100, av));
+    sol.responsables = Array.from(document.querySelectorAll(".responsables input:checked")).map(c => c.value);
+    sol.entregables = document.getElementById("f_ent").value.trim();
+    sol.enlaces = enlacesEnEdicion.slice();
+    sol.fechaReal = getFechaISO("f_fr");
+    sol.completada = document.getElementById("f_comp").checked;
+    sol.urgente = document.getElementById("f_urgente").checked;
+    if (sol.completada) sol.avance = 100;
+    sol.medioSolicitud = document.getElementById("f_medio").value;
+    if (sol.medioSolicitud === "Oficio") {
+        sol.oficioConsecutivo = document.getElementById("f_consec").value.trim();
+        sol.requiereOficioEntrega = document.getElementById("f_req_oficio").checked;
+        sol.oficioEntrega = sol.requiereOficioEntrega ? document.getElementById("f_oficio_entrega").value.trim() : "";
+    } else { sol.oficioConsecutivo = ""; sol.requiereOficioEntrega = false; sol.oficioEntrega = ""; }
+    if (isNew) { const ok = await insertarEnNube(sol); if (ok) { solicitudes.push(sol); limpiarFiltros(); return true; } return false; }
+    return await actualizarEnNube(sol);
+}
+function cerrarFicha() {
+    document.getElementById("modalFondo").classList.remove("activo");
+    solEnEdicion = null; solEnEdicionEsNueva = false; enlacesEnEdicion = [];
+}
+
+/* ========================================================= */
+/* REALTIME                                                  */
+/* ========================================================= */
+function suscribirRealtime() {
+    if (!supabaseClient) return;
+    try {
+        supabaseClient.channel("sol").on("postgres_changes", { event: "*", schema: "public", table: "solicitudes" }, async () => {
+            await cargarDesdeNube();
+            render();
+            if (busquedaActual.trim()) renderBuscadorResultados();
+            scheduleCiudadRender();
+        }).subscribe(s => {
+            if (s === "SUBSCRIBED") setEstadoSync("online", "En línea");
+        });
+    } catch (e) { console.warn("Realtime no disponible:", e); }
+}
+
+/* ========================================================= */
+/* EXPORTACIÓN                                               */
+/* ========================================================= */
+function esc(v) { return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
+function buildExportData(scope) {
+    const base = solicitudes.filter(pasaTodosFiltros);
+    if (scope === "mes") return {
+        proceso: base.filter(s => !s.completada).filter(s => !s.fechaEstimada || (d => d.getMonth() === mesActual && d.getFullYear() === anioActual)(new Date(s.fechaEstimada + "T00:00:00"))),
+        completados: base.filter(s => s.completada).filter(s => !s.fechaReal || (d => d.getMonth() === mesActual && d.getFullYear() === anioActual)(new Date(s.fechaReal + "T00:00:00"))),
+        etiqueta: `${MESES[mesActual]} ${anioActual}`
+    };
+    if (scope === "anio") return {
+        proceso: base.filter(s => !s.completada).filter(s => !s.fechaEstimada || new Date(s.fechaEstimada + "T00:00:00").getFullYear() === anioActual),
+        completados: base.filter(s => s.completada).filter(s => !s.fechaReal || new Date(s.fechaReal + "T00:00:00").getFullYear() === anioActual),
+        etiqueta: `Año ${anioActual}`
+    };
+    return { proceso: base.filter(s => !s.completada), completados: base.filter(s => s.completada), etiqueta: "Todo" };
+}
+function buildExportHTML(data) {
+    const { proceso, completados, etiqueta } = data;
+    const hoy = new Date().toLocaleDateString("es-CR", { day: "2-digit", month: "long", year: "numeric" });
+    const ths = ["Cliente","Fecha","Descripción","Medio","Consecutivo","F. Estimada","Avance","Responsables","Entregables","Enlaces","F. Real","Urgente"];
+    const fila = s => `<tr${s.urgente ? ' style="background:#f5e0e0;"' : ''}><td>${esc(s.cliente)}</td><td>${esc(s.fechaSolicitud)}</td><td>${esc(s.descripcion)}</td><td>${esc(s.medioSolicitud)}</td><td>${esc(s.oficioConsecutivo)}</td><td>${esc(s.fechaEstimada)}</td><td style="text-align:center">${s.avance}%</td><td>${esc(s.responsables.join(", "))}</td><td>${esc(s.entregables)}</td><td>${esc((s.enlaces || []).join(" | "))}</td><td>${esc(s.fechaReal)}</td><td style="text-align:center">${s.urgente ? '🚨 SÍ' : '—'}</td></tr>`;
+    const tp = proceso.length ? `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:10pt"><thead><tr style="background:#1B294E;color:#fff">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead><tbody>${proceso.map(fila).join("")}</tbody></table>` : "<p><i>Sin registros.</i></p>";
+    const tc = completados.length ? `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:10pt"><thead><tr style="background:#C9AD6E;color:#1B294E">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead><tbody>${completados.map(fila).join("")}</tbody></table>` : "<p><i>Sin registros.</i></p>";
+    return `<h1 style="color:#1B294E;font-family:Arial;margin:0">Edificaciones · UEN Programación y Control</h1><h2 style="color:#1B294E;font-family:Arial;margin:4px 0">Instituto Costarricense de Acueductos y Alcantarillados</h2><h3 style="font-family:Arial;margin:10px 0 4px">Reporte — ${esc(etiqueta)}</h3><p style="font-family:Arial;font-size:9pt;color:#5B678A"><i>Generado el ${esc(hoy)}</i></p><h2 style="color:#1B294E;font-family:Arial;margin-top:20px">En proceso (${proceso.length})</h2>${tp}<h2 style="color:#8B7338;font-family:Arial;margin-top:20px">Completados (${completados.length})</h2>${tc}`;
+}
+function nombreArchivo(e) { return e.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "_").replace(/^_|_$/g, ""); }
+function descargar(b, n) { const u = URL.createObjectURL(b); const a = document.createElement("a"); a.href = u; a.download = n; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(u), 1000); }
+function exportarDOC() {
+    const d = buildExportData(document.getElementById("selScope").value);
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title></head><body>${buildExportHTML(d)}</body></html>`;
+    descargar(new Blob(["\ufeff", html], { type: "application/msword" }), `Reporte_${nombreArchivo(d.etiqueta)}.doc`);
+}
+function exportarXLS() {
+    const d = buildExportData(document.getElementById("selScope").value);
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title></head><body>${buildExportHTML(d)}</body></html>`;
+    descargar(new Blob(["\ufeff", html], { type: "application/vnd.ms-excel" }), `Reporte_${nombreArchivo(d.etiqueta)}.xls`);
+}
+function exportarPDF() {
+    const d = buildExportData(document.getElementById("selScope").value);
+    const v = window.open("", "_blank"); if (!v) { alert("Permite ventanas emergentes."); return; }
+    v.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title><style>body{font-family:Arial;padding:20px;color:#1B294E}h1,h2{color:#1B294E}table{border-collapse:collapse;width:100%;font-size:7.5pt}th{background:#1B294E;color:#fff;padding:5px;text-align:left}td{padding:4px;border:1px solid #999;vertical-align:top}@media print{@page{size:landscape;margin:1cm}}</style></head><body>${buildExportHTML(d)}</body></html>`);
+    v.document.close(); v.focus(); setTimeout(() => v.print(), 500);
+}
+
+/* ========================================================= */
+/* INICIALIZACIÓN                                            */
+/* ========================================================= */
+async function init() {
+    try {
+        document.getElementById("overlayCarga").classList.remove("oculto");
+        document.getElementById("btnNueva").disabled = true;
+        await cargarDesdeNube();
+        poblarSelects(); actualizarChips(); render(); suscribirRealtime();
+        try { setupCiudadInteraction(); ciudadNeedFit = true; renderCiudad(); } catch (e) { console.error("[Visor]", e); }
+    } catch (e) { console.error("Error init:", e); }
+    finally {
+        cargando = false;
+        document.getElementById("btnNueva").disabled = false;
+        document.getElementById("overlayCarga").classList.add("oculto");
+    }
+}
+init();
 </script>
 </body>
 </html>
