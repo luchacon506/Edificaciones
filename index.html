@@ -39,161 +39,58 @@
     --aya-dorado-claro: #DEC584;
 }
 * { box-sizing: border-box; }
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background: var(--aya-fondo-claro);
-    color: var(--aya-azul);
-}
-header {
-    background: var(--aya-azul); color: var(--aya-blanco);
-    display: flex; align-items: center; gap: 20px;
-    padding: 12px 24px;
-    border-bottom: 3px solid var(--aya-dorado);
-    flex-wrap: wrap;
-}
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background: var(--aya-fondo-claro); color: var(--aya-azul); }
+header { background: var(--aya-azul); color: var(--aya-blanco); display: flex; align-items: center; gap: 20px; padding: 12px 24px; border-bottom: 3px solid var(--aya-dorado); flex-wrap: wrap; }
 header img.logo { height: 55px; display: block; flex-shrink: 0; }
 header .titulos h1 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; color: var(--aya-blanco); }
 header .titulos h2 { margin: 2px 0 0; font-size: 0.95rem; font-weight: 400; opacity: 0.92; }
 header .titulos h3 { margin: 2px 0 0; font-size: 0.78rem; font-weight: 300; opacity: 0.75; }
-header .titulo-derecha {
-    margin-left: auto; font-size: 1.2rem; font-weight: 700;
-    letter-spacing: 2px; text-transform: uppercase;
-    color: var(--aya-dorado);
-    padding-left: 20px; border-left: 2px solid var(--aya-dorado);
-    white-space: nowrap;
-}
-@media (max-width: 700px) {
-    header .titulo-derecha { margin-left: 0; width: 100%; border-left: none;
-        border-top: 2px solid var(--aya-dorado); padding-left: 0; padding-top: 8px;
-        text-align: right; font-size: 1rem; }
-}
-.barra {
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 12px; padding: 14px 24px 6px;
-    background: var(--aya-fondo-claro);
-}
+header .titulo-derecha { margin-left: auto; font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--aya-dorado); padding-left: 20px; border-left: 2px solid var(--aya-dorado); white-space: nowrap; }
+@media (max-width: 700px) { header .titulo-derecha { margin-left: 0; width: 100%; border-left: none; border-top: 2px solid var(--aya-dorado); padding-left: 0; padding-top: 8px; text-align: right; font-size: 1rem; } }
+.barra { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 14px 24px 6px; background: var(--aya-fondo-claro); }
 .nav-mes { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.nav-mes button.btn-nav {
-    background: var(--aya-azul); color: var(--aya-blanco); border: none;
-    width: 36px; height: 36px; border-radius: 6px; cursor: pointer;
-    font-size: 1rem; transition: background 0.2s;
-}
+.nav-mes button.btn-nav { background: var(--aya-azul); color: var(--aya-blanco); border: none; width: 36px; height: 36px; border-radius: 6px; cursor: pointer; font-size: 1rem; transition: background 0.2s; }
 .nav-mes button.btn-nav:hover { background: var(--aya-azul-medio); }
-.nav-mes select {
-    padding: 7px 10px; border: 1px solid var(--aya-borde-fuerte);
-    border-radius: 6px; font-size: 0.9rem;
-    background: var(--aya-blanco); color: var(--aya-azul);
-}
-.btn-hoy {
-    background: var(--aya-blanco); color: var(--aya-azul);
-    border: 1px solid var(--aya-borde-fuerte);
-    padding: 7px 12px; border-radius: 6px; cursor: pointer;
-    font-size: 0.85rem; font-weight: 600;
-}
+.nav-mes select { padding: 7px 10px; border: 1px solid var(--aya-borde-fuerte); border-radius: 6px; font-size: 0.9rem; background: var(--aya-blanco); color: var(--aya-azul); }
+.btn-hoy { background: var(--aya-blanco); color: var(--aya-azul); border: 1px solid var(--aya-borde-fuerte); padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
 .btn-hoy:hover { background: var(--aya-tinte-dorado); border-color: var(--aya-dorado); }
 .buscador { position: relative; flex: 1 1 auto; max-width: 520px; min-width: 220px; margin: 0 12px; }
-.buscador input {
-    width: 100%; padding: 9px 40px 9px 16px;
-    border: 1px solid var(--aya-borde-fuerte); border-radius: 20px;
-    font-size: 0.9rem; font-family: inherit;
-    background: var(--aya-blanco); color: var(--aya-azul);
-    box-shadow: 0 1px 4px rgba(27,41,78,0.06);
-}
+.buscador input { width: 100%; padding: 9px 40px 9px 16px; border: 1px solid var(--aya-borde-fuerte); border-radius: 20px; font-size: 0.9rem; font-family: inherit; background: var(--aya-blanco); color: var(--aya-azul); box-shadow: 0 1px 4px rgba(27,41,78,0.06); }
 .buscador input:focus { outline: none; border-color: var(--aya-dorado); box-shadow: 0 2px 10px rgba(201,173,110,0.3); }
-.buscador .btn-clear-busqueda {
-    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-    background: transparent; border: none; color: var(--aya-gris-suave);
-    font-size: 0.95rem; cursor: pointer; padding: 4px 10px; border-radius: 50%;
-    display: none;
-}
+.buscador .btn-clear-busqueda { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: var(--aya-gris-suave); font-size: 0.95rem; cursor: pointer; padding: 4px 10px; border-radius: 50%; display: none; }
 .buscador .btn-clear-busqueda.visible { display: block; }
 .buscador .btn-clear-busqueda:hover { background: var(--aya-fondo-claro); color: var(--aya-azul); }
-.buscador-resultados {
-    position: absolute; top: calc(100% + 6px); left: 0; right: 0;
-    max-height: 420px; overflow-y: auto;
-    background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte);
-    border-radius: 10px; box-shadow: 0 6px 20px rgba(27,41,78,0.2);
-    z-index: 800; display: none;
-}
+.buscador-resultados { position: absolute; top: calc(100% + 6px); left: 0; right: 0; max-height: 420px; overflow-y: auto; background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte); border-radius: 10px; box-shadow: 0 6px 20px rgba(27,41,78,0.2); z-index: 800; display: none; }
 .buscador-resultados.visible { display: block; }
-.buscador-grupo-titulo {
-    padding: 6px 14px; background: var(--aya-tinte-dorado);
-    font-size: 0.72rem; font-weight: 700; color: var(--aya-azul);
-    text-transform: uppercase; letter-spacing: 1px;
-    border-bottom: 1px solid var(--aya-borde);
-    position: sticky; top: 0;
-}
-.buscador-item {
-    padding: 10px 14px; border-bottom: 1px solid var(--aya-borde);
-    cursor: pointer; transition: background 0.1s;
-}
+.buscador-grupo-titulo { padding: 6px 14px; background: var(--aya-tinte-dorado); font-size: 0.72rem; font-weight: 700; color: var(--aya-azul); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--aya-borde); position: sticky; top: 0; }
+.buscador-item { padding: 10px 14px; border-bottom: 1px solid var(--aya-borde); cursor: pointer; transition: background 0.1s; }
 .buscador-item:hover { background: var(--aya-fondo-claro); }
-.buscador-item .titulo {
-    font-weight: 600; color: var(--aya-azul); font-size: 0.88rem;
-    margin-bottom: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-}
-.buscador-item .titulo .estado {
-    font-size: 0.7rem; padding: 1px 8px; border-radius: 10px;
-    color: var(--aya-blanco); font-weight: 700; white-space: nowrap;
-}
+.buscador-item .titulo { font-weight: 600; color: var(--aya-azul); font-size: 0.88rem; margin-bottom: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.buscador-item .titulo .estado { font-size: 0.7rem; padding: 1px 8px; border-radius: 10px; color: var(--aya-blanco); font-weight: 700; white-space: nowrap; }
 .buscador-item .detalle { font-size: 0.75rem; color: var(--aya-gris-texto); line-height: 1.35; }
 .buscador-item .detalle .match { background: var(--aya-dorado); color: var(--aya-azul); padding: 0 2px; border-radius: 2px; font-weight: 600; }
 .buscador-vacio { padding: 20px; text-align: center; color: var(--aya-gris-suave); font-style: italic; font-size: 0.85rem; }
 @media (max-width: 900px) { .buscador { order: 3; flex-basis: 100%; max-width: none; margin: 8px 0 0 0; } }
 .controles-acciones { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-button.btn-azul {
-    background: var(--aya-azul); color: var(--aya-blanco);
-    border: none; padding: 10px 18px; border-radius: 6px;
-    font-size: 0.95rem; cursor: pointer; transition: background 0.2s;
-}
+button.btn-azul { background: var(--aya-azul); color: var(--aya-blanco); border: none; padding: 10px 18px; border-radius: 6px; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
 button.btn-azul:hover { background: var(--aya-azul-medio); }
 button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowed; }
-.export-grupo {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--aya-blanco); padding: 4px 6px;
-    border-radius: 8px; border: 1px solid var(--aya-borde-fuerte);
-}
+.export-grupo { display: flex; align-items: center; gap: 6px; background: var(--aya-blanco); padding: 4px 6px; border-radius: 8px; border: 1px solid var(--aya-borde-fuerte); }
 .export-label { font-size: 0.82rem; font-weight: 600; color: var(--aya-azul); padding: 0 4px; }
-.export-grupo select {
-    padding: 6px 8px; border: 1px solid var(--aya-borde);
-    border-radius: 5px; font-size: 0.85rem;
-    background: var(--aya-fondo-claro); color: var(--aya-azul);
-}
-.export-grupo button {
-    background: var(--aya-azul); color: var(--aya-blanco);
-    border: none; padding: 7px 10px; border-radius: 5px; cursor: pointer;
-    font-size: 0.82rem; font-weight: 600;
-}
+.export-grupo select { padding: 6px 8px; border: 1px solid var(--aya-borde); border-radius: 5px; font-size: 0.85rem; background: var(--aya-fondo-claro); color: var(--aya-azul); }
+.export-grupo button { background: var(--aya-azul); color: var(--aya-blanco); border: none; padding: 7px 10px; border-radius: 5px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
 .export-grupo button:hover { background: var(--aya-azul-medio); }
-.leyenda {
-    display: flex; gap: 18px; flex-wrap: wrap;
-    padding: 4px 24px; font-size: 0.85rem; align-items: center;
-    color: var(--aya-azul);
-}
+.leyenda { display: flex; gap: 18px; flex-wrap: wrap; padding: 4px 24px; font-size: 0.85rem; align-items: center; color: var(--aya-azul); }
 .leyenda span.dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
 .leyenda .nota { font-size: 0.78rem; color: var(--aya-gris-texto); font-style: italic; }
-.filtros {
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-    padding: 6px 24px 10px; font-size: 0.85rem;
-}
+.filtros { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 6px 24px 10px; font-size: 0.85rem; }
 .filtros strong { color: var(--aya-azul); margin-right: 4px; }
-.chip {
-    background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte);
-    color: var(--aya-azul); padding: 5px 14px; border-radius: 16px;
-    cursor: pointer; font-size: 0.82rem; font-weight: 500;
-    transition: all 0.15s; font-family: inherit;
-}
+.chip { background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte); color: var(--aya-azul); padding: 5px 14px; border-radius: 16px; cursor: pointer; font-size: 0.82rem; font-weight: 500; transition: all 0.15s; font-family: inherit; }
 .chip:hover { border-color: var(--aya-dorado); color: var(--aya-dorado-oscuro); }
 .chip.chip-activo { background: var(--aya-azul); color: var(--aya-blanco); border-color: var(--aya-azul); }
 .chip.chip-todos.chip-activo { background: var(--aya-dorado); color: var(--aya-azul); border-color: var(--aya-dorado); }
 .filtros .aviso-filtro { font-size: 0.78rem; color: var(--aya-dorado-oscuro); font-weight: 600; margin-left: auto; }
-.estado-sync {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 0.75rem; color: var(--aya-azul);
-    padding: 2px 8px; background: var(--aya-blanco);
-    border-radius: 10px; border: 1px solid var(--aya-borde-fuerte);
-}
+.estado-sync { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--aya-azul); padding: 2px 8px; background: var(--aya-blanco); border-radius: 10px; border: 1px solid var(--aya-borde-fuerte); }
 .estado-sync .dot-sync { width: 8px; height: 8px; border-radius: 50%; background: var(--aya-gris-suave); }
 .estado-sync.online .dot-sync { background: var(--aya-exito); }
 .estado-sync.sync .dot-sync { background: var(--aya-warn); animation: pulso 1s infinite; }
@@ -201,306 +98,104 @@ button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowe
 @keyframes pulso { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 .pilas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 0 24px 18px; align-items: start; }
 @media (max-width: 800px) { .pilas { grid-template-columns: 1fr; } }
-.pila {
-    background: var(--aya-blanco); border-radius: 10px;
-    padding: 12px; min-height: 200px;
-    border: 1px solid var(--aya-borde);
-    border-top: 3px solid var(--aya-dorado);
-}
-.pila h2 {
-    margin: 0 0 10px; font-size: 1.02rem; color: var(--aya-azul);
-    display: flex; justify-content: space-between; align-items: center; gap: 8px;
-}
-.pila h2 .contador {
-    background: var(--aya-azul); color: var(--aya-blanco);
-    font-size: 0.8rem; border-radius: 12px; padding: 2px 10px;
-}
+.pila { background: var(--aya-blanco); border-radius: 10px; padding: 12px; min-height: 200px; border: 1px solid var(--aya-borde); border-top: 3px solid var(--aya-dorado); }
+.pila h2 { margin: 0 0 10px; font-size: 1.02rem; color: var(--aya-azul); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.pila h2 .contador { background: var(--aya-azul); color: var(--aya-blanco); font-size: 0.8rem; border-radius: 12px; padding: 2px 10px; }
 .pila .lista { display: flex; flex-direction: column; gap: 8px; }
-.fila {
-    background: var(--aya-blanco); border-radius: 8px; padding: 10px 12px;
-    box-shadow: 0 1px 3px rgba(27,41,78,0.1);
-    border: 1px solid var(--aya-borde);
-    border-left: 6px solid var(--aya-exito);
-    cursor: pointer; transition: transform 0.1s, box-shadow 0.2s;
-    display: flex; justify-content: space-between; align-items: center; gap: 10px;
-}
+.fila { background: var(--aya-blanco); border-radius: 8px; padding: 10px 12px; box-shadow: 0 1px 3px rgba(27,41,78,0.1); border: 1px solid var(--aya-borde); border-left: 6px solid var(--aya-exito); cursor: pointer; transition: transform 0.1s, box-shadow 0.2s; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .fila:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(27,41,78,0.15); }
 .fila .info { flex: 1; min-width: 0; }
-.fila .info h3 {
-    margin: 0 0 3px; font-size: 0.95rem; color: var(--aya-azul);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.fila .info .meta {
-    font-size: 0.75rem; color: var(--aya-gris-texto);
-    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
-}
-.fila .info .meta .badge-medio {
-    background: var(--aya-tinte-dorado); color: var(--aya-azul);
-    border: 1px solid var(--aya-dorado); border-radius: 10px;
-    padding: 0 8px; font-size: 0.7rem; font-weight: 600;
-}
-.fila .info .meta .badge-avance {
-    background: var(--aya-fondo-claro); color: var(--aya-azul);
-    border: 1px solid var(--aya-borde); border-radius: 10px;
-    padding: 0 8px; font-size: 0.7rem; font-weight: 700; white-space: nowrap;
-}
-.fila .info .meta .badge-avance.completo {
-    background: rgba(39,174,96,.15); color: var(--aya-exito);
-    border-color: rgba(39,174,96,.4);
-}
-.fila .info .meta .badge-enlace {
-    background: var(--aya-tinte-dorado); color: var(--aya-azul);
-    border: 1px solid var(--aya-dorado); border-radius: 10px;
-    padding: 0 8px; font-size: 0.7rem; font-weight: 600;
-    text-decoration: none; cursor: pointer;
-}
+.fila .info h3 { margin: 0 0 3px; font-size: 0.95rem; color: var(--aya-azul); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fila .info .meta { font-size: 0.75rem; color: var(--aya-gris-texto); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.fila .info .meta .badge-medio { background: var(--aya-tinte-dorado); color: var(--aya-azul); border: 1px solid var(--aya-dorado); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; }
+.fila .info .meta .badge-avance { background: var(--aya-fondo-claro); color: var(--aya-azul); border: 1px solid var(--aya-borde); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 700; white-space: nowrap; }
+.fila .info .meta .badge-avance.completo { background: rgba(39,174,96,.15); color: var(--aya-exito); border-color: rgba(39,174,96,.4); }
+.fila .info .meta .badge-enlace { background: var(--aya-tinte-dorado); color: var(--aya-azul); border: 1px solid var(--aya-dorado); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; text-decoration: none; cursor: pointer; }
 .fila .info .meta .badge-enlace:hover { background: var(--aya-dorado); color: var(--aya-azul); }
-.fila .info .meta .badge-urgente {
-    background: var(--aya-vino); color: var(--aya-blanco);
-    border: 1px solid var(--aya-vino-oscuro); border-radius: 10px;
-    padding: 0 8px; font-size: 0.7rem; font-weight: 700;
-    letter-spacing: 0.04em;
-}
-.fila .sem {
-    font-size: 0.72rem; font-weight: 700; color: var(--aya-blanco);
-    padding: 3px 8px; border-radius: 10px; white-space: nowrap;
-}
+.fila .info .meta .badge-urgente { background: var(--aya-vino); color: var(--aya-blanco); border: 1px solid var(--aya-vino-oscuro); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; }
+.fila .sem { font-size: 0.72rem; font-weight: 700; color: var(--aya-blanco); padding: 3px 8px; border-radius: 10px; white-space: nowrap; }
 .fila.completada { opacity: 0.85; }
 .fila.completada .info h3 { text-decoration: line-through; color: var(--aya-gris-texto); }
 .vacio-pila { text-align: center; color: var(--aya-gris-suave); font-size: 0.85rem; padding: 20px; font-style: italic; }
 .sin-fecha { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--aya-dorado); }
 .sin-fecha-titulo { font-size: 0.8rem; color: var(--aya-dorado-oscuro); font-weight: 700; margin-bottom: 6px; }
-.alerta-meses {
-    margin: 0 24px 20px; padding: 10px 14px;
-    background: var(--aya-tinte-dorado);
-    border-left: 4px solid var(--aya-dorado);
-    border-radius: 6px;
-    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-    font-size: 0.85rem;
-}
+.alerta-meses { margin: 0 24px 20px; padding: 10px 14px; background: var(--aya-tinte-dorado); border-left: 4px solid var(--aya-dorado); border-radius: 6px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 0.85rem; }
 .alerta-titulo { font-weight: 700; color: var(--aya-azul); font-size: 0.85rem; white-space: nowrap; }
 .alerta-chips { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
-.alerta-chip {
-    background: var(--aya-blanco); border: 1px solid var(--aya-dorado);
-    color: var(--aya-azul); padding: 4px 12px; border-radius: 14px;
-    cursor: pointer; font-size: 0.8rem; font-weight: 500;
-    transition: all 0.15s; font-family: inherit;
-    display: inline-flex; align-items: center; gap: 6px;
-}
+.alerta-chip { background: var(--aya-blanco); border: 1px solid var(--aya-dorado); color: var(--aya-azul); padding: 4px 12px; border-radius: 14px; cursor: pointer; font-size: 0.8rem; font-weight: 500; transition: all 0.15s; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; }
 .alerta-chip:hover { background: var(--aya-dorado); color: var(--aya-azul); transform: translateY(-1px); }
-.alerta-chip .num {
-    background: var(--aya-azul); color: var(--aya-dorado);
-    border-radius: 10px; padding: 1px 7px; font-size: 0.72rem; font-weight: 700;
-}
+.alerta-chip .num { background: var(--aya-azul); color: var(--aya-dorado); border-radius: 10px; padding: 1px 7px; font-size: 0.72rem; font-weight: 700; }
 .alerta-chip:hover .num { background: var(--aya-blanco); color: var(--aya-azul); }
-.modal-fondo {
-    position: fixed; inset: 0; background: rgba(27,41,78,0.6);
-    display: none; justify-content: center; align-items: flex-start;
-    padding: 30px 15px; z-index: 1000; overflow-y: auto;
-}
+.modal-fondo { position: fixed; inset: 0; background: rgba(27,41,78,0.6); display: none; justify-content: center; align-items: flex-start; padding: 30px 15px; z-index: 1000; overflow-y: auto; }
 .modal-fondo.activo { display: flex; }
-.modal {
-    background: var(--aya-blanco); border-radius: 10px;
-    width: 100%; max-width: 560px; padding: 20px;
-    box-shadow: 0 6px 24px rgba(27,41,78,0.3);
-    border-top: 4px solid var(--aya-dorado);
-}
-.modal h2 {
-    margin: 0 0 14px; font-size: 1.15rem; color: var(--aya-azul);
-    display: flex; justify-content: space-between; align-items: center;
-}
+.modal { background: var(--aya-blanco); border-radius: 10px; width: 100%; max-width: 560px; padding: 20px; box-shadow: 0 6px 24px rgba(27,41,78,0.3); border-top: 4px solid var(--aya-dorado); }
+.modal h2 { margin: 0 0 14px; font-size: 1.15rem; color: var(--aya-azul); display: flex; justify-content: space-between; align-items: center; }
 .modal h2 .sem { font-size: 0.72rem; font-weight: 700; color: var(--aya-blanco); padding: 3px 8px; border-radius: 10px; }
 .modal .campo { margin-bottom: 10px; }
-.modal .campo > label {
-    display: block; font-weight: 600; color: var(--aya-gris-texto);
-    margin-bottom: 3px; font-size: 0.75rem;
-    text-transform: uppercase; letter-spacing: 0.5px;
-}
-.modal .campo input[type="text"],
-.modal .campo input[type="url"],
-.modal .campo input[type="date"],
-.modal .campo input[type="number"],
-.modal .campo select,
-.modal .campo textarea {
-    width: 100%; border: 1px solid var(--aya-borde-fuerte);
-    border-radius: 5px; padding: 7px 9px; font-size: 0.9rem;
-    font-family: inherit; background: var(--aya-fondo-claro);
-    color: var(--aya-azul);
-}
+.modal .campo > label { display: block; font-weight: 600; color: var(--aya-gris-texto); margin-bottom: 3px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.modal .campo input[type="text"], .modal .campo input[type="url"], .modal .campo input[type="date"], .modal .campo input[type="number"], .modal .campo select, .modal .campo textarea { width: 100%; border: 1px solid var(--aya-borde-fuerte); border-radius: 5px; padding: 7px 9px; font-size: 0.9rem; font-family: inherit; background: var(--aya-fondo-claro); color: var(--aya-azul); }
 .modal .campo textarea { resize: vertical; min-height: 50px; }
-.modal .campo input:focus, .modal .campo select:focus, .modal .campo textarea:focus {
-    outline: none; border-color: var(--aya-dorado); background: var(--aya-blanco);
-}
+.modal .campo input:focus, .modal .campo select:focus, .modal .campo textarea:focus { outline: none; border-color: var(--aya-dorado); background: var(--aya-blanco); }
 .campo-fecha { display: flex; gap: 6px; align-items: stretch; position: relative; }
 .modal .campo > .campo-fecha > input[type="text"] { width: auto; flex: 1 1 auto; min-width: 0; font-variant-numeric: tabular-nums; }
 .modal .campo > .campo-fecha > input[type="text"].invalido { border-color: var(--aya-peligro); background: #fff5f5; }
 .btn-cal-wrapper { position: relative; display: inline-flex; flex-shrink: 0; }
-.btn-calendario {
-    background: var(--aya-tinte-dorado); border: 1px solid var(--aya-dorado);
-    color: var(--aya-azul); border-radius: 5px; padding: 0 14px;
-    cursor: pointer; font-size: 1rem;
-}
+.btn-calendario { background: var(--aya-tinte-dorado); border: 1px solid var(--aya-dorado); color: var(--aya-azul); border-radius: 5px; padding: 0 14px; cursor: pointer; font-size: 1rem; }
 .btn-calendario:hover { background: var(--aya-dorado); color: var(--aya-azul); }
 .date-hidden-picker { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
 .enlaces-lista { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
-.enlace-item {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--aya-fondo-claro);
-    border: 1px solid var(--aya-borde); border-radius: 6px; padding: 6px 8px;
-}
-.enlace-url {
-    flex: 1; min-width: 0; font-size: 0.82rem; color: var(--aya-azul);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    font-family: "Consolas", monospace;
-}
+.enlace-item { display: flex; align-items: center; gap: 8px; background: var(--aya-fondo-claro); border: 1px solid var(--aya-borde); border-radius: 6px; padding: 6px 8px; }
+.enlace-url { flex: 1; min-width: 0; font-size: 0.82rem; color: var(--aya-azul); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: "Consolas", monospace; }
 .enlace-acciones { display: flex; gap: 4px; flex-shrink: 0; }
-.enlace-acciones button {
-    background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte);
-    color: var(--aya-azul); border-radius: 4px; padding: 4px 9px;
-    font-size: 0.72rem; cursor: pointer;
-}
+.enlace-acciones button { background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte); color: var(--aya-azul); border-radius: 4px; padding: 4px 9px; font-size: 0.72rem; cursor: pointer; }
 .enlace-acciones button:hover { background: var(--aya-azul); color: var(--aya-blanco); }
 .enlace-acciones button.btn-enlace-eliminar:hover { background: var(--aya-peligro); border-color: var(--aya-peligro); }
 .enlace-acciones button.btn-enlace-guardar { background: var(--aya-exito); color: var(--aya-blanco); border-color: var(--aya-exito); }
 .enlaces-vacio { font-size: 0.8rem; color: var(--aya-gris-suave); font-style: italic; padding: 8px 4px; text-align: center; }
 .enlace-agregar { display: flex; gap: 6px; align-items: stretch; }
-.enlace-agregar input {
-    flex: 1; min-width: 0; border: 1px solid var(--aya-borde-fuerte);
-    border-radius: 5px; padding: 7px 9px; font-size: 0.9rem;
-    background: var(--aya-fondo-claro); color: var(--aya-azul);
-}
+.enlace-agregar input { flex: 1; min-width: 0; border: 1px solid var(--aya-borde-fuerte); border-radius: 5px; padding: 7px 9px; font-size: 0.9rem; background: var(--aya-fondo-claro); color: var(--aya-azul); }
 .enlace-agregar input:focus { outline: none; border-color: var(--aya-dorado); background: var(--aya-blanco); }
-.btn-enlace-agregar {
-    background: var(--aya-azul); color: var(--aya-blanco);
-    border: 1px solid var(--aya-azul); border-radius: 5px;
-    padding: 0 14px; cursor: pointer; font-size: 0.85rem;
-    font-weight: 600; white-space: nowrap;
-}
+.btn-enlace-agregar { background: var(--aya-azul); color: var(--aya-blanco); border: 1px solid var(--aya-azul); border-radius: 5px; padding: 0 14px; cursor: pointer; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
 .btn-enlace-agregar:hover { background: var(--aya-azul-medio); }
-.enlace-edit-input {
-    flex: 1; min-width: 0; border: 1px solid var(--aya-dorado);
-    border-radius: 5px; padding: 6px 8px; font-size: 0.85rem;
-    background: var(--aya-blanco); color: var(--aya-azul);
-}
-.check-inline {
-    display: flex !important; align-items: center; gap: 8px;
-    font-size: 0.85rem !important; font-weight: 600 !important;
-    color: var(--aya-azul) !important;
-    text-transform: none !important; letter-spacing: 0 !important;
-    cursor: pointer; padding: 4px 0; margin-bottom: 0 !important;
-}
+.enlace-edit-input { flex: 1; min-width: 0; border: 1px solid var(--aya-dorado); border-radius: 5px; padding: 6px 8px; font-size: 0.85rem; background: var(--aya-blanco); color: var(--aya-azul); }
+.check-inline { display: flex !important; align-items: center; gap: 8px; font-size: 0.85rem !important; font-weight: 600 !important; color: var(--aya-azul) !important; text-transform: none !important; letter-spacing: 0 !important; cursor: pointer; padding: 4px 0; margin-bottom: 0 !important; }
 .check-inline input { accent-color: var(--aya-azul); width: 18px; height: 18px; }
 .responsables { display: flex; flex-wrap: wrap; gap: 8px; }
-.responsables label {
-    display: flex; align-items: center; gap: 4px; font-size: 0.8rem;
-    background: var(--aya-tinte-dorado); border: 1px solid var(--aya-dorado);
-    border-radius: 14px; padding: 3px 10px;
-    cursor: pointer; font-weight: 500; color: var(--aya-azul);
-}
+.responsables label { display: flex; align-items: center; gap: 4px; font-size: 0.8rem; background: var(--aya-tinte-dorado); border: 1px solid var(--aya-dorado); border-radius: 14px; padding: 3px 10px; cursor: pointer; font-weight: 500; color: var(--aya-azul); }
 .responsables input { accent-color: var(--aya-azul); }
 .modal .acciones { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-.modal .acciones .izquierda {
-    margin-right: auto; display: flex; align-items: center; gap: 16px;
-    font-size: 0.85rem; font-weight: 600; color: var(--aya-azul);
-}
-.modal .acciones .izquierda label {
-    display: flex; align-items: center; gap: 6px; cursor: pointer;
-}
-.modal .acciones .izquierda input {
-    accent-color: var(--aya-exito); width: 18px; height: 18px;
-}
-.modal .acciones .izquierda label.urgente-lbl input {
-    accent-color: var(--aya-vino);
-}
-button.btn-gris {
-    background: var(--aya-gris-suave); color: var(--aya-blanco);
-    border: none; padding: 9px 16px; border-radius: 6px;
-    cursor: pointer; font-size: 0.9rem;
-}
+.modal .acciones .izquierda { margin-right: auto; display: flex; align-items: center; gap: 16px; font-size: 0.85rem; font-weight: 600; color: var(--aya-azul); }
+.modal .acciones .izquierda label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.modal .acciones .izquierda input { accent-color: var(--aya-exito); width: 18px; height: 18px; }
+.modal .acciones .izquierda label.urgente-lbl input { accent-color: var(--aya-vino); }
+button.btn-gris { background: var(--aya-gris-suave); color: var(--aya-blanco); border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
 button.btn-gris:hover { background: var(--aya-gris-texto); }
-button.btn-rojo {
-    background: transparent; color: var(--aya-peligro);
-    border: 1px solid var(--aya-peligro);
-    padding: 9px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
-}
+button.btn-rojo { background: transparent; color: var(--aya-peligro); border: 1px solid var(--aya-peligro); padding: 9px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
 button.btn-rojo:hover { background: var(--aya-peligro); color: var(--aya-blanco); }
-footer {
-    text-align: center; font-size: 0.75rem; padding: 10px;
-    background: var(--aya-azul); color: var(--aya-gris-suave);
-    border-top: 2px solid var(--aya-dorado);
-}
-.overlay-carga {
-    position: fixed; inset: 0; background: rgba(245,246,250,0.9);
-    display: flex; justify-content: center; align-items: center;
-    font-size: 1rem; color: var(--aya-azul); z-index: 2000;
-}
+footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(--aya-azul); color: var(--aya-gris-suave); border-top: 2px solid var(--aya-dorado); }
+.overlay-carga { position: fixed; inset: 0; background: rgba(245,246,250,0.9); display: flex; justify-content: center; align-items: center; font-size: 1rem; color: var(--aya-azul); z-index: 2000; }
 .overlay-carga.oculto { display: none; }
 
-/* ========== VISOR DE CIUDAD NOCTURNA ========== */
-.ciudad-viewer {
-    margin: 0 24px 20px;
-    background: linear-gradient(160deg, var(--aya-azul-oscuro) 0%, var(--aya-azul) 100%);
-    border-radius: 14px; padding: 12px 14px 8px;
-    color: var(--aya-fondo-claro);
-    box-shadow: 0 8px 28px rgba(27,41,78,0.4);
-    border: 1px solid var(--aya-dorado-oscuro);
-}
-.ciudad-header {
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 12px; flex-wrap: wrap; margin-bottom: 10px;
-}
+/* VISOR */
+.ciudad-viewer { margin: 0 24px 20px; background: linear-gradient(160deg, var(--aya-azul-oscuro) 0%, var(--aya-azul) 100%); border-radius: 14px; padding: 12px 14px 8px; color: var(--aya-fondo-claro); box-shadow: 0 8px 28px rgba(27,41,78,0.4); border: 1px solid var(--aya-dorado-oscuro); }
+.ciudad-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
 .ciudad-title { display: flex; align-items: center; gap: 10px; }
 .ciudad-title h2 { margin: 0; font-size: 1.05rem; color: var(--aya-dorado); letter-spacing: 0.02em; }
 .ciudad-title p { margin: 2px 0 0; font-size: 0.76rem; color: var(--aya-fondo-claro); opacity: 0.75; }
 .ciudad-tools { display: flex; gap: 5px; }
-.ciudad-btn {
-    background: var(--aya-azul-medio); border: 1px solid var(--aya-dorado-oscuro);
-    color: var(--aya-dorado); border-radius: 8px;
-    width: 34px; height: 34px; cursor: pointer;
-    font-size: 1rem; font-weight: 700; font-family: inherit;
-}
+.ciudad-btn { background: var(--aya-azul-medio); border: 1px solid var(--aya-dorado-oscuro); color: var(--aya-dorado); border-radius: 8px; width: 34px; height: 34px; cursor: pointer; font-size: 1rem; font-weight: 700; font-family: inherit; }
 .ciudad-btn:hover { background: var(--aya-azul-claro); border-color: var(--aya-dorado); color: var(--aya-blanco); }
-.ciudad-legend-bar {
-    display: flex; flex-wrap: wrap; gap: 14px;
-    font-size: 0.74rem; color: var(--aya-fondo-claro);
-    padding: 6px 4px;
-    border-bottom: 1px solid var(--aya-dorado-oscuro);
-    margin-bottom: 8px; align-items: center;
-}
+.ciudad-legend-bar { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.74rem; color: var(--aya-fondo-claro); padding: 6px 4px; border-bottom: 1px solid var(--aya-dorado-oscuro); margin-bottom: 8px; align-items: center; }
 .ciudad-leg b { color: var(--aya-dorado); font-weight: 700; margin-right: 6px; }
 .ciudad-leg-item { display: inline-flex; align-items: center; gap: 4px; margin-right: 8px; }
-.ciudad-leg-swatch {
-    display: inline-block; width: 12px; height: 12px;
-    border-radius: 2px; border: 1.5px solid rgba(27,41,78,0.65);
-    vertical-align: middle;
-}
-.ciudad-canvas {
-    width: 100%; height: 500px; position: relative;
-    border-radius: 10px; overflow: hidden;
-    background: radial-gradient(circle at 50% -10%,
-        var(--aya-azul-medio) 0%, var(--aya-azul-oscuro) 60%, #060B15 100%);
-    border: 1px solid var(--aya-azul-claro);
-}
+.ciudad-leg-swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; border: 1.5px solid rgba(27,41,78,0.65); vertical-align: middle; }
+.ciudad-canvas { width: 100%; height: 500px; position: relative; border-radius: 10px; overflow: hidden; background: radial-gradient(circle at 50% -10%, var(--aya-azul-medio) 0%, var(--aya-azul-oscuro) 60%, #060B15 100%); border: 1px solid var(--aya-azul-claro); }
 #ciudadSvg { width: 100%; height: 100%; display: block; cursor: grab; user-select: none; }
 #ciudadSvg:active { cursor: grabbing; }
-.ciudad-hint {
-    text-align: center; font-size: 0.72rem;
-    color: var(--aya-dorado); opacity: 0.8; padding: 6px 0 2px;
-}
-.ciudad-plate {
-    fill: #16223E; stroke: var(--aya-dorado-oscuro);
-    stroke-width: 1; vector-effect: non-scaling-stroke;
-}
-.ciudad-plate-label {
-    fill: var(--aya-dorado); font-size: 0.85px; font-weight: 800;
-    letter-spacing: 0.08em; pointer-events: none; font-family: inherit;
-}
-.ciudad-plate-label.actual {
-    fill: var(--aya-dorado-claro);
-    text-decoration: underline;
-    text-decoration-thickness: 0.08px;
-    text-underline-offset: 0.18px;
-}
+.ciudad-hint { text-align: center; font-size: 0.72rem; color: var(--aya-dorado); opacity: 0.8; padding: 6px 0 2px; }
+.ciudad-plate { fill: #16223E; stroke: var(--aya-dorado-oscuro); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.ciudad-plate-label { fill: var(--aya-dorado); font-size: 0.85px; font-weight: 800; letter-spacing: 0.08em; pointer-events: none; font-family: inherit; }
+.ciudad-plate-label.actual { fill: var(--aya-dorado-claro); text-decoration: underline; text-decoration-thickness: 0.08px; text-underline-offset: 0.18px; }
 .ciudad-face-l { fill: #0F1830; stroke: #1E2A4A; stroke-width: 1; vector-effect: non-scaling-stroke; }
 .ciudad-face-r { fill: #182849; stroke: #2A3D6B; stroke-width: 1; vector-effect: non-scaling-stroke; }
 .ciudad-face-t { fill: #243560; stroke: var(--aya-dorado-oscuro); stroke-width: 1; vector-effect: non-scaling-stroke; }
@@ -508,13 +203,30 @@ footer {
 .ciudad-win { fill: #0A1428; stroke: #1E2A4A; stroke-width: 0.7; vector-effect: non-scaling-stroke; }
 .ciudad-win.lit { stroke: #FFFFFF; stroke-width: 0.7; }
 .ciudad-sign-post { stroke: var(--aya-dorado); stroke-width: 1.1; vector-effect: non-scaling-stroke; }
-.ciudad-sign {
-    font-family: inherit; font-weight: 800; letter-spacing: 0.06em;
-    paint-order: stroke; stroke: rgba(255,255,255,0.35); stroke-width: 0.03;
-    pointer-events: none;
-}
+.ciudad-sign { font-family: inherit; font-weight: 800; letter-spacing: 0.06em; paint-order: stroke; stroke: rgba(255,255,255,0.35); stroke-width: 0.03; pointer-events: none; }
 .ciudad-building { cursor: pointer; }
 .ciudad-building:hover .ciudad-face-t { stroke: var(--aya-dorado-claro); }
+
+/* ===== URGENTE: paredes en vino, ventanas mantienen temperatura ===== */
+.ciudad-building.urgente .ciudad-face-l {
+    fill: #4A1010;
+    stroke: #6B1818;
+}
+.ciudad-building.urgente .ciudad-face-r {
+    fill: #7B1E1E;
+    stroke: #8B2828;
+}
+.ciudad-building.urgente .ciudad-face-t {
+    fill: #942A2A;
+    stroke: #B83333;
+}
+.ciudad-building.urgente .ciudad-floorline {
+    stroke: #8B2828;
+    opacity: 0.75;
+}
+.ciudad-building.urgente:hover .ciudad-face-t {
+    stroke: #FFD060;
+}
 </style>
 </head>
 <body>
@@ -626,7 +338,7 @@ footer {
             <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#FFFFFF"></span>Ricardo 4500 K</span>
         </span>
         <span class="ciudad-leg"><b>Urgente:</b>
-            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#7B1E1E"></span>Vino + antena con luz roja</span>
+            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#7B1E1E"></span>Paredes en vino + antena roja · ventanas mantienen temperatura</span>
         </span>
         <span class="ciudad-leg"><b>Ventanas encendidas = % avance</b> (de abajo hacia arriba)</span>
     </div>
@@ -643,22 +355,13 @@ footer {
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ========================================================= */
-/* SUPABASE — CONEXIÓN REAL                                  */
-/* ========================================================= */
 const SUPABASE_URL = "https://sqryyhbkgmjvkhgzduwf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_OLPsAD1jyyvXKjpsiMKvig_gXTZxW4K";
 
 let supabaseClient = null;
 try {
-    if (typeof supabase !== 'undefined') {
-        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    } else {
-        console.warn("El SDK de Supabase no cargó.");
-    }
-} catch (e) {
-    console.error("Error creando cliente Supabase:", e);
-}
+    if (typeof supabase !== 'undefined') supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch (e) { console.error("Error creando cliente Supabase:", e); }
 
 const RESPONSABLES = ["Harrison Umaña", "Cinthya Meza", "Ricardo Chacón"];
 const MEDIOS = ["Oficio", "Correo", "Teams"];
@@ -675,30 +378,68 @@ let solEnEdicion = null;
 let solEnEdicionEsNueva = false;
 let enlacesEnEdicion = [];
 
-/* ========================================================= */
-/* UTILIDADES FECHA                                          */
-/* ========================================================= */
-function fmtDate(d) {
-    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+function fmtDate(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+
+const SQL_SUGERENCIAS = {
+    urgente: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS urgente boolean DEFAULT false;",
+    enlace: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS enlace text DEFAULT '';",
+    medio_solicitud: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS medio_solicitud text DEFAULT '';",
+    oficio_consecutivo: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_consecutivo text DEFAULT '';",
+    requiere_oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS requiere_oficio_entrega boolean DEFAULT false;",
+    oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_entrega text DEFAULT '';",
+    fecha_estimada: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS fecha_estimada date;",
+    fecha_real: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS fecha_real date;",
+    fecha_solicitud: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS fecha_solicitud date;",
+    avance: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS avance integer DEFAULT 0;",
+    responsables: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS responsables text[] DEFAULT '{}';",
+    completada: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS completada boolean DEFAULT false;",
+    entregables: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS entregables text DEFAULT '';",
+    descripcion: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS descripcion text DEFAULT '';",
+    cliente: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS cliente text DEFAULT '';",
+    id: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS id text;"
+};
+
+function mostrarErrorSupabase(error, accion) {
+    console.error("Error " + accion + ":", error);
+    let msg = "Error al " + accion + ":\n\n" + error.message;
+    const m = error.message.match(/could not find the '([^']+)' column/i);
+    if (m) {
+        const col = m[1];
+        msg += "\n\n⚠️ Falta la columna '" + col + "' en Supabase.\n\n";
+        if (SQL_SUGERENCIAS[col]) msg += "Ejecuta en SQL Editor de Supabase:\n\n" + SQL_SUGERENCIAS[col];
+        else msg += "Revisa el esquema de la tabla 'solicitudes'.";
+        msg += "\n\nLuego ve a Settings → API → Reload schema.";
+    } else if (/violates row-level security/i.test(error.message)) {
+        msg += "\n\n⚠️ Problema de RLS.\n\nEjecuta en SQL Editor:\n\nALTER TABLE solicitudes ENABLE ROW LEVEL SECURITY;\nCREATE POLICY \"allow_all\" ON solicitudes FOR ALL USING (true) WITH CHECK (true);";
+    } else if (/duplicate key/i.test(error.message)) {
+        msg += "\n\n⚠️ Ya existe una fila con ese ID. Recarga la página.";
+    }
+    alert(msg);
+}
+
+async function verificarEsquema() {
+    if (!supabaseClient) return;
+    try {
+        const { error } = await supabaseClient.from("solicitudes").select("urgente").limit(1);
+        if (error && /could not find the 'urgente' column/i.test(error.message)) {
+            console.warn("⚠️ Falta la columna 'urgente' en Supabase.");
+            setTimeout(() => {
+                alert("⚠️ Falta la columna 'urgente' en Supabase.\n\nEjecuta:\nALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS urgente boolean DEFAULT false;\n\nLuego Settings → API → Reload schema.");
+            }, 500);
+        }
+    } catch (e) { console.warn("Verificación de esquema falló:", e); }
 }
 
 /* ========================================================= */
-/* VISOR CIUDAD NOCTURNA — CONFIGURACIÓN                     */
+/* VISOR CIUDAD NOCTURNA                                     */
 /* ========================================================= */
 const CIUDAD_FH = 0.62;
 const CIUDAD_MEDIO_LEVELS = { 'Teams': 4, 'Correo': 8, 'Oficio': 12 };
 const CIUDAD_DEFAULT_LEVELS = 4;
-
-const CIUDAD_RESP_COLORS = {
-    'Harrison Umaña': '#CCF1FF',
-    'Cinthya Meza':   '#FFEBCC',
-    'Ricardo Chacón': '#FFFFFF'
-};
+const CIUDAD_RESP_COLORS = { 'Harrison Umaña': '#CCF1FF', 'Cinthya Meza': '#FFEBCC', 'Ricardo Chacón': '#FFFFFF' };
 const CIUDAD_DEFAULT_COLOR = '#B8B8B8';
 const CIUDAD_SIGN_COLOR = '#C9AD6E';
-const CIUDAD_URGENTE_COLOR = '#7B1E1E';       /* vino */
-const CIUDAD_URGENTE_LUZ = '#FF1A1A';          /* rojo antena */
-
+const CIUDAD_URGENTE_LUZ = '#FF1A1A';
 const CIUDAD_COS30 = Math.cos(Math.PI / 6);
 const CIUDAD_SIN30 = 0.5;
 const CIUDAD_PITCH = 3.2;
@@ -729,26 +470,18 @@ function mkSvg(tag, attrs, parent) {
 function ciudadPT(x, y, z) { return [ (x - y) * CIUDAD_COS30, (x + y) * CIUDAD_SIN30 - z ]; }
 function ciudadP(x, y, z) { const p = ciudadPT(x, y, z); return p[0].toFixed(3) + ',' + p[1].toFixed(3); }
 function ciudadLevelsFor(medio) { return CIUDAD_MEDIO_LEVELS[medio] || CIUDAD_DEFAULT_LEVELS; }
-function ciudadColorFor(sol) {
-    /* Urgente: color vino para todo el edificio */
-    if (sol.urgente) return CIUDAD_URGENTE_COLOR;
-    if (sol.responsables && sol.responsables.length) {
-        return CIUDAD_RESP_COLORS[sol.responsables[0]] || CIUDAD_DEFAULT_COLOR;
-    }
+
+/* SIEMPRE el color del responsable — NUNCA vino. La urgencia solo cambia las paredes. */
+function ciudadWindowColorFor(sol) {
+    if (sol.responsables && sol.responsables.length) return CIUDAD_RESP_COLORS[sol.responsables[0]] || CIUDAD_DEFAULT_COLOR;
     return CIUDAD_DEFAULT_COLOR;
 }
 
 function scheduleApplyCiudadView() {
     if (ciudadRAF) return;
-    ciudadRAF = requestAnimationFrame(() => {
-        ciudadRAF = null;
-        applyCiudadView();
-    });
+    ciudadRAF = requestAnimationFrame(() => { ciudadRAF = null; applyCiudadView(); });
 }
 
-/* ========================================================= */
-/* LAYOUT                                                    */
-/* ========================================================= */
 function buildCiudadData() {
     const groups = new Map();
     const sinFecha = [];
@@ -770,7 +503,6 @@ function buildCiudadData() {
         g.rows = Math.max(1, Math.ceil(N / g.cols));
         g.blockW = (g.cols - 1) * CIUDAD_PITCH + 3;
         g.blockH = (g.rows - 1) * CIUDAD_PITCH + 3;
-        /* Urgentes primero al fondo (más grandes primero, luego urgentes al frente por prioridad visual) */
         g.itemsSorted = [...g.items].sort((a, b) => {
             const hA = ciudadLevelsFor(a.medioSolicitud);
             const hB = ciudadLevelsFor(b.medioSolicitud);
@@ -785,21 +517,16 @@ function buildCiudadData() {
     let col = 0, row = 0, prevYear = null;
     sorted.forEach(g => {
         if (g.year !== prevYear && prevYear !== null) { col = 0; row++; }
-        g.col = col;
-        g.row = row;
-        col++;
+        g.col = col; g.row = row; col++;
         if (col >= CIUDAD_BLOCKS_PER_ROW) { col = 0; row++; }
         prevYear = g.year;
     });
 
     const numRows = Math.max(...sorted.map(g => g.row)) + 1;
     const numCols = Math.max(...sorted.map(g => g.col)) + 1;
-
     const rowY = new Array(numRows).fill(0);
     const rowYear = new Array(numRows).fill(null);
-    let yCursor = 0;
-    let lastRowIdx = -1;
-    let lastYear = null;
+    let yCursor = 0, lastRowIdx = -1, lastYear = null;
 
     sorted.forEach(g => {
         if (g.row !== lastRowIdx) {
@@ -807,10 +534,8 @@ function buildCiudadData() {
                 const isYearChange = (g.year !== lastYear);
                 yCursor += maxBH + (isYearChange ? YEAR_DIVIDER_HEIGHT : CIUDAD_STREET);
             }
-            rowY[g.row] = yCursor;
-            rowYear[g.row] = g.year;
-            lastRowIdx = g.row;
-            lastYear = g.year;
+            rowY[g.row] = yCursor; rowYear[g.row] = g.year;
+            lastRowIdx = g.row; lastYear = g.year;
         }
         g.blockX = g.col * cellW + (maxBW - g.blockW) / 2;
         g.blockY = yCursor + (maxBH - g.blockH) / 2;
@@ -832,76 +557,53 @@ function buildCiudadData() {
 
     const totalWidth = numCols * cellW;
     const totalHeight = rowY[numRows - 1] + maxBH;
-
     ciudadLayoutInfo = { data: sorted, rowY, rowYear, maxBW, maxBH, cellW, numRows, numCols, totalWidth, totalHeight };
     return sorted;
 }
 
 function drawStreets(parent, defs) {
-    const info = ciudadLayoutInfo;
-    if (!info) return;
+    const info = ciudadLayoutInfo; if (!info) return;
     const { rowY, rowYear, maxBH, maxBW, cellW, numRows, numCols, totalWidth, totalHeight } = info;
-
-    const SIDEWALK = '#4D4D4D';
-    const STREET = '#2B2B2B';
-    const MEDIAN = '#2A4A2A';
-
-    const centerX = totalWidth / 2;
-    const centerY = totalHeight / 2;
+    const SIDEWALK = '#4D4D4D', STREET = '#2B2B2B', MEDIAN = '#2A4A2A';
+    const centerX = totalWidth / 2, centerY = totalHeight / 2;
     const maxDist = Math.sqrt(centerX * centerX + centerY * centerY) || 1;
-
     function opacityAt(x, y) {
         const dist = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
-        const norm = Math.min(1, dist / maxDist);
-        return Math.max(0.15, 1 - norm * 1.1);
+        return Math.max(0.15, 1 - Math.min(1, dist / maxDist) * 1.1);
     }
-
     function makeGradH(id, color) {
         const g = mkSvg('linearGradient', { id, x1: '0%', y1: '0%', x2: '100%', y2: '0%' }, defs);
-        mkSvg('stop', { offset: '0%',  'stop-color': color, 'stop-opacity': '0.25' }, g);
+        mkSvg('stop', { offset: '0%', 'stop-color': color, 'stop-opacity': '0.25' }, g);
         mkSvg('stop', { offset: '18%', 'stop-color': color, 'stop-opacity': '1' }, g);
         mkSvg('stop', { offset: '82%', 'stop-color': color, 'stop-opacity': '1' }, g);
-        mkSvg('stop', { offset: '100%','stop-color': color, 'stop-opacity': '0.25' }, g);
+        mkSvg('stop', { offset: '100%', 'stop-color': color, 'stop-opacity': '0.25' }, g);
         return 'url(#' + id + ')';
     }
     function makeGradV(id, color) {
         const g = mkSvg('linearGradient', { id, x1: '0%', y1: '0%', x2: '0%', y2: '100%' }, defs);
-        mkSvg('stop', { offset: '0%',  'stop-color': color, 'stop-opacity': '0.25' }, g);
+        mkSvg('stop', { offset: '0%', 'stop-color': color, 'stop-opacity': '0.25' }, g);
         mkSvg('stop', { offset: '18%', 'stop-color': color, 'stop-opacity': '1' }, g);
         mkSvg('stop', { offset: '82%', 'stop-color': color, 'stop-opacity': '1' }, g);
-        mkSvg('stop', { offset: '100%','stop-color': color, 'stop-opacity': '0.25' }, g);
+        mkSvg('stop', { offset: '100%', 'stop-color': color, 'stop-opacity': '0.25' }, g);
         return 'url(#' + id + ')';
     }
-    const gradSW_H = makeGradH('gradSW_H', SIDEWALK);
-    const gradST_H = makeGradH('gradST_H', STREET);
-    const gradMD_H = makeGradH('gradMD_H', MEDIAN);
-    const gradSW_V = makeGradV('gradSW_V', SIDEWALK);
+    const gradSW_H = makeGradH('gradSW_H', SIDEWALK), gradST_H = makeGradH('gradST_H', STREET);
+    const gradMD_H = makeGradH('gradMD_H', MEDIAN), gradSW_V = makeGradV('gradSW_V', SIDEWALK);
     const gradST_V = makeGradV('gradST_V', STREET);
-
     function rect(x1, y1, x2, y2, fillUrl, opacity) {
         mkSvg('polygon', {
             points: [ciudadP(x1, y1, 0), ciudadP(x2, y1, 0), ciudadP(x2, y2, 0), ciudadP(x1, y2, 0)].join(' '),
-            fill: fillUrl,
-            opacity: String(opacity),
-            stroke: 'none'
+            fill: fillUrl, opacity: String(opacity), stroke: 'none'
         }, parent);
     }
-
     for (let r = 0; r < numRows - 1; r++) {
         if (rowY[r] === undefined || rowY[r + 1] === undefined) continue;
-        const yStart = rowY[r] + maxBH;
-        const yEnd = rowY[r + 1];
-        const gap = yEnd - yStart;
-        if (gap <= 0.1) continue;
-
+        const yStart = rowY[r] + maxBH, yEnd = rowY[r + 1];
+        const gap = yEnd - yStart; if (gap <= 0.1) continue;
         const isYear = (rowYear[r] !== rowYear[r + 1]);
-        const cy = (yStart + yEnd) / 2;
-        const op = opacityAt(centerX, cy);
-
+        const op = opacityAt(centerX, (yStart + yEnd) / 2);
         if (isYear) {
-            const sw = 1.2;
-            const st = 3.0;
-            const md = Math.max(0.2, gap - 2 * sw - 2 * st);
+            const sw = 1.2, st = 3.0, md = Math.max(0.2, gap - 2 * sw - 2 * st);
             let yy = yStart;
             rect(0, yy, totalWidth, yy + sw, gradSW_H, op); yy += sw;
             rect(0, yy, totalWidth, yy + st, gradST_H, op); yy += st;
@@ -909,23 +611,17 @@ function drawStreets(parent, defs) {
             rect(0, yy, totalWidth, yy + st, gradST_H, op); yy += st;
             rect(0, yy, totalWidth, yy + sw, gradSW_H, op);
         } else {
-            const sw = 1.2;
-            const st = Math.max(0.2, gap - 2 * sw);
+            const sw = 1.2, st = Math.max(0.2, gap - 2 * sw);
             let yy = yStart;
             rect(0, yy, totalWidth, yy + sw, gradSW_H, op); yy += sw;
             rect(0, yy, totalWidth, yy + st, gradST_H, op); yy += st;
             rect(0, yy, totalWidth, yy + sw, gradSW_H, op);
         }
     }
-
     for (let c = 0; c < numCols - 1; c++) {
-        const xStart = c * cellW + maxBW;
-        const xEnd = (c + 1) * cellW;
-        const cx = (xStart + xEnd) / 2;
-        const op = opacityAt(cx, centerY);
-
-        const sw = 1.2;
-        const st = Math.max(0.2, (xEnd - xStart) - 2 * sw);
+        const xStart = c * cellW + maxBW, xEnd = (c + 1) * cellW;
+        const op = opacityAt((xStart + xEnd) / 2, centerY);
+        const sw = 1.2, st = Math.max(0.2, (xEnd - xStart) - 2 * sw);
         let xx = xStart;
         rect(xx, 0, xx + sw, totalHeight, gradSW_V, op); xx += sw;
         rect(xx, 0, xx + st, totalHeight, gradST_V, op); xx += st;
@@ -933,9 +629,6 @@ function drawStreets(parent, defs) {
     }
 }
 
-/* ========================================================= */
-/* RENDER DEL VISOR                                          */
-/* ========================================================= */
 function computeCiudadHash() {
     const filtros = Array.from(filtroResp).sort().join(',');
     const datos = solicitudes.map(s =>
@@ -951,11 +644,8 @@ function renderCiudad() {
     const svg = document.getElementById('ciudadSvg');
     const viewer = document.getElementById('ciudadViewer');
     if (!svg || !viewer) return;
-
     const hash = computeCiudadHash();
-    if (hash === lastCiudadHash && svg.childNodes.length > 0 && !ciudadNeedFit) {
-        return;
-    }
+    if (hash === lastCiudadHash && svg.childNodes.length > 0 && !ciudadNeedFit) return;
     lastCiudadHash = hash;
 
     const data = buildCiudadData();
@@ -984,28 +674,23 @@ function renderCiudad() {
     if (ciudadLayoutInfo) {
         const { totalWidth, totalHeight } = ciudadLayoutInfo;
         mkSvg('polygon', {
-            points: [ciudadP(0, 0, 0), ciudadP(totalWidth, 0, 0),
-                     ciudadP(totalWidth, totalHeight, 0), ciudadP(0, totalHeight, 0)].join(' '),
+            points: [ciudadP(0, 0, 0), ciudadP(totalWidth, 0, 0), ciudadP(totalWidth, totalHeight, 0), ciudadP(0, totalHeight, 0)].join(' '),
             fill: '#0A1428'
         }, svg);
     }
-
     drawStreets(svg, defs);
 
     const ahora = new Date();
-    const mesHoy = ahora.getMonth();
-    const anioHoy = ahora.getFullYear();
+    const mesHoy = ahora.getMonth(), anioHoy = ahora.getFullYear();
 
     data.forEach(g => {
         const gBlock = mkSvg('g', { class: 'ciudad-block' }, svg);
-
         mkSvg('polygon', {
             points: [ciudadP(g.blockX, g.blockY, 0), ciudadP(g.blockX + g.blockW, g.blockY, 0),
                      ciudadP(g.blockX + g.blockW, g.blockY + g.blockH, 0), ciudadP(g.blockX, g.blockY + g.blockH, 0)].join(' '),
             class: 'ciudad-plate',
             style: g.isSinFecha ? 'stroke:#7a3a3a;' : ''
         }, gBlock);
-
         const items = g.slots.map((slot, i) => {
             const sol = g.itemsSorted[i];
             return { sol, cx: slot.x, cy: slot.y, depth: slot.depth, height: ciudadLevelsFor(sol.medioSolicitud) };
@@ -1020,22 +705,18 @@ function renderCiudad() {
         }
         const lp = ciudadPT(labelX, g.blockY + g.blockH + 1.6, 0);
         const esMesActual = !g.isSinFecha && g.month === mesHoy && g.year === anioHoy;
-
         const textAttrs = {
             x: lp[0].toFixed(3), y: lp[1].toFixed(3),
             class: 'ciudad-plate-label' + (esMesActual ? ' actual' : ''),
-            'text-anchor': 'middle',
-            text: label
+            'text-anchor': 'middle', text: label
         };
-        if (g.isSinFecha) {
-            textAttrs.style = 'fill:#c26a6a;';
-        } else if (esMesActual) {
+        if (g.isSinFecha) textAttrs.style = 'fill:#c26a6a;';
+        else if (esMesActual) {
             textAttrs['text-decoration'] = 'underline';
             textAttrs['text-decoration-thickness'] = '0.08';
             textAttrs.style = 'fill:#DEC584;';
         }
         mkSvg('text', textAttrs, gBlock);
-
         if (esMesActual) {
             const approxWidth = label.length * 0.55;
             const yLine = lp[1] + 0.28;
@@ -1051,25 +732,28 @@ function renderCiudad() {
     else applyCiudadView();
 }
 
-/* ========================================================= */
-/* EDIFICIO — CON SOPORTE DE URGENCIA                        */
-/* ========================================================= */
 function drawCiudadBuilding(item, parent, getFilter) {
     const { sol, cx, cy, height: floors } = item;
     const H = floors * CIUDAD_FH;
     const x0 = cx - 1, x1 = cx + 1, y0 = cy - 1, y1 = cy + 1;
-    const color = ciudadColorFor(sol);           /* vino si urgente, si no temperatura */
+    /* Ventanas SIEMPRE con color de temperatura del responsable, NUNCA vino */
+    const windowColor = ciudadWindowColorFor(sol);
     const signColor = CIUDAD_SIGN_COLOR;
-    const filterId = getFilter(color);
+    const filterId = getFilter(windowColor);
     const urgente = !!sol.urgente;
 
-    const g = mkSvg('g', { class: 'ciudad-building', 'data-sid': sol.id }, parent);
+    /* Clase urgente → CSS pinta las 3 caras en vino. Ventanas quedan intactas. */
+    const g = mkSvg('g', {
+        class: 'ciudad-building' + (urgente ? ' urgente' : ''),
+        'data-sid': sol.id
+    }, parent);
 
-    /* Caras */
+    /* Caras (paredes) — CSS las colorea; la clase .urgente las hace vino */
     mkSvg('polygon', { points: [ciudadP(x1, y0, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x1, y0, H)].join(' '), class: 'ciudad-face-r' }, g);
     mkSvg('polygon', { points: [ciudadP(x0, y1, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-l' }, g);
     mkSvg('polygon', { points: [ciudadP(x0, y0, H), ciudadP(x1, y0, H), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-t' }, g);
 
+    /* Líneas de piso — CSS las colorea (wine cuando urgente) */
     for (let f = 1; f < floors; f++) {
         const z = f * CIUDAD_FH;
         const a = ciudadPT(x1, y0, z), b = ciudadPT(x1, y1, z), c = ciudadPT(x0, y1, z);
@@ -1077,34 +761,23 @@ function drawCiudadBuilding(item, parent, getFilter) {
         mkSvg('line', { x1: c[0].toFixed(3), y1: c[1].toFixed(3), x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'ciudad-floorline' }, g);
     }
 
-    /* Ventanas: un solo grupo con filtro compartido */
+    /* Ventanas — SIEMPRE con windowColor (temperatura del responsable) */
     const glowGroup = mkSvg('g', { filter: `url(#${filterId})` }, g);
     const winGroup = mkSvg('g', {}, g);
-
     const totalWin = floors * 4;
     const litCount = Math.round((sol.avance / 100) * totalWin);
     let wi = 0;
-
     function dibujarVentana(pts) {
         const lit = wi < litCount;
-        mkSvg('polygon', {
-            points: pts,
-            fill: color,
-            stroke: 'none',
-            opacity: lit ? '0.85' : '0.18'
-        }, glowGroup);
-        const el = mkSvg('polygon', {
-            points: pts,
-            class: 'ciudad-win' + (lit ? ' lit' : '')
-        }, winGroup);
+        mkSvg('polygon', { points: pts, fill: windowColor, stroke: 'none', opacity: lit ? '0.85' : '0.18' }, glowGroup);
+        const el = mkSvg('polygon', { points: pts, class: 'ciudad-win' + (lit ? ' lit' : '') }, winGroup);
         if (lit) {
-            el.style.fill = color;
+            el.style.fill = windowColor;
             el.style.stroke = '#FFFFFF';
             el.style.strokeWidth = '0.6';
         }
         wi++;
     }
-
     for (let f = 0; f < floors; f++) {
         const zA = f * CIUDAD_FH + CIUDAD_FH * 0.18;
         const zB = f * CIUDAD_FH + CIUDAD_FH * 0.82;
@@ -1120,72 +793,35 @@ function drawCiudadBuilding(item, parent, getFilter) {
         }
     }
 
-    /* ===== ANTENA DE RADIO + LUZ ROJA para URGENTES ===== */
+    /* Antena de radio + luz roja SOLO para urgentes */
     if (urgente) {
         const antennaH = 1.6;
         const [px1, py1] = ciudadPT(cx, cy, H);
         const [px2, py2] = ciudadPT(cx, cy, H + antennaH);
-
-        /* Poste principal */
-        mkSvg('line', {
-            x1: px1.toFixed(3), y1: py1.toFixed(3),
-            x2: px2.toFixed(3), y2: py2.toFixed(3),
-            stroke: '#D0D0D0', 'stroke-width': '0.09'
-        }, g);
-
-        /* Travesaños horizontales (look de antena de radio) */
-        const crossBars = [
-            { h: 0.35, w: 0.38 },
-            { h: 0.75, w: 0.30 },
-            { h: 1.10, w: 0.22 },
-            { h: 1.38, w: 0.14 }
-        ];
-        crossBars.forEach(bar => {
+        mkSvg('line', { x1: px1.toFixed(3), y1: py1.toFixed(3), x2: px2.toFixed(3), y2: py2.toFixed(3), stroke: '#D0D0D0', 'stroke-width': '0.09' }, g);
+        [{ h: 0.35, w: 0.38 }, { h: 0.75, w: 0.30 }, { h: 1.10, w: 0.22 }, { h: 1.38, w: 0.14 }].forEach(bar => {
             const [lx1, ly1] = ciudadPT(cx - bar.w, cy, H + bar.h);
             const [lx2, ly2] = ciudadPT(cx + bar.w, cy, H + bar.h);
-            mkSvg('line', {
-                x1: lx1.toFixed(3), y1: ly1.toFixed(3),
-                x2: lx2.toFixed(3), y2: ly2.toFixed(3),
-                stroke: '#D0D0D0', 'stroke-width': '0.07'
-            }, g);
+            mkSvg('line', { x1: lx1.toFixed(3), y1: ly1.toFixed(3), x2: lx2.toFixed(3), y2: ly2.toFixed(3), stroke: '#D0D0D0', 'stroke-width': '0.07' }, g);
         });
-
-        /* Pequeño tripié/tope en la punta */
         const [t1, t2] = ciudadPT(cx - 0.10, cy, H + antennaH);
         const [t3, t4] = ciudadPT(cx + 0.10, cy, H + antennaH);
         const [ap1, ap2] = ciudadPT(cx, cy, H + antennaH + 0.12);
         mkSvg('line', { x1: t1.toFixed(3), y1: t2.toFixed(3), x2: ap1.toFixed(3), y2: ap2.toFixed(3), stroke: '#D0D0D0', 'stroke-width': '0.06' }, g);
         mkSvg('line', { x1: t3.toFixed(3), y1: t4.toFixed(3), x2: ap1.toFixed(3), y2: ap2.toFixed(3), stroke: '#D0D0D0', 'stroke-width': '0.06' }, g);
-
-        /* Luz roja parpadeante en la punta */
         const [lx, ly] = ciudadPT(cx, cy, H + antennaH + 0.18);
-        const light = mkSvg('circle', {
-            cx: lx.toFixed(3), cy: ly.toFixed(3), r: '0.16',
-            fill: CIUDAD_URGENTE_LUZ,
-            filter: `url(#${getFilter(CIUDAD_URGENTE_LUZ)})`
-        }, g);
-        /* Animación de pulso sutil (barata: solo opacidad) */
+        const light = mkSvg('circle', { cx: lx.toFixed(3), cy: ly.toFixed(3), r: '0.16', fill: CIUDAD_URGENTE_LUZ, filter: `url(#${getFilter(CIUDAD_URGENTE_LUZ)})` }, g);
         const anim = document.createElementNS(CIUDAD_SVGNS, 'animate');
         anim.setAttribute('attributeName', 'opacity');
         anim.setAttribute('values', '1;0.35;1');
         anim.setAttribute('dur', '1.4s');
         anim.setAttribute('repeatCount', 'indefinite');
         light.appendChild(anim);
-    }
-    /* Luz roja normal sobre tejado solo si NO es urgente y es Oficio (12 niveles) */
-    else if (floors >= 12) {
+    } else if (floors >= 12) {
         const [lx, ly] = ciudadPT(cx, cy, H + 0.12);
-        mkSvg('circle', {
-            cx: lx.toFixed(3), cy: ly.toFixed(3), r: '0.13',
-            fill: '#FF2D2D',
-            filter: `url(#${getFilter('#FF2D2D')})`
-        }, g);
+        mkSvg('circle', { cx: lx.toFixed(3), cy: ly.toFixed(3), r: '0.13', fill: '#FF2D2D', filter: `url(#${getFilter('#FF2D2D')})` }, g);
         const [px, py] = ciudadPT(cx, cy, H);
-        mkSvg('line', {
-            x1: px.toFixed(3), y1: py.toFixed(3),
-            x2: lx.toFixed(3), y2: ly.toFixed(3),
-            stroke: '#FF2D2D', 'stroke-width': '0.06'
-        }, g);
+        mkSvg('line', { x1: px.toFixed(3), y1: py.toFixed(3), x2: lx.toFixed(3), y2: ly.toFixed(3), stroke: '#FF2D2D', 'stroke-width': '0.06' }, g);
     }
 
     /* Rótulo dorado */
@@ -1193,7 +829,6 @@ function drawCiudadBuilding(item, parent, getFilter) {
     const label = raw ? (raw.length > 18 ? raw.slice(0, 17) + '…' : raw) : 'Solicitud';
     const fs = Math.max(0.32, Math.min(0.85, 4.8 / Math.max(label.length, 4)));
     const zSign = H + (urgente ? 2.4 : 0.55) + fs * 0.55;
-
     [-0.8, 0.8].forEach(dx => {
         const a = ciudadPT(cx + dx, cy, Math.max(H - 0.02, 0));
         const b = ciudadPT(cx + dx, cy, zSign - fs * 0.5);
@@ -1202,59 +837,42 @@ function drawCiudadBuilding(item, parent, getFilter) {
     const cs = ciudadPT(cx, cy, zSign);
     const t = mkSvg('text', {
         x: cs[0].toFixed(3), y: cs[1].toFixed(3), 'text-anchor': 'middle',
-        'dominant-baseline': 'middle', class: 'ciudad-sign',
-        fill: signColor, 'font-size': fs.toFixed(3)
+        'dominant-baseline': 'middle', class: 'ciudad-sign', fill: signColor, 'font-size': fs.toFixed(3)
     }, g);
     t.textContent = label;
 
     const titleEl = mkSvg('title', {}, g);
-    titleEl.textContent =
-        (urgente ? '🚨 URGENTE · ' : '') +
-        (sol.cliente || 'Sin cliente') + '\n' +
+    titleEl.textContent = (urgente ? '🚨 URGENTE · ' : '') + (sol.cliente || 'Sin cliente') + '\n' +
         'Avance: ' + sol.avance + '% · ' + (sol.medioSolicitud || 'Sin medio') + '\n' +
         'Niveles: ' + floors +
         (sol.responsables.length ? '\nResp: ' + sol.responsables.join(', ') : '') +
         (sol.fechaEstimada ? '\nEntrega: ' + sol.fechaEstimada : '');
 }
 
-/* ========================================================= */
-/* CÁMARA                                                    */
-/* ========================================================= */
 function fitCiudadView() {
-    const svg = document.getElementById('ciudadSvg');
-    if (!svg) return;
-    let b;
-    try { b = svg.getBBox(); } catch (e) { b = { x: 0, y: 0, width: 20, height: 20 }; }
+    const svg = document.getElementById('ciudadSvg'); if (!svg) return;
+    let b; try { b = svg.getBBox(); } catch (e) { b = { x: 0, y: 0, width: 20, height: 20 }; }
     if (!b || b.width === 0 || b.height === 0) { ciudadView = { x: -2, y: -2, w: 30, h: 30 }; applyCiudadView(); return; }
-    const pad = 2;
-    const rect = svg.getBoundingClientRect();
+    const pad = 2, rect = svg.getBoundingClientRect();
     const aspect = rect.width > 0 && rect.height > 0 ? rect.width / rect.height : 1.6;
-    let h = b.height + pad * 2;
-    let w = h * aspect;
+    let h = b.height + pad * 2, w = h * aspect;
     if (w > b.width + pad * 2) { w = b.width + pad * 2; h = w / aspect; }
     ciudadView = { x: b.x - pad, y: b.y - pad, w, h };
     applyCiudadView();
 }
 function applyCiudadView() {
     if (!ciudadView) return;
-    const svg = document.getElementById('ciudadSvg');
-    if (!svg) return;
-    svg.setAttribute('viewBox',
-        `${ciudadView.x.toFixed(3)} ${ciudadView.y.toFixed(3)} ${ciudadView.w.toFixed(3)} ${ciudadView.h.toFixed(3)}`);
+    const svg = document.getElementById('ciudadSvg'); if (!svg) return;
+    svg.setAttribute('viewBox', `${ciudadView.x.toFixed(3)} ${ciudadView.y.toFixed(3)} ${ciudadView.w.toFixed(3)} ${ciudadView.h.toFixed(3)}`);
 }
 function zoomCiudad(k, ax, ay) {
     if (!ciudadView) return;
-    const svg = document.getElementById('ciudadSvg');
-    const rect = svg.getBoundingClientRect();
+    const svg = document.getElementById('ciudadSvg'), rect = svg.getBoundingClientRect();
     let mx, my;
     if (ax != null && ay != null) {
         const s = Math.max(ciudadView.w / rect.width, ciudadView.h / rect.height);
-        mx = ciudadView.x + (ax - rect.left) * s;
-        my = ciudadView.y + (ay - rect.top) * s;
-    } else {
-        mx = ciudadView.x + ciudadView.w / 2;
-        my = ciudadView.y + ciudadView.h / 2;
-    }
+        mx = ciudadView.x + (ax - rect.left) * s; my = ciudadView.y + (ay - rect.top) * s;
+    } else { mx = ciudadView.x + ciudadView.w / 2; my = ciudadView.y + ciudadView.h / 2; }
     ciudadView.x = mx - (mx - ciudadView.x) * k;
     ciudadView.y = my - (my - ciudadView.y) * k;
     ciudadView.w *= k; ciudadView.h *= k;
@@ -1264,8 +882,7 @@ function setupCiudadInteraction() {
     if (ciudadInteractionReady) return;
     ciudadInteractionReady = true;
     try {
-        const svg = document.getElementById('ciudadSvg');
-        if (!svg) return;
+        const svg = document.getElementById('ciudadSvg'); if (!svg) return;
         svg.addEventListener('wheel', e => { e.preventDefault(); zoomCiudad(e.deltaY > 0 ? 1.12 : 1/1.12, e.clientX, e.clientY); }, { passive: false });
         svg.addEventListener('mousedown', e => {
             if (e.button !== 0) return;
@@ -1279,8 +896,7 @@ function setupCiudadInteraction() {
             if (!ciudadDrag.moved) return;
             const rect = svg.getBoundingClientRect();
             const s = Math.max(ciudadView.w / rect.width, ciudadView.h / rect.height);
-            ciudadView.x = ciudadDrag.vx - dx * s;
-            ciudadView.y = ciudadDrag.vy - dy * s;
+            ciudadView.x = ciudadDrag.vx - dx * s; ciudadView.y = ciudadDrag.vy - dy * s;
             scheduleApplyCiudadView();
         });
         window.addEventListener('mouseup', () => {
@@ -1289,10 +905,8 @@ function setupCiudadInteraction() {
         });
         svg.addEventListener('click', e => {
             if (ciudadSuppressClick) return;
-            const bld = e.target.closest('.ciudad-building');
-            if (!bld) return;
-            const sid = bld.getAttribute('data-sid');
-            if (!sid) return;
+            const bld = e.target.closest('.ciudad-building'); if (!bld) return;
+            const sid = bld.getAttribute('data-sid'); if (!sid) return;
             const sol = solicitudes.find(s => String(s.id) === String(sid));
             if (sol) abrirFichaPorId(sol.id);
         });
@@ -1303,9 +917,7 @@ function setupCiudadInteraction() {
 }
 function scheduleCiudadRender() {
     if (ciudadDebounceTimer) clearTimeout(ciudadDebounceTimer);
-    ciudadDebounceTimer = setTimeout(() => {
-        try { renderCiudad(); } catch (e) { console.error("[Visor] render:", e); }
-    }, 120);
+    ciudadDebounceTimer = setTimeout(() => { try { renderCiudad(); } catch (e) { console.error("[Visor] render:", e); } }, 120);
 }
 
 /* ========================================================= */
@@ -1316,8 +928,7 @@ function isoToDDMMYYYY(iso) { if (!iso) return ""; const m = iso.match(/^(\d{4})
 function ddmmyyyyToISO(str) {
     if (!str) return "";
     const s = String(str).trim().replace(/[.\-]/g, "/");
-    const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-    if (!m) return "";
+    const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if (!m) return "";
     const d = parseInt(m[1],10), mo = parseInt(m[2],10), y = parseInt(m[3],10);
     if (mo < 1 || mo > 12 || y < 1900 || y > 2100) return "";
     const dim = new Date(y, mo, 0).getDate();
@@ -1339,16 +950,14 @@ function colorSemaforo(fechaISO) {
 function semaforoPara(sol) { if (sol.completada) return { color: GRIS_COMPLETADO, texto: "Completada" }; return colorSemaforo(sol.fechaEstimada); }
 function pasaFiltroResp(sol) { return filtroResp.size === 0 || sol.responsables.some(r => filtroResp.has(r)); }
 function pasaBusqueda(sol) {
-    const q = (busquedaActual || "").trim().toLowerCase();
-    if (!q) return true;
+    const q = (busquedaActual || "").trim().toLowerCase(); if (!q) return true;
     const palabras = q.split(/\s+/).filter(Boolean);
     const campos = [sol.cliente || "", sol.descripcion || "", sol.entregables || ""].map(c => c.toLowerCase());
     return palabras.every(p => campos.some(c => c.includes(p)));
 }
 function pasaTodosFiltros(sol) { return pasaFiltroResp(sol) && pasaBusqueda(sol); }
 function setEstadoSync(estado, texto) {
-    const el = document.getElementById("estadoSync");
-    if (!el) return;
+    const el = document.getElementById("estadoSync"); if (!el) return;
     el.classList.remove("online", "sync", "error");
     if (estado) el.classList.add(estado);
     document.getElementById("textoSync").textContent = texto;
@@ -1419,9 +1028,7 @@ function renderBuscadorResultados() {
         const tc = document.createElement("span"); tc.appendChild(resaltarCoincidencias(sol.cliente || "(Sin cliente)", palabras));
         if (sol.urgente) {
             const urg = document.createElement("span");
-            urg.className = "estado";
-            urg.style.background = "var(--aya-vino)";
-            urg.textContent = "🚨 URGENTE";
+            urg.className = "estado"; urg.style.background = "var(--aya-vino)"; urg.textContent = "🚨 URGENTE";
             tit.appendChild(urg);
         }
         const est = document.createElement("span"); est.className = "estado"; est.style.background = sem.color; est.textContent = sol.completada ? "Completada" : sem.texto;
@@ -1449,23 +1056,39 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") document.get
 /* MAPEO MODELO <-> DB                                       */
 /* ========================================================= */
 function toDB(sol) {
-    return { id: sol.id, cliente: sol.cliente || "", fecha_solicitud: sol.fechaSolicitud || null, descripcion: sol.descripcion || "",
-        fecha_estimada: sol.fechaEstimada || null, avance: sol.avance || 0, responsables: sol.responsables || [],
-        entregables: sol.entregables || "", enlace: (sol.enlaces || []).join("\n"), fecha_real: sol.fechaReal || null,
-        completada: !!sol.completada, medio_solicitud: sol.medioSolicitud || "", oficio_consecutivo: sol.oficioConsecutivo || "",
+    return {
+        id: sol.id, cliente: sol.cliente || "",
+        fecha_solicitud: sol.fechaSolicitud || null,
+        descripcion: sol.descripcion || "",
+        fecha_estimada: sol.fechaEstimada || null,
+        avance: sol.avance || 0, responsables: sol.responsables || [],
+        entregables: sol.entregables || "", enlace: (sol.enlaces || []).join("\n"),
+        fecha_real: sol.fechaReal || null, completada: !!sol.completada,
+        medio_solicitud: sol.medioSolicitud || "", oficio_consecutivo: sol.oficioConsecutivo || "",
         requiere_oficio_entrega: !!sol.requiereOficioEntrega, oficio_entrega: sol.oficioEntrega || "",
-        urgente: !!sol.urgente };
+        urgente: !!sol.urgente
+    };
 }
 function fromDB(row) {
-    return { id: row.id, cliente: row.cliente || "", fechaSolicitud: row.fecha_solicitud || "", descripcion: row.descripcion || "",
-        fechaEstimada: row.fecha_estimada || "", avance: row.avance || 0, responsables: row.responsables || [],
-        entregables: row.entregables || "", enlaces: row.enlace ? String(row.enlace).split("\n").map(s => s.trim()).filter(Boolean) : [],
-        fechaReal: row.fecha_real || "", completada: !!row.completada, medioSolicitud: row.medio_solicitud || "",
-        oficioConsecutivo: row.oficio_consecutivo || "", requiereOficioEntrega: !!row.requiere_oficio_entrega, oficioEntrega: row.oficio_entrega || "",
-        urgente: !!row.urgente };
+    return {
+        id: row.id, cliente: row.cliente || "", fechaSolicitud: row.fecha_solicitud || "",
+        descripcion: row.descripcion || "", fechaEstimada: row.fecha_estimada || "",
+        avance: row.avance || 0, responsables: row.responsables || [],
+        entregables: row.entregables || "",
+        enlaces: row.enlace ? String(row.enlace).split("\n").map(s => s.trim()).filter(Boolean) : [],
+        fechaReal: row.fecha_real || "", completada: !!row.completada,
+        medioSolicitud: row.medio_solicitud || "", oficioConsecutivo: row.oficio_consecutivo || "",
+        requiereOficioEntrega: !!row.requiere_oficio_entrega, oficioEntrega: row.oficio_entrega || "",
+        urgente: !!row.urgente
+    };
 }
 function crearSolicitudVacia() {
-    return { id: "s_" + Date.now() + "_" + Math.floor(Math.random()*1000), cliente: "", fechaSolicitud: hoyISO(), descripcion: "",
+    const uid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+        : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            const r = Math.random() * 16 | 0;
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+    return { id: uid, cliente: "", fechaSolicitud: hoyISO(), descripcion: "",
         fechaEstimada: "", avance: 0, responsables: [], entregables: "", enlaces: [], fechaReal: "", completada: false,
         medioSolicitud: "", oficioConsecutivo: "", requiereOficioEntrega: false, oficioEntrega: "",
         urgente: false };
@@ -1475,66 +1098,62 @@ function crearSolicitudVacia() {
 /* SUPABASE                                                  */
 /* ========================================================= */
 async function cargarDesdeNube() {
-    if (!supabaseClient) {
-        console.error("Supabase no disponible.");
-        setEstadoSync("error", "Supabase no disponible");
-        solicitudes = [];
-        return;
-    }
+    if (!supabaseClient) { setEstadoSync("error", "Supabase no disponible"); solicitudes = []; return; }
     setEstadoSync("sync", "Sincronizando…");
     try {
-        const { data, error } = await supabaseClient
-            .from("solicitudes")
-            .select("*")
-            .order("fecha_estimada", { ascending: true, nullsFirst: false });
+        const { data, error } = await supabaseClient.from("solicitudes").select("*").order("fecha_estimada", { ascending: true, nullsFirst: false });
         if (error) throw error;
         solicitudes = (data || []).map(fromDB);
         setEstadoSync("online", "En línea · " + solicitudes.length + " registros");
     } catch (e) {
-        console.error("Error cargando desde Supabase:", e);
+        console.error("Error cargando:", e);
         setEstadoSync("error", "Error de conexión");
-        alert("No se pudo conectar a Supabase:\n\n" + (e.message || e));
+        alert("No se pudo conectar a Supabase:\n\n" + (e.message || e) + "\n\nVerifica tu conexión y las credenciales del proyecto.");
         solicitudes = [];
     }
 }
 async function insertarEnNube(sol) {
     if (!supabaseClient) { alert("Supabase no disponible."); return false; }
     setEstadoSync("sync", "Guardando…");
-    const { error } = await supabaseClient.from("solicitudes").insert([toDB(sol)]);
-    if (error) {
-        console.error("Error insertando:", error);
+    try {
+        const { data, error } = await supabaseClient.from("solicitudes").insert([toDB(sol)]).select();
+        if (error) { setEstadoSync("error", "Error al guardar"); mostrarErrorSupabase(error, "guardar"); return false; }
+        if (data && data[0]) Object.assign(sol, fromDB(data[0]));
+        setEstadoSync("online", "En línea");
+        return true;
+    } catch (e) {
         setEstadoSync("error", "Error al guardar");
-        alert("Error al guardar:\n\n" + error.message);
+        mostrarErrorSupabase(e, "guardar");
         return false;
     }
-    setEstadoSync("online", "En línea");
-    return true;
 }
 async function actualizarEnNube(sol) {
     if (!supabaseClient) { alert("Supabase no disponible."); return false; }
     setEstadoSync("sync", "Guardando…");
-    const { error } = await supabaseClient.from("solicitudes").update(toDB(sol)).eq("id", sol.id);
-    if (error) {
-        console.error("Error actualizando:", error);
+    try {
+        const { error } = await supabaseClient.from("solicitudes").update(toDB(sol)).eq("id", sol.id);
+        if (error) { setEstadoSync("error", "Error al guardar"); mostrarErrorSupabase(error, "guardar"); return false; }
+        setEstadoSync("online", "En línea");
+        return true;
+    } catch (e) {
         setEstadoSync("error", "Error al guardar");
-        alert("Error al guardar:\n\n" + error.message);
+        mostrarErrorSupabase(e, "guardar");
         return false;
     }
-    setEstadoSync("online", "En línea");
-    return true;
 }
 async function eliminarEnNube(id) {
     if (!supabaseClient) { alert("Supabase no disponible."); return false; }
     setEstadoSync("sync", "Eliminando…");
-    const { error } = await supabaseClient.from("solicitudes").delete().eq("id", id);
-    if (error) {
-        console.error("Error eliminando:", error);
+    try {
+        const { error } = await supabaseClient.from("solicitudes").delete().eq("id", id);
+        if (error) { setEstadoSync("error", "Error al eliminar"); mostrarErrorSupabase(error, "eliminar"); return false; }
+        setEstadoSync("online", "En línea");
+        return true;
+    } catch (e) {
         setEstadoSync("error", "Error al eliminar");
-        alert("Error al eliminar:\n\n" + error.message);
+        mostrarErrorSupabase(e, "eliminar");
         return false;
     }
-    setEstadoSync("online", "En línea");
-    return true;
 }
 
 /* ========================================================= */
@@ -1568,9 +1187,6 @@ function cambiarMes(delta) {
 function irAMes() { mesActual = parseInt(document.getElementById("selMes").value, 10); anioActual = parseInt(document.getElementById("selAnio").value, 10); render(); }
 function irHoy() { mesActual = new Date().getMonth(); anioActual = new Date().getFullYear(); sincronizarSelects(); render(); }
 
-/* ========================================================= */
-/* FILTRO RESPONSABLE                                        */
-/* ========================================================= */
 function actualizarChips() {
     document.querySelectorAll(".chip").forEach(chip => {
         const r = chip.dataset.resp;
@@ -1590,9 +1206,6 @@ document.querySelectorAll(".chip").forEach(chip => {
     });
 });
 
-/* ========================================================= */
-/* RENDER PRINCIPAL                                          */
-/* ========================================================= */
 function render() {
     const procesoMes = [], procesoSinFecha = [], compMes = [], compSinFecha = [];
     solicitudes.filter(s => !s.completada).filter(pasaTodosFiltros).forEach(s => {
@@ -1660,7 +1273,6 @@ function crearFilaDOM(sol) {
     const fila = document.createElement("div");
     fila.className = "fila" + (sol.completada ? " completada" : "");
     const sem = semaforoPara(sol);
-    /* Urgente: borde vino para destacar en la lista */
     fila.style.borderLeftColor = sol.urgente ? "var(--aya-vino)" : sem.color;
     const info = document.createElement("div"); info.className = "info";
     const h3 = document.createElement("h3"); h3.textContent = sol.cliente || "(Sin cliente)";
@@ -1821,10 +1433,8 @@ function abrirFicha(sol, isNew) {
     im.addEventListener("change", vis); document.getElementById("f_req_oficio").addEventListener("change", vis); vis();
 
     const acc = document.createElement("div"); acc.className = "acciones";
-    /* Contenedor de checks (Completada + Urgencia) */
     const izq = document.createElement("div"); izq.className = "izquierda";
 
-    /* Completada */
     const lblComp = document.createElement("label");
     const ck = document.createElement("input"); ck.type = "checkbox"; ck.id = "f_comp"; ck.checked = sol.completada;
     ck.addEventListener("change", e => {
@@ -1843,20 +1453,13 @@ function abrirFicha(sol, isNew) {
     lblComp.appendChild(ck);
     lblComp.appendChild(document.createTextNode("Completada"));
 
-    /* Urgencia */
     const lblUrg = document.createElement("label");
     lblUrg.className = "urgente-lbl";
     const ckUrg = document.createElement("input"); ckUrg.type = "checkbox"; ckUrg.id = "f_urgente"; ckUrg.checked = !!sol.urgente;
     ckUrg.addEventListener("change", e => {
-        if (e.target.checked) {
-            m.style.borderTopColor = "var(--aya-vino)";
-        } else {
-            if (ck.checked) { m.style.borderTopColor = GRIS_COMPLETADO; }
-            else {
-                const ns = colorSemaforo(resFE.input.getISO());
-                m.style.borderTopColor = ns.color;
-            }
-        }
+        if (e.target.checked) m.style.borderTopColor = "var(--aya-vino)";
+        else if (ck.checked) m.style.borderTopColor = GRIS_COMPLETADO;
+        else m.style.borderTopColor = colorSemaforo(resFE.input.getISO()).color;
     });
     lblUrg.appendChild(ckUrg);
     lblUrg.appendChild(document.createTextNode("Urgencia"));
@@ -1871,10 +1474,8 @@ function abrirFicha(sol, isNew) {
         if (!confirm("¿Eliminar esta solicitud?")) return;
         be.disabled = true;
         const ok = await eliminarEnNube(sol.id);
-        if (ok) {
-            solicitudes = solicitudes.filter(s => s.id !== sol.id);
-            render(); scheduleCiudadRender(); cerrarFicha();
-        } else be.disabled = false;
+        if (ok) { solicitudes = solicitudes.filter(s => s.id !== sol.id); render(); scheduleCiudadRender(); cerrarFicha(); }
+        else be.disabled = false;
     });
     acc.appendChild(be);
     const bc2 = document.createElement("button"); bc2.className = "btn-gris"; bc2.textContent = "Cancelar"; bc2.addEventListener("click", cerrarFicha); acc.appendChild(bc2);
@@ -1894,9 +1495,6 @@ function abrirFicha(sol, isNew) {
     document.getElementById("modalFondo").classList.add("activo");
 }
 
-/* ========================================================= */
-/* ENLACES                                                   */
-/* ========================================================= */
 function renderEnlacesSection(cont) {
     cont.innerHTML = "";
     const lista = document.createElement("div"); lista.className = "enlaces-lista";
@@ -1937,9 +1535,6 @@ function activarEdicionEnlace(i, lista, cont) {
     inp.focus(); inp.select();
 }
 
-/* ========================================================= */
-/* GUARDAR FICHA                                             */
-/* ========================================================= */
 async function guardarFicha(sol, isNew) {
     if (!sol) return false;
     for (const id of ["f_fs", "f_fe", "f_fr"]) {
@@ -1976,26 +1571,18 @@ function cerrarFicha() {
     solEnEdicion = null; solEnEdicionEsNueva = false; enlacesEnEdicion = [];
 }
 
-/* ========================================================= */
-/* REALTIME                                                  */
-/* ========================================================= */
 function suscribirRealtime() {
     if (!supabaseClient) return;
     try {
         supabaseClient.channel("sol").on("postgres_changes", { event: "*", schema: "public", table: "solicitudes" }, async () => {
-            await cargarDesdeNube();
-            render();
+            await cargarDesdeNube(); render();
             if (busquedaActual.trim()) renderBuscadorResultados();
             scheduleCiudadRender();
-        }).subscribe(s => {
-            if (s === "SUBSCRIBED") setEstadoSync("online", "En línea");
-        });
+        }).subscribe(s => { if (s === "SUBSCRIBED") setEstadoSync("online", "En línea"); });
     } catch (e) { console.warn("Realtime no disponible:", e); }
 }
 
-/* ========================================================= */
-/* EXPORTACIÓN                                               */
-/* ========================================================= */
+/* EXPORTACIÓN */
 function esc(v) { return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
 function buildExportData(scope) {
     const base = solicitudes.filter(pasaTodosFiltros);
@@ -2039,14 +1626,12 @@ function exportarPDF() {
     v.document.close(); v.focus(); setTimeout(() => v.print(), 500);
 }
 
-/* ========================================================= */
-/* INICIALIZACIÓN                                            */
-/* ========================================================= */
 async function init() {
     try {
         document.getElementById("overlayCarga").classList.remove("oculto");
         document.getElementById("btnNueva").disabled = true;
         await cargarDesdeNube();
+        verificarEsquema();
         poblarSelects(); actualizarChips(); render(); suscribirRealtime();
         try { setupCiudadInteraction(); ciudadNeedFit = true; renderCiudad(); } catch (e) { console.error("[Visor]", e); }
     } catch (e) { console.error("Error init:", e); }
