@@ -25,6 +25,8 @@
     --aya-tinte-dorado: rgba(201,173,110,.18);
     --aya-vino: #7B1E1E;
     --aya-vino-oscuro: #5A1414;
+    --aya-amarillo: #C8A020;
+    --aya-amarillo-oscuro: #8B6E00;
     --gris-fondo: var(--aya-fondo-claro);
     --azul: var(--aya-azul);
     --azul-oscuro: var(--aya-azul-medio);
@@ -96,8 +98,21 @@ button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowe
 .estado-sync.sync .dot-sync { background: var(--aya-warn); animation: pulso 1s infinite; }
 .estado-sync.error .dot-sync { background: var(--aya-peligro); }
 @keyframes pulso { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-.pilas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 0 24px 18px; align-items: start; }
+
+/* GRID 3 COLUMNAS */
+.pilas {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 20px;
+    padding: 0 24px 18px;
+    align-items: start;
+}
+@media (max-width: 1400px) {
+    .pilas { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .pilas .ciudad-viewer { grid-column: 1 / -1; }
+}
 @media (max-width: 800px) { .pilas { grid-template-columns: 1fr; } }
+
 .pila { background: var(--aya-blanco); border-radius: 10px; padding: 12px; min-height: 200px; border: 1px solid var(--aya-borde); border-top: 3px solid var(--aya-dorado); }
 .pila h2 { margin: 0 0 10px; font-size: 1.02rem; color: var(--aya-azul); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .pila h2 .contador { background: var(--aya-azul); color: var(--aya-blanco); font-size: 0.8rem; border-radius: 12px; padding: 2px 10px; }
@@ -113,6 +128,7 @@ button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowe
 .fila .info .meta .badge-enlace { background: var(--aya-tinte-dorado); color: var(--aya-azul); border: 1px solid var(--aya-dorado); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; text-decoration: none; cursor: pointer; }
 .fila .info .meta .badge-enlace:hover { background: var(--aya-dorado); color: var(--aya-azul); }
 .fila .info .meta .badge-urgente { background: var(--aya-vino); color: var(--aya-blanco); border: 1px solid var(--aya-vino-oscuro); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; }
+.fila .info .meta .badge-reprogramada { background: var(--aya-amarillo); color: #3A2A00; border: 1px solid var(--aya-amarillo-oscuro); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.03em; }
 .fila .sem { font-size: 0.72rem; font-weight: 700; color: var(--aya-blanco); padding: 3px 8px; border-radius: 10px; white-space: nowrap; }
 .fila.completada { opacity: 0.85; }
 .fila.completada .info h3 { text-decoration: line-through; color: var(--aya-gris-texto); }
@@ -139,9 +155,11 @@ button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowe
 .campo-fecha { display: flex; gap: 6px; align-items: stretch; position: relative; }
 .modal .campo > .campo-fecha > input[type="text"] { width: auto; flex: 1 1 auto; min-width: 0; font-variant-numeric: tabular-nums; }
 .modal .campo > .campo-fecha > input[type="text"].invalido { border-color: var(--aya-peligro); background: #fff5f5; }
-.btn-cal-wrapper { position: relative; display: inline-flex; flex-shrink: 0; }
-.btn-calendario { background: var(--aya-tinte-dorado); border: 1px solid var(--aya-dorado); color: var(--aya-azul); border-radius: 5px; padding: 0 14px; cursor: pointer; font-size: 1rem; }
-.btn-calendario:hover { background: var(--aya-dorado); color: var(--aya-azul); }
+.modal .campo > .campo-fecha > input[type="text"].locked { background: #e8ecf5 !important; color: #2f3d5e !important; cursor: not-allowed; border-color: var(--aya-borde-fuerte); box-shadow: inset 0 1px 2px rgba(27,41,78,.1); }
+.btn-cal-wrapper { position: relative; display: inline-flex; gap: 4px; flex-shrink: 0; }
+.btn-calendario, .btn-edit-fecha { background: var(--aya-tinte-dorado); border: 1px solid var(--aya-dorado); color: var(--aya-azul); border-radius: 5px; padding: 0 12px; cursor: pointer; font-size: 1rem; }
+.btn-calendario:hover, .btn-edit-fecha:hover { background: var(--aya-dorado); color: var(--aya-azul); }
+.btn-edit-fecha { display: none; }
 .date-hidden-picker { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
 .enlaces-lista { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
 .enlace-item { display: flex; align-items: center; gap: 8px; background: var(--aya-fondo-claro); border: 1px solid var(--aya-borde); border-radius: 6px; padding: 6px 8px; }
@@ -160,6 +178,7 @@ button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowe
 .enlace-edit-input { flex: 1; min-width: 0; border: 1px solid var(--aya-dorado); border-radius: 5px; padding: 6px 8px; font-size: 0.85rem; background: var(--aya-blanco); color: var(--aya-azul); }
 .check-inline { display: flex !important; align-items: center; gap: 8px; font-size: 0.85rem !important; font-weight: 600 !important; color: var(--aya-azul) !important; text-transform: none !important; letter-spacing: 0 !important; cursor: pointer; padding: 4px 0; margin-bottom: 0 !important; }
 .check-inline input { accent-color: var(--aya-azul); width: 18px; height: 18px; }
+.check-inline.reprog-lbl input { accent-color: var(--aya-amarillo); }
 .responsables { display: flex; flex-wrap: wrap; gap: 8px; }
 .responsables label { display: flex; align-items: center; gap: 4px; font-size: 0.8rem; background: var(--aya-tinte-dorado); border: 1px solid var(--aya-dorado); border-radius: 14px; padding: 3px 10px; cursor: pointer; font-weight: 500; color: var(--aya-azul); }
 .responsables input { accent-color: var(--aya-azul); }
@@ -177,22 +196,59 @@ footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(
 .overlay-carga.oculto { display: none; }
 
 /* VISOR */
-.ciudad-viewer { margin: 0 24px 20px; background: linear-gradient(160deg, var(--aya-azul-oscuro) 0%, var(--aya-azul) 100%); border-radius: 14px; padding: 12px 14px 8px; color: var(--aya-fondo-claro); box-shadow: 0 8px 28px rgba(27,41,78,0.4); border: 1px solid var(--aya-dorado-oscuro); }
-.ciudad-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
-.ciudad-title { display: flex; align-items: center; gap: 10px; }
-.ciudad-title h2 { margin: 0; font-size: 1.05rem; color: var(--aya-dorado); letter-spacing: 0.02em; }
-.ciudad-title p { margin: 2px 0 0; font-size: 0.76rem; color: var(--aya-fondo-claro); opacity: 0.75; }
-.ciudad-tools { display: flex; gap: 5px; }
-.ciudad-btn { background: var(--aya-azul-medio); border: 1px solid var(--aya-dorado-oscuro); color: var(--aya-dorado); border-radius: 8px; width: 34px; height: 34px; cursor: pointer; font-size: 1rem; font-weight: 700; font-family: inherit; }
+.ciudad-viewer { margin: 0; background: linear-gradient(160deg, var(--aya-azul-oscuro) 0%, var(--aya-azul) 100%); border-radius: 14px; padding: 12px 14px 10px; color: var(--aya-fondo-claro); box-shadow: 0 8px 28px rgba(27,41,78,0.4); border: 1px solid var(--aya-dorado-oscuro); min-width: 0; }
+.ciudad-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.ciudad-title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.ciudad-title h2 { margin: 0; font-size: 1rem; color: var(--aya-dorado); letter-spacing: 0.02em; }
+.ciudad-title p { margin: 2px 0 0; font-size: 0.72rem; color: var(--aya-fondo-claro); opacity: 0.75; }
+.ciudad-tools { display: flex; gap: 5px; flex-shrink: 0; }
+.ciudad-btn { background: var(--aya-azul-medio); border: 1px solid var(--aya-dorado-oscuro); color: var(--aya-dorado); border-radius: 8px; width: 30px; height: 30px; cursor: pointer; font-size: 0.95rem; font-weight: 700; font-family: inherit; }
 .ciudad-btn:hover { background: var(--aya-azul-claro); border-color: var(--aya-dorado); color: var(--aya-blanco); }
-.ciudad-legend-bar { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.74rem; color: var(--aya-fondo-claro); padding: 6px 4px; border-bottom: 1px solid var(--aya-dorado-oscuro); margin-bottom: 8px; align-items: center; }
-.ciudad-leg b { color: var(--aya-dorado); font-weight: 700; margin-right: 6px; }
-.ciudad-leg-item { display: inline-flex; align-items: center; gap: 4px; margin-right: 8px; }
-.ciudad-leg-swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; border: 1.5px solid rgba(27,41,78,0.65); vertical-align: middle; }
-.ciudad-canvas { width: 100%; height: 500px; position: relative; border-radius: 10px; overflow: hidden; background: radial-gradient(circle at 50% -10%, var(--aya-azul-medio) 0%, var(--aya-azul-oscuro) 60%, #060B15 100%); border: 1px solid var(--aya-azul-claro); }
+.ciudad-canvas { width: 100%; height: 460px; position: relative; border-radius: 10px; overflow: hidden; background: radial-gradient(circle at 50% -10%, var(--aya-azul-medio) 0%, var(--aya-azul-oscuro) 60%, #060B15 100%); border: 1px solid var(--aya-azul-claro); }
 #ciudadSvg { width: 100%; height: 100%; display: block; cursor: grab; user-select: none; }
 #ciudadSvg:active { cursor: grabbing; }
-.ciudad-hint { text-align: center; font-size: 0.72rem; color: var(--aya-dorado); opacity: 0.8; padding: 6px 0 2px; }
+.ciudad-hint { text-align: center; font-size: 0.7rem; color: var(--aya-dorado); opacity: 0.8; padding: 6px 0 4px; }
+
+/* SIMBOLOGÍA PLEGABLE */
+.ciudad-legend-collapse { margin-top: 4px; }
+.legend-toggle {
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; padding: 8px 12px;
+    background: rgba(27,41,78,0.35);
+    border: 1px solid var(--aya-dorado-oscuro);
+    border-radius: 8px;
+    color: var(--aya-dorado); font-weight: 700; font-size: 0.78rem;
+    cursor: pointer; font-family: inherit; letter-spacing: 0.5px;
+    transition: background 0.15s, border-color 0.15s;
+}
+.legend-toggle:hover { background: rgba(27,41,78,0.6); border-color: var(--aya-dorado); }
+.legend-toggle.open {
+    border-radius: 8px 8px 0 0;
+    border-bottom-color: transparent;
+}
+.legend-toggle .legend-title { display: flex; align-items: center; gap: 6px; }
+.legend-chevron { font-size: 0.7rem; transition: transform 0.25s; display: inline-block; }
+.legend-chevron.open { transform: rotate(180deg); }
+
+.ciudad-legend-bar {
+    display: none;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.72rem;
+    color: var(--aya-fondo-claro);
+    padding: 10px 12px;
+    background: rgba(27,41,78,0.35);
+    border: 1px solid var(--aya-dorado-oscuro);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    align-items: center;
+}
+.ciudad-legend-bar.open { display: flex; }
+.ciudad-leg { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.ciudad-leg b { color: var(--aya-dorado); font-weight: 700; margin-right: 4px; }
+.ciudad-leg-item { display: inline-flex; align-items: center; gap: 4px; margin-right: 4px; }
+.ciudad-leg-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 2px; border: 1.5px solid rgba(27,41,78,0.65); vertical-align: middle; }
+
 .ciudad-plate { fill: #16223E; stroke: var(--aya-dorado-oscuro); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .ciudad-plate-label { fill: var(--aya-dorado); font-size: 0.85px; font-weight: 800; letter-spacing: 0.08em; pointer-events: none; font-family: inherit; }
 .ciudad-plate-label.actual { fill: var(--aya-dorado-claro); text-decoration: underline; text-decoration-thickness: 0.08px; text-underline-offset: 0.18px; }
@@ -207,26 +263,15 @@ footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(
 .ciudad-building { cursor: pointer; }
 .ciudad-building:hover .ciudad-face-t { stroke: var(--aya-dorado-claro); }
 
-/* ===== URGENTE: paredes en vino, ventanas mantienen temperatura ===== */
-.ciudad-building.urgente .ciudad-face-l {
-    fill: #4A1010;
-    stroke: #6B1818;
-}
-.ciudad-building.urgente .ciudad-face-r {
-    fill: #7B1E1E;
-    stroke: #8B2828;
-}
-.ciudad-building.urgente .ciudad-face-t {
-    fill: #942A2A;
-    stroke: #B83333;
-}
-.ciudad-building.urgente .ciudad-floorline {
-    stroke: #8B2828;
-    opacity: 0.75;
-}
-.ciudad-building.urgente:hover .ciudad-face-t {
-    stroke: #FFD060;
-}
+.ciudad-building.urgente .ciudad-face-l { fill: #4A1010; stroke: #6B1818; }
+.ciudad-building.urgente .ciudad-face-r { fill: #7B1E1E; stroke: #8B2828; }
+.ciudad-building.urgente .ciudad-face-t { fill: #942A2A; stroke: #B83333; }
+.ciudad-building.urgente .ciudad-floorline { stroke: #8B2828; opacity: 0.75; }
+
+.ciudad-building.reprogramada .ciudad-face-l { fill: #5A4A00; stroke: #6B5A10; }
+.ciudad-building.reprogramada .ciudad-face-r { fill: #8B6E00; stroke: #A08020; }
+.ciudad-building.reprogramada .ciudad-face-t { fill: #C8A020; stroke: #E0B830; }
+.ciudad-building.reprogramada .ciudad-floorline { stroke: #A08020; opacity: 0.75; }
 </style>
 </head>
 <body>
@@ -280,6 +325,7 @@ footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(
     <span><span class="dot" style="background:var(--aya-peligro)"></span>Menos de 15 días / vencida</span>
     <span><span class="dot" style="background:var(--gris-completado)"></span>Completada</span>
     <span><span class="dot" style="background:var(--aya-vino)"></span>Urgente</span>
+    <span><span class="dot" style="background:var(--aya-amarillo)"></span>Reprogramada</span>
     <span class="nota">· En proceso por fecha estimada · Completados por fecha real.</span>
 </div>
 
@@ -309,44 +355,54 @@ footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(
             <div class="lista" id="sfCompletadosLista"></div>
         </div>
     </div>
+    <section class="ciudad-viewer" id="ciudadViewer" style="display:none">
+        <div class="ciudad-header">
+            <div class="ciudad-title">
+                <div>
+                    <h2>Ciudad de Solicitudes</h2>
+                    <p>Cada cuadra es un mes · Cada edificio es una solicitud · Altura = medio · Ventanas = avance</p>
+                </div>
+            </div>
+            <div class="ciudad-tools">
+                <button class="ciudad-btn" id="btnCiudadZoomIn" title="Acercar">＋</button>
+                <button class="ciudad-btn" id="btnCiudadZoomOut" title="Alejar">－</button>
+                <button class="ciudad-btn" id="btnCiudadFit" title="Ajustar vista">⤢</button>
+            </div>
+        </div>
+        <div class="ciudad-canvas">
+            <svg id="ciudadSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <div class="ciudad-hint">Arrastra para mover · Rueda para zoom · Clic en edificio para abrir ficha</div>
+
+        <!-- Simbología plegable (al pie del visor) -->
+        <div class="ciudad-legend-collapse">
+            <button type="button" class="legend-toggle" id="legendToggle" onclick="toggleLegend()">
+                <span class="legend-title">📖 Simbología</span>
+                <span class="legend-chevron" id="legendChevron">▼</span>
+            </button>
+            <div class="ciudad-legend-bar" id="legendContent">
+                <span class="ciudad-leg"><b>Altura = medio:</b> Teams (4) · Correo (8) · Oficio (12)</span>
+                <span class="ciudad-leg"><b>Temperatura de luz:</b>
+                    <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#CCF1FF"></span>Harrison 6000 K</span>
+                    <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#FFEBCC"></span>Cinthya 3000 K</span>
+                    <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#FFFFFF"></span>Ricardo 4500 K</span>
+                </span>
+                <span class="ciudad-leg"><b>Urgente:</b>
+                    <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#7B1E1E"></span>Paredes vino + antena roja</span>
+                </span>
+                <span class="ciudad-leg"><b>Reprogramada:</b>
+                    <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#8B6E00"></span>Paredes amarillas + bandera</span>
+                </span>
+                <span class="ciudad-leg"><b>Ventanas encendidas = % avance</b> (de abajo hacia arriba)</span>
+            </div>
+        </div>
+    </section>
 </div>
 
 <div class="alerta-meses" id="alertaMeses" style="display:none">
     <div class="alerta-titulo">⚠ Pendientes en meses anteriores:</div>
     <div class="alerta-chips" id="alertaChips"></div>
 </div>
-
-<section class="ciudad-viewer" id="ciudadViewer" style="display:none">
-    <div class="ciudad-header">
-        <div class="ciudad-title">
-            <div>
-                <h2>Vista de Ciudad · Solicitudes</h2>
-                <p>Cada cuadra es un mes · Cada edificio es una solicitud · Altura = medio · Ventanas = avance</p>
-            </div>
-        </div>
-        <div class="ciudad-tools">
-            <button class="ciudad-btn" id="btnCiudadZoomIn" title="Acercar">＋</button>
-            <button class="ciudad-btn" id="btnCiudadZoomOut" title="Alejar">－</button>
-            <button class="ciudad-btn" id="btnCiudadFit" title="Ajustar vista">⤢</button>
-        </div>
-    </div>
-    <div class="ciudad-legend-bar">
-        <span class="ciudad-leg"><b>Altura = medio:</b> Teams (4) · Correo (8) · Oficio (12)</span>
-        <span class="ciudad-leg"><b>Temperatura de luz:</b>
-            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#CCF1FF"></span>Harrison 6000 K</span>
-            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#FFEBCC"></span>Cinthya 3000 K</span>
-            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#FFFFFF"></span>Ricardo 4500 K</span>
-        </span>
-        <span class="ciudad-leg"><b>Urgente:</b>
-            <span class="ciudad-leg-item"><span class="ciudad-leg-swatch" style="background:#7B1E1E"></span>Paredes en vino + antena roja · ventanas mantienen temperatura</span>
-        </span>
-        <span class="ciudad-leg"><b>Ventanas encendidas = % avance</b> (de abajo hacia arriba)</span>
-    </div>
-    <div class="ciudad-canvas">
-        <svg id="ciudadSvg" xmlns="http://www.w3.org/2000/svg"></svg>
-    </div>
-    <div class="ciudad-hint">Arrastra para mover · Rueda para zoom · Clic en edificio para abrir ficha</div>
-</section>
 
 <footer>Plataforma interna · Edificaciones · UEN Programación y Control · AyA</footer>
 
@@ -380,8 +436,20 @@ let enlacesEnEdicion = [];
 
 function fmtDate(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
 
+/* Toggle de Simbología */
+function toggleLegend() {
+    const content = document.getElementById('legendContent');
+    const chevron = document.getElementById('legendChevron');
+    const btn = document.getElementById('legendToggle');
+    const isOpen = content.classList.toggle('open');
+    chevron.classList.toggle('open', isOpen);
+    btn.classList.toggle('open', isOpen);
+}
+
 const SQL_SUGERENCIAS = {
     urgente: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS urgente boolean DEFAULT false;",
+    reprogramada: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS reprogramada boolean DEFAULT false;",
+    fecha_reprogramada: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS fecha_reprogramada date;",
     enlace: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS enlace text DEFAULT '';",
     medio_solicitud: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS medio_solicitud text DEFAULT '';",
     oficio_consecutivo: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_consecutivo text DEFAULT '';",
@@ -420,19 +488,17 @@ function mostrarErrorSupabase(error, accion) {
 async function verificarEsquema() {
     if (!supabaseClient) return;
     try {
-        const { error } = await supabaseClient.from("solicitudes").select("urgente").limit(1);
-        if (error && /could not find the 'urgente' column/i.test(error.message)) {
-            console.warn("⚠️ Falta la columna 'urgente' en Supabase.");
+        const { error } = await supabaseClient.from("solicitudes").select("urgente,reprogramada,fecha_reprogramada").limit(1);
+        if (error && /could not find the '([^']+)' column/i.test(error.message)) {
+            const col = error.message.match(/could not find the '([^']+)' column/i)[1];
             setTimeout(() => {
-                alert("⚠️ Falta la columna 'urgente' en Supabase.\n\nEjecuta:\nALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS urgente boolean DEFAULT false;\n\nLuego Settings → API → Reload schema.");
+                alert("⚠️ Falta la columna '" + col + "' en Supabase.\n\nEjecuta:\n" + (SQL_SUGERENCIAS[col] || "Revisa el esquema.") + "\n\nLuego Settings → API → Reload schema.");
             }, 500);
         }
     } catch (e) { console.warn("Verificación de esquema falló:", e); }
 }
 
-/* ========================================================= */
-/* VISOR CIUDAD NOCTURNA                                     */
-/* ========================================================= */
+/* VISOR CIUDAD NOCTURNA */
 const CIUDAD_FH = 0.62;
 const CIUDAD_MEDIO_LEVELS = { 'Teams': 4, 'Correo': 8, 'Oficio': 12 };
 const CIUDAD_DEFAULT_LEVELS = 4;
@@ -471,7 +537,6 @@ function ciudadPT(x, y, z) { return [ (x - y) * CIUDAD_COS30, (x + y) * CIUDAD_S
 function ciudadP(x, y, z) { const p = ciudadPT(x, y, z); return p[0].toFixed(3) + ',' + p[1].toFixed(3); }
 function ciudadLevelsFor(medio) { return CIUDAD_MEDIO_LEVELS[medio] || CIUDAD_DEFAULT_LEVELS; }
 
-/* SIEMPRE el color del responsable — NUNCA vino. La urgencia solo cambia las paredes. */
 function ciudadWindowColorFor(sol) {
     if (sol.responsables && sol.responsables.length) return CIUDAD_RESP_COLORS[sol.responsables[0]] || CIUDAD_DEFAULT_COLOR;
     return CIUDAD_DEFAULT_COLOR;
@@ -635,7 +700,7 @@ function computeCiudadHash() {
         s.id + ':' + (s.avance || 0) + ':' + (s.medioSolicitud || '') + ':' +
         (s.fechaEstimada || '') + ':' + (s.fechaReal || '') + ':' +
         ((s.responsables && s.responsables[0]) || '') + ':' + (s.cliente || '') + ':' +
-        (s.urgente ? '1' : '0')
+        (s.urgente ? '1' : '0') + ':' + (s.reprogramada ? '1' : '0') + ':' + (s.fechaReprogramada || '')
     ).join('|');
     return filtros + '#' + datos;
 }
@@ -736,24 +801,21 @@ function drawCiudadBuilding(item, parent, getFilter) {
     const { sol, cx, cy, height: floors } = item;
     const H = floors * CIUDAD_FH;
     const x0 = cx - 1, x1 = cx + 1, y0 = cy - 1, y1 = cy + 1;
-    /* Ventanas SIEMPRE con color de temperatura del responsable, NUNCA vino */
     const windowColor = ciudadWindowColorFor(sol);
     const signColor = CIUDAD_SIGN_COLOR;
     const filterId = getFilter(windowColor);
     const urgente = !!sol.urgente;
+    const reprogramada = !!sol.reprogramada;
 
-    /* Clase urgente → CSS pinta las 3 caras en vino. Ventanas quedan intactas. */
-    const g = mkSvg('g', {
-        class: 'ciudad-building' + (urgente ? ' urgente' : ''),
-        'data-sid': sol.id
-    }, parent);
+    let cls = 'ciudad-building';
+    if (urgente) cls += ' urgente';
+    if (reprogramada) cls += ' reprogramada';
+    const g = mkSvg('g', { class: cls, 'data-sid': sol.id }, parent);
 
-    /* Caras (paredes) — CSS las colorea; la clase .urgente las hace vino */
     mkSvg('polygon', { points: [ciudadP(x1, y0, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x1, y0, H)].join(' '), class: 'ciudad-face-r' }, g);
     mkSvg('polygon', { points: [ciudadP(x0, y1, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-l' }, g);
     mkSvg('polygon', { points: [ciudadP(x0, y0, H), ciudadP(x1, y0, H), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-t' }, g);
 
-    /* Líneas de piso — CSS las colorea (wine cuando urgente) */
     for (let f = 1; f < floors; f++) {
         const z = f * CIUDAD_FH;
         const a = ciudadPT(x1, y0, z), b = ciudadPT(x1, y1, z), c = ciudadPT(x0, y1, z);
@@ -761,7 +823,6 @@ function drawCiudadBuilding(item, parent, getFilter) {
         mkSvg('line', { x1: c[0].toFixed(3), y1: c[1].toFixed(3), x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'ciudad-floorline' }, g);
     }
 
-    /* Ventanas — SIEMPRE con windowColor (temperatura del responsable) */
     const glowGroup = mkSvg('g', { filter: `url(#${filterId})` }, g);
     const winGroup = mkSvg('g', {}, g);
     const totalWin = floors * 4;
@@ -793,7 +854,6 @@ function drawCiudadBuilding(item, parent, getFilter) {
         }
     }
 
-    /* Antena de radio + luz roja SOLO para urgentes */
     if (urgente) {
         const antennaH = 1.6;
         const [px1, py1] = ciudadPT(cx, cy, H);
@@ -817,18 +877,49 @@ function drawCiudadBuilding(item, parent, getFilter) {
         anim.setAttribute('dur', '1.4s');
         anim.setAttribute('repeatCount', 'indefinite');
         light.appendChild(anim);
-    } else if (floors >= 12) {
-        const [lx, ly] = ciudadPT(cx, cy, H + 0.12);
-        mkSvg('circle', { cx: lx.toFixed(3), cy: ly.toFixed(3), r: '0.13', fill: '#FF2D2D', filter: `url(#${getFilter('#FF2D2D')})` }, g);
-        const [px, py] = ciudadPT(cx, cy, H);
-        mkSvg('line', { x1: px.toFixed(3), y1: py.toFixed(3), x2: lx.toFixed(3), y2: ly.toFixed(3), stroke: '#FF2D2D', 'stroke-width': '0.06' }, g);
     }
 
-    /* Rótulo dorado */
+    if (reprogramada) {
+        const flagTopZ = H + 1.7;
+        const flagBotZ = H + 1.15;
+        const flagW = 1.0;
+        const poleTopZ = H + 2.0;
+        const [p1x, p1y] = ciudadPT(cx, cy, H);
+        const [p2x, p2y] = ciudadPT(cx, cy, poleTopZ);
+        mkSvg('line', { x1: p1x.toFixed(3), y1: p1y.toFixed(3), x2: p2x.toFixed(3), y2: p2y.toFixed(3), stroke: '#5A4A00', 'stroke-width': '0.09' }, g);
+        mkSvg('circle', { cx: p2x.toFixed(3), cy: p2y.toFixed(3), r: '0.09', fill: '#C9AD6E', stroke: '#8B7338', 'stroke-width': '0.02' }, g);
+        const tl = ciudadPT(cx, cy, flagTopZ);
+        const tr = ciudadPT(cx + flagW, cy, flagTopZ);
+        const br = ciudadPT(cx + flagW, cy, flagBotZ);
+        const bl = ciudadPT(cx, cy, flagBotZ);
+        const tc = ciudadPT(cx + flagW / 2, cy, flagTopZ - 0.08);
+        const bc = ciudadPT(cx + flagW / 2, cy, flagBotZ + 0.08);
+        const pathD = `M ${tl[0].toFixed(3)} ${tl[1].toFixed(3)} ` +
+                      `Q ${tc[0].toFixed(3)} ${tc[1].toFixed(3)} ${tr[0].toFixed(3)} ${tr[1].toFixed(3)} ` +
+                      `L ${br[0].toFixed(3)} ${br[1].toFixed(3)} ` +
+                      `Q ${bc[0].toFixed(3)} ${bc[1].toFixed(3)} ${bl[0].toFixed(3)} ${bl[1].toFixed(3)} Z`;
+        const flagEl = mkSvg('path', {
+            d: pathD, fill: '#FFD700', stroke: '#8B6E00',
+            'stroke-width': '0.05', 'stroke-linejoin': 'round'
+        }, g);
+        const attach = ciudadPT(cx, cy, (flagTopZ + flagBotZ) / 2);
+        const animT = document.createElementNS(CIUDAD_SVGNS, 'animateTransform');
+        animT.setAttribute('attributeName', 'transform');
+        animT.setAttribute('type', 'rotate');
+        animT.setAttribute('values',
+            `-2 ${attach[0].toFixed(2)} ${attach[1].toFixed(2)}; ` +
+            `3 ${attach[0].toFixed(2)} ${attach[1].toFixed(2)}; ` +
+            `-2 ${attach[0].toFixed(2)} ${attach[1].toFixed(2)}`);
+        animT.setAttribute('dur', '3.5s');
+        animT.setAttribute('repeatCount', 'indefinite');
+        flagEl.appendChild(animT);
+    }
+
     const raw = (sol.cliente || '').trim();
     const label = raw ? (raw.length > 18 ? raw.slice(0, 17) + '…' : raw) : 'Solicitud';
     const fs = Math.max(0.32, Math.min(0.85, 4.8 / Math.max(label.length, 4)));
-    const zSign = H + (urgente ? 2.4 : 0.55) + fs * 0.55;
+    const featureHeight = Math.max(urgente ? 2.4 : 0, reprogramada ? 2.3 : 0);
+    const zSign = H + featureHeight + 0.55 + fs * 0.55;
     [-0.8, 0.8].forEach(dx => {
         const a = ciudadPT(cx + dx, cy, Math.max(H - 0.02, 0));
         const b = ciudadPT(cx + dx, cy, zSign - fs * 0.5);
@@ -842,9 +933,13 @@ function drawCiudadBuilding(item, parent, getFilter) {
     t.textContent = label;
 
     const titleEl = mkSvg('title', {}, g);
-    titleEl.textContent = (urgente ? '🚨 URGENTE · ' : '') + (sol.cliente || 'Sin cliente') + '\n' +
+    titleEl.textContent =
+        (urgente ? '🚨 URGENTE · ' : '') +
+        (reprogramada ? '🔄 REPROGRAMADA · ' : '') +
+        (sol.cliente || 'Sin cliente') + '\n' +
         'Avance: ' + sol.avance + '% · ' + (sol.medioSolicitud || 'Sin medio') + '\n' +
         'Niveles: ' + floors +
+        (reprogramada && sol.fechaReprogramada ? '\nReprogramada a: ' + sol.fechaReprogramada : '') +
         (sol.responsables.length ? '\nResp: ' + sol.responsables.join(', ') : '') +
         (sol.fechaEstimada ? '\nEntrega: ' + sol.fechaEstimada : '');
 }
@@ -920,9 +1015,7 @@ function scheduleCiudadRender() {
     ciudadDebounceTimer = setTimeout(() => { try { renderCiudad(); } catch (e) { console.error("[Visor] render:", e); } }, 120);
 }
 
-/* ========================================================= */
-/* UTILIDADES                                                */
-/* ========================================================= */
+/* UTILIDADES */
 function hoyISO() { return fmtDate(new Date()); }
 function isoToDDMMYYYY(iso) { if (!iso) return ""; const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/); if (!m) return ""; return m[3] + "/" + m[2] + "/" + m[1]; }
 function ddmmyyyyToISO(str) {
@@ -947,7 +1040,14 @@ function colorSemaforo(fechaISO) {
     if (d <= 30) return { color: "#f39c12", texto: d + "d" };
     return { color: "#27ae60", texto: d + "d" };
 }
-function semaforoPara(sol) { if (sol.completada) return { color: GRIS_COMPLETADO, texto: "Completada" }; return colorSemaforo(sol.fechaEstimada); }
+function fechaEfectiva(sol) {
+    if (sol.reprogramada && sol.fechaReprogramada) return sol.fechaReprogramada;
+    return sol.fechaEstimada;
+}
+function semaforoPara(sol) {
+    if (sol.completada) return { color: GRIS_COMPLETADO, texto: "Completada" };
+    return colorSemaforo(fechaEfectiva(sol));
+}
 function pasaFiltroResp(sol) { return filtroResp.size === 0 || sol.responsables.some(r => filtroResp.has(r)); }
 function pasaBusqueda(sol) {
     const q = (busquedaActual || "").trim().toLowerCase(); if (!q) return true;
@@ -1023,13 +1123,19 @@ function renderBuscadorResultados() {
     resultados.slice(0, 60).forEach(sol => {
         const item = document.createElement("div"); item.className = "buscador-item";
         const sem = semaforoPara(sol);
-        const fechaTxt = sol.completada ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha") : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha");
+        const fe = fechaEfectiva(sol);
+        const fechaTxt = sol.completada ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha") : (fe ? "Entrega: " + fe : "Sin fecha");
         const tit = document.createElement("div"); tit.className = "titulo";
         const tc = document.createElement("span"); tc.appendChild(resaltarCoincidencias(sol.cliente || "(Sin cliente)", palabras));
         if (sol.urgente) {
             const urg = document.createElement("span");
             urg.className = "estado"; urg.style.background = "var(--aya-vino)"; urg.textContent = "🚨 URGENTE";
             tit.appendChild(urg);
+        }
+        if (sol.reprogramada) {
+            const rep = document.createElement("span");
+            rep.className = "estado"; rep.style.background = "var(--aya-amarillo)"; rep.style.color = "#3A2A00"; rep.textContent = "🔄 REPROG.";
+            tit.appendChild(rep);
         }
         const est = document.createElement("span"); est.className = "estado"; est.style.background = sem.color; est.textContent = sol.completada ? "Completada" : sem.texto;
         tit.appendChild(tc); tit.appendChild(est);
@@ -1052,9 +1158,7 @@ document.getElementById("buscador").addEventListener("focus", () => { if (busque
 document.addEventListener("click", e => { const b = document.querySelector(".buscador"); if (b && !b.contains(e.target)) document.getElementById("buscadorResultados").classList.remove("visible"); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") document.getElementById("buscadorResultados").classList.remove("visible"); });
 
-/* ========================================================= */
-/* MAPEO MODELO <-> DB                                       */
-/* ========================================================= */
+/* MAPEO */
 function toDB(sol) {
     return {
         id: sol.id, cliente: sol.cliente || "",
@@ -1066,7 +1170,9 @@ function toDB(sol) {
         fecha_real: sol.fechaReal || null, completada: !!sol.completada,
         medio_solicitud: sol.medioSolicitud || "", oficio_consecutivo: sol.oficioConsecutivo || "",
         requiere_oficio_entrega: !!sol.requiereOficioEntrega, oficio_entrega: sol.oficioEntrega || "",
-        urgente: !!sol.urgente
+        urgente: !!sol.urgente,
+        reprogramada: !!sol.reprogramada,
+        fecha_reprogramada: sol.fechaReprogramada || null
     };
 }
 function fromDB(row) {
@@ -1079,7 +1185,9 @@ function fromDB(row) {
         fechaReal: row.fecha_real || "", completada: !!row.completada,
         medioSolicitud: row.medio_solicitud || "", oficioConsecutivo: row.oficio_consecutivo || "",
         requiereOficioEntrega: !!row.requiere_oficio_entrega, oficioEntrega: row.oficio_entrega || "",
-        urgente: !!row.urgente
+        urgente: !!row.urgente,
+        reprogramada: !!row.reprogramada,
+        fechaReprogramada: row.fecha_reprogramada || ""
     };
 }
 function crearSolicitudVacia() {
@@ -1091,12 +1199,10 @@ function crearSolicitudVacia() {
     return { id: uid, cliente: "", fechaSolicitud: hoyISO(), descripcion: "",
         fechaEstimada: "", avance: 0, responsables: [], entregables: "", enlaces: [], fechaReal: "", completada: false,
         medioSolicitud: "", oficioConsecutivo: "", requiereOficioEntrega: false, oficioEntrega: "",
-        urgente: false };
+        urgente: false, reprogramada: false, fechaReprogramada: "" };
 }
 
-/* ========================================================= */
-/* SUPABASE                                                  */
-/* ========================================================= */
+/* SUPABASE */
 async function cargarDesdeNube() {
     if (!supabaseClient) { setEstadoSync("error", "Supabase no disponible"); solicitudes = []; return; }
     setEstadoSync("sync", "Sincronizando…");
@@ -1156,15 +1262,13 @@ async function eliminarEnNube(id) {
     }
 }
 
-/* ========================================================= */
-/* NAVEGADOR MES/AÑO                                         */
-/* ========================================================= */
+/* NAVEGADOR MES/AÑO */
 function poblarSelects() {
     const sm = document.getElementById("selMes"), sa = document.getElementById("selAnio");
     sm.innerHTML = MESES.map((m, i) => `<option value="${i}">${m}</option>`).join("");
     const anios = new Set();
     for (let y = anioActual - 5; y <= anioActual + 5; y++) anios.add(y);
-    solicitudes.forEach(s => [s.fechaEstimada, s.fechaReal, s.fechaSolicitud].forEach(f => { if (f) anios.add(new Date(f + "T00:00:00").getFullYear()); }));
+    solicitudes.forEach(s => [s.fechaEstimada, s.fechaReal, s.fechaReprogramada].forEach(f => { if (f) anios.add(new Date(f + "T00:00:00").getFullYear()); }));
     sa.innerHTML = Array.from(anios).sort((a,b) => a-b).map(y => `<option value="${y}">${y}</option>`).join("");
     sincronizarSelects();
 }
@@ -1206,6 +1310,7 @@ document.querySelectorAll(".chip").forEach(chip => {
     });
 });
 
+/* RENDER PRINCIPAL */
 function render() {
     const procesoMes = [], procesoSinFecha = [], compMes = [], compSinFecha = [];
     solicitudes.filter(s => !s.completada).filter(pasaTodosFiltros).forEach(s => {
@@ -1213,7 +1318,7 @@ function render() {
         const d = new Date(s.fechaEstimada + "T00:00:00");
         if (d.getMonth() === mesActual && d.getFullYear() === anioActual) procesoMes.push(s);
     });
-    procesoMes.sort((a,b) => diasRestantes(a.fechaEstimada) - diasRestantes(b.fechaEstimada));
+    procesoMes.sort((a,b) => diasRestantes(fechaEfectiva(a)) - diasRestantes(fechaEfectiva(b)));
     procesoSinFecha.sort((a,b) => (a.cliente || "").localeCompare(b.cliente || ""));
     solicitudes.filter(s => s.completada).filter(pasaTodosFiltros).forEach(s => {
         if (!s.fechaReal) { compSinFecha.push(s); return; }
@@ -1273,11 +1378,15 @@ function crearFilaDOM(sol) {
     const fila = document.createElement("div");
     fila.className = "fila" + (sol.completada ? " completada" : "");
     const sem = semaforoPara(sol);
-    fila.style.borderLeftColor = sol.urgente ? "var(--aya-vino)" : sem.color;
+    fila.style.borderLeftColor = sol.urgente ? "var(--aya-vino)" : (sol.reprogramada ? "var(--aya-amarillo)" : sem.color);
     const info = document.createElement("div"); info.className = "info";
     const h3 = document.createElement("h3"); h3.textContent = sol.cliente || "(Sin cliente)";
     const meta = document.createElement("div"); meta.className = "meta";
-    const ft = sol.completada ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha") : (sol.fechaEstimada ? "Entrega: " + sol.fechaEstimada : "Sin fecha");
+    let ft;
+    if (sol.completada) ft = sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha";
+    else if (sol.reprogramada && sol.fechaReprogramada) ft = "Reprog.: " + sol.fechaReprogramada;
+    else if (sol.fechaEstimada) ft = "Entrega: " + sol.fechaEstimada;
+    else ft = "Sin fecha";
     meta.appendChild(document.createTextNode(ft));
     meta.appendChild(document.createTextNode(" · "));
     const ba = document.createElement("span");
@@ -1297,6 +1406,14 @@ function crearFilaDOM(sol) {
         bU.textContent = "🚨 URGENTE";
         meta.appendChild(bU);
     }
+    if (sol.reprogramada) {
+        meta.appendChild(document.createTextNode(" · "));
+        const bR = document.createElement("span");
+        bR.className = "badge-reprogramada";
+        bR.textContent = "🔄 Reprogramada";
+        bR.title = sol.fechaEstimada ? "Original: " + sol.fechaEstimada : "";
+        meta.appendChild(bR);
+    }
     if (sol.enlaces && sol.enlaces.length > 0) {
         meta.appendChild(document.createTextNode(" · "));
         const a = document.createElement("a"); a.className = "badge-enlace";
@@ -1315,9 +1432,7 @@ function crearFilaDOM(sol) {
     return fila;
 }
 
-/* ========================================================= */
-/* FICHA                                                     */
-/* ========================================================= */
+/* FICHA */
 function nuevaSolicitud() { if (cargando || solEnEdicion) return; abrirFicha(crearSolicitudVacia(), true); }
 function abrirFichaPorId(id) {
     const sol = solicitudes.find(s => String(s.id) === String(id));
@@ -1329,7 +1444,16 @@ function abrirFicha(sol, isNew) {
     document.getElementById("buscadorResultados").classList.remove("visible");
     const sem = semaforoPara(sol);
     const m = document.getElementById("modalContenido");
-    m.style.borderTopColor = sol.urgente ? "var(--aya-vino)" : sem.color;
+    function aplicarColorModal() {
+        const urg = document.getElementById("f_urgente")?.checked;
+        const rep = document.getElementById("f_reprogramada")?.checked;
+        const comp = document.getElementById("f_comp")?.checked;
+        if (urg) m.style.borderTopColor = "var(--aya-vino)";
+        else if (rep) m.style.borderTopColor = "var(--aya-amarillo)";
+        else if (comp) m.style.borderTopColor = GRIS_COMPLETADO;
+        else m.style.borderTopColor = colorSemaforo(resFE?.input?.getISO() || sol.fechaEstimada).color;
+    }
+    m.style.borderTopColor = sol.urgente ? "var(--aya-vino)" : (sol.reprogramada ? "var(--aya-amarillo)" : sem.color);
     m.innerHTML = "";
     const h2 = document.createElement("h2");
     h2.innerHTML = "<span>" + (isNew ? "Nueva solicitud" : "Ficha de solicitud") + "</span>";
@@ -1342,23 +1466,75 @@ function abrirFicha(sol, isNew) {
         const l = document.createElement("label"); l.textContent = lblTxt;
         d.appendChild(l); d.appendChild(inputEl); m.appendChild(d); return d;
     }
+
     function campoFecha(lblTxt, inputId, initialISO, onChange) {
         const d = document.createElement("div"); d.className = "campo";
         const l = document.createElement("label"); l.textContent = lblTxt;
         const w = document.createElement("div"); w.className = "campo-fecha";
+
         const ti = document.createElement("input");
         ti.type = "text"; ti.id = inputId; ti.placeholder = "dd/mm/aaaa"; ti.maxLength = 10;
         ti.autocomplete = "off"; ti.inputMode = "numeric";
         ti.value = isoToDDMMYYYY(initialISO); ti.dataset.isoValue = initialISO || "";
         ti.getISO = () => ti.dataset.isoValue || "";
-        ti.setISO = iso => { ti.dataset.isoValue = iso || ""; ti.value = isoToDDMMYYYY(iso || ""); ti.classList.remove("invalido"); };
-        const dp = document.createElement("input"); dp.type = "date"; dp.className = "date-hidden-picker"; dp.tabIndex = -1;
-        const bc = document.createElement("button"); bc.type = "button"; bc.className = "btn-calendario"; bc.textContent = "📅";
-        bc.addEventListener("click", e => { e.preventDefault(); dp.value = ti.getISO() || "";
-            if (typeof dp.showPicker === "function") { try { dp.showPicker(); return; } catch(err){} }
-            dp.style.pointerEvents = "auto"; dp.focus(); dp.click(); setTimeout(() => { dp.style.pointerEvents = "none"; }, 200);
+        ti.setISO = iso => {
+            ti.dataset.isoValue = iso || "";
+            ti.value = isoToDDMMYYYY(iso || "");
+            ti.classList.remove("invalido");
+            if (iso) lockField(); else unlockField();
+        };
+
+        const btnEdit = document.createElement("button");
+        btnEdit.type = "button";
+        btnEdit.className = "btn-edit-fecha";
+        btnEdit.innerHTML = "✏️";
+        btnEdit.title = "Editar fecha";
+
+        const dp = document.createElement("input");
+        dp.type = "date"; dp.className = "date-hidden-picker"; dp.tabIndex = -1;
+
+        const bc = document.createElement("button");
+        bc.type = "button"; bc.className = "btn-calendario"; bc.textContent = "📅"; bc.title = "Abrir calendario";
+
+        function lockField() {
+            if (!ti.value.trim()) return;
+            ti.readOnly = true;
+            ti.classList.add("locked");
+            btnEdit.style.display = "inline-flex";
+            bc.style.display = "none";
+        }
+        function unlockField() {
+            ti.readOnly = false;
+            ti.classList.remove("locked");
+            btnEdit.style.display = "none";
+            bc.style.display = "inline-flex";
+        }
+
+        btnEdit.addEventListener("click", e => {
+            e.preventDefault();
+            unlockField();
+            ti.focus();
+            ti.select();
         });
-        dp.addEventListener("change", () => { if (!dp.value) return; ti.value = isoToDDMMYYYY(dp.value); ti.dataset.isoValue = dp.value; ti.classList.remove("invalido"); if (onChange) onChange(); });
+
+        bc.addEventListener("click", e => {
+            e.preventDefault();
+            unlockField();
+            dp.value = ti.getISO() || "";
+            if (typeof dp.showPicker === "function") { try { dp.showPicker(); return; } catch(err){} }
+            dp.style.pointerEvents = "auto"; dp.focus(); dp.click();
+            setTimeout(() => { dp.style.pointerEvents = "none"; }, 200);
+        });
+
+        dp.addEventListener("change", () => {
+            if (!dp.value) return;
+            ti.value = isoToDDMMYYYY(dp.value);
+            ti.dataset.isoValue = dp.value;
+            ti.classList.remove("invalido");
+            lockField();
+            if (onChange) onChange();
+        });
+
         ti.addEventListener("input", () => {
             let v = ti.value.replace(/[.\-]/g, "/").replace(/[^\d/]/g, "");
             if (v.length > 10) v = v.slice(0, 10);
@@ -1368,18 +1544,33 @@ function abrirFicha(sol, isNew) {
             else if (!v.trim()) { ti.dataset.isoValue = ""; ti.classList.remove("invalido"); }
             if (onChange) onChange();
         });
+
         ti.addEventListener("blur", () => {
+            if (ti.readOnly) return;
             const v = ti.value.trim();
             if (!v) { ti.dataset.isoValue = ""; ti.classList.remove("invalido"); if (onChange) onChange(); return; }
             const iso = ddmmyyyyToISO(v);
-            if (iso) { ti.value = isoToDDMMYYYY(iso); ti.dataset.isoValue = iso; ti.classList.remove("invalido"); }
-            else { ti.classList.add("invalido"); ti.dataset.isoValue = ""; }
+            if (iso) {
+                ti.value = isoToDDMMYYYY(iso);
+                ti.dataset.isoValue = iso;
+                ti.classList.remove("invalido");
+                setTimeout(() => {
+                    const ae = document.activeElement;
+                    if (ae !== ti && ae !== bc && ae !== dp && ae !== btnEdit) lockField();
+                }, 0);
+            } else { ti.classList.add("invalido"); ti.dataset.isoValue = ""; }
             if (onChange) onChange();
         });
-        const bw = document.createElement("div"); bw.className = "btn-cal-wrapper"; bw.appendChild(bc); bw.appendChild(dp);
+
+        const bw = document.createElement("div"); bw.className = "btn-cal-wrapper";
+        bw.appendChild(btnEdit);
+        bw.appendChild(bc);
+        bw.appendChild(dp);
         w.appendChild(ti); w.appendChild(bw);
         d.appendChild(l); d.appendChild(w); m.appendChild(d);
-        return { input: ti };
+
+        if (initialISO) lockField();
+        return { input: ti, div: d };
     }
 
     const ic = document.createElement("input"); ic.type = "text"; ic.id = "f_cliente"; ic.value = sol.cliente;
@@ -1399,9 +1590,41 @@ function abrirFicha(sol, isNew) {
     const resFE = campoFecha("Fecha estimada de entrega", "f_fe", sol.fechaEstimada, () => {
         const cc = document.getElementById("f_comp"); if (cc && cc.checked) return;
         const uu = document.getElementById("f_urgente"); if (uu && uu.checked) return;
+        const rr = document.getElementById("f_reprogramada"); if (rr && rr.checked) return;
         const ns = colorSemaforo(resFE.input.getISO());
-        semSpan.style.background = ns.color; semSpan.textContent = ns.texto; m.style.borderTopColor = ns.color;
+        semSpan.style.background = ns.color; semSpan.textContent = ns.texto;
+        if (!document.getElementById("f_urgente")?.checked && !document.getElementById("f_reprogramada")?.checked) {
+            m.style.borderTopColor = ns.color;
+        }
     });
+
+    const divReprogChk = document.createElement("div");
+    divReprogChk.className = "campo";
+    divReprogChk.id = "cont_reprog_chk";
+    divReprogChk.style.marginTop = "2px";
+    divReprogChk.style.marginBottom = "10px";
+    const lblReprog = document.createElement("label");
+    lblReprog.className = "check-inline reprog-lbl";
+    const chkReprog = document.createElement("input");
+    chkReprog.type = "checkbox"; chkReprog.id = "f_reprogramada";
+    chkReprog.checked = !!sol.reprogramada;
+    lblReprog.appendChild(chkReprog);
+    lblReprog.appendChild(document.createTextNode("Reprogramación"));
+    divReprogChk.appendChild(lblReprog);
+    m.appendChild(divReprogChk);
+
+    const resFR = campoFecha("Nueva fecha estimada de entrega", "f_fr_reprog", sol.fechaReprogramada || "");
+    resFR.div.style.display = sol.reprogramada ? "block" : "none";
+    resFR.div.id = "cont_fecha_reprog";
+
+    chkReprog.addEventListener("change", e => {
+        resFR.div.style.display = e.target.checked ? "block" : "none";
+        if (e.target.checked) {
+            setTimeout(() => { resFR.input.focus(); }, 50);
+        }
+        aplicarColorModal();
+    });
+
     const ia = document.createElement("input"); ia.type = "number"; ia.id = "f_av"; ia.min = 0; ia.max = 100; ia.value = sol.avance;
     campo("Porcentaje de avance (%)", ia);
     const drr = document.createElement("div"); drr.className = "campo";
@@ -1443,12 +1666,11 @@ function abrirFicha(sol, isNew) {
             if (fr && fr.getISO && !fr.getISO()) fr.setISO(hoyISO());
             document.getElementById("f_av").value = 100;
             semSpan.style.background = GRIS_COMPLETADO; semSpan.textContent = "Completada";
-            if (!document.getElementById("f_urgente").checked) m.style.borderTopColor = GRIS_COMPLETADO;
         } else {
             const ns = colorSemaforo(resFE.input.getISO());
             semSpan.style.background = ns.color; semSpan.textContent = ns.texto;
-            if (!document.getElementById("f_urgente").checked) m.style.borderTopColor = ns.color;
         }
+        aplicarColorModal();
     });
     lblComp.appendChild(ck);
     lblComp.appendChild(document.createTextNode("Completada"));
@@ -1456,11 +1678,7 @@ function abrirFicha(sol, isNew) {
     const lblUrg = document.createElement("label");
     lblUrg.className = "urgente-lbl";
     const ckUrg = document.createElement("input"); ckUrg.type = "checkbox"; ckUrg.id = "f_urgente"; ckUrg.checked = !!sol.urgente;
-    ckUrg.addEventListener("change", e => {
-        if (e.target.checked) m.style.borderTopColor = "var(--aya-vino)";
-        else if (ck.checked) m.style.borderTopColor = GRIS_COMPLETADO;
-        else m.style.borderTopColor = colorSemaforo(resFE.input.getISO()).color;
-    });
+    ckUrg.addEventListener("change", aplicarColorModal);
     lblUrg.appendChild(ckUrg);
     lblUrg.appendChild(document.createTextNode("Urgencia"));
 
@@ -1537,9 +1755,12 @@ function activarEdicionEnlace(i, lista, cont) {
 
 async function guardarFicha(sol, isNew) {
     if (!sol) return false;
-    for (const id of ["f_fs", "f_fe", "f_fr"]) {
+    const dateIds = ["f_fs", "f_fe", "f_fr"];
+    const chkReprog = document.getElementById("f_reprogramada");
+    if (chkReprog && chkReprog.checked) dateIds.push("f_fr_reprog");
+    for (const id of dateIds) {
         const el = document.getElementById(id);
-        if (el && el.classList.contains("invalido")) { alert("Fecha inválida (dd/mm/aaaa)."); el.focus(); return false; }
+        if (el && el.classList.contains("invalido")) { alert("Fecha inválida (dd/mm/aaaa) en el campo con borde rojo."); el.focus(); return false; }
     }
     function getFechaISO(id) { const el = document.getElementById(id); if (!el) return ""; if (typeof el.getISO === "function") return el.getISO(); return ddmmyyyyToISO(el.value); }
     const inpN = document.getElementById("nuevoEnlaceInput");
@@ -1556,6 +1777,8 @@ async function guardarFicha(sol, isNew) {
     sol.fechaReal = getFechaISO("f_fr");
     sol.completada = document.getElementById("f_comp").checked;
     sol.urgente = document.getElementById("f_urgente").checked;
+    sol.reprogramada = chkReprog.checked;
+    sol.fechaReprogramada = sol.reprogramada ? getFechaISO("f_fr_reprog") : "";
     if (sol.completada) sol.avance = 100;
     sol.medioSolicitud = document.getElementById("f_medio").value;
     if (sol.medioSolicitud === "Oficio") {
@@ -1601,10 +1824,30 @@ function buildExportData(scope) {
 function buildExportHTML(data) {
     const { proceso, completados, etiqueta } = data;
     const hoy = new Date().toLocaleDateString("es-CR", { day: "2-digit", month: "long", year: "numeric" });
-    const ths = ["Cliente","Fecha","Descripción","Medio","Consecutivo","F. Estimada","Avance","Responsables","Entregables","Enlaces","F. Real","Urgente"];
-    const fila = s => `<tr${s.urgente ? ' style="background:#f5e0e0;"' : ''}><td>${esc(s.cliente)}</td><td>${esc(s.fechaSolicitud)}</td><td>${esc(s.descripcion)}</td><td>${esc(s.medioSolicitud)}</td><td>${esc(s.oficioConsecutivo)}</td><td>${esc(s.fechaEstimada)}</td><td style="text-align:center">${s.avance}%</td><td>${esc(s.responsables.join(", "))}</td><td>${esc(s.entregables)}</td><td>${esc((s.enlaces || []).join(" | "))}</td><td>${esc(s.fechaReal)}</td><td style="text-align:center">${s.urgente ? '🚨 SÍ' : '—'}</td></tr>`;
-    const tp = proceso.length ? `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:10pt"><thead><tr style="background:#1B294E;color:#fff">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead><tbody>${proceso.map(fila).join("")}</tbody></table>` : "<p><i>Sin registros.</i></p>";
-    const tc = completados.length ? `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:10pt"><thead><tr style="background:#C9AD6E;color:#1B294E">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead><tbody>${completados.map(fila).join("")}</tbody></table>` : "<p><i>Sin registros.</i></p>";
+    const ths = ["Cliente","F. Solicitud","Medio","Consecutivo","F. Estimada","F. Reprogramada","F. Real","Avance","Responsables","Estados","Descripción","Entregables","Enlaces"];
+    const fila = s => {
+        const estados = [];
+        if (s.completada) estados.push("Completada");
+        if (s.urgente) estados.push("🚨 Urgente");
+        if (s.reprogramada) estados.push("🔄 Reprogramada");
+        return `<tr${s.urgente ? ' style="background:#f5e0e0;"' : (s.reprogramada ? ' style="background:#fffbe0;"' : '')}>
+            <td>${esc(s.cliente)}</td>
+            <td>${esc(s.fechaSolicitud)}</td>
+            <td>${esc(s.medioSolicitud)}</td>
+            <td>${esc(s.oficioConsecutivo)}</td>
+            <td>${esc(s.fechaEstimada)}</td>
+            <td>${esc(s.reprogramada ? s.fechaReprogramada : '')}</td>
+            <td>${esc(s.fechaReal)}</td>
+            <td style="text-align:center">${s.avance}%</td>
+            <td>${esc(s.responsables.join(", "))}</td>
+            <td>${esc(estados.join(" · "))}</td>
+            <td>${esc(s.descripcion)}</td>
+            <td>${esc(s.entregables)}</td>
+            <td style="font-size:8pt;word-break:break-all;">${esc((s.enlaces || []).join(" | "))}</td>
+        </tr>`;
+    };
+    const tp = proceso.length ? `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:9pt"><thead><tr style="background:#1B294E;color:#fff">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead><tbody>${proceso.map(fila).join("")}</tbody></table>` : "<p><i>Sin registros.</i></p>";
+    const tc = completados.length ? `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:9pt"><thead><tr style="background:#C9AD6E;color:#1B294E">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead><tbody>${completados.map(fila).join("")}</tbody></table>` : "<p><i>Sin registros.</i></p>";
     return `<h1 style="color:#1B294E;font-family:Arial;margin:0">Edificaciones · UEN Programación y Control</h1><h2 style="color:#1B294E;font-family:Arial;margin:4px 0">Instituto Costarricense de Acueductos y Alcantarillados</h2><h3 style="font-family:Arial;margin:10px 0 4px">Reporte — ${esc(etiqueta)}</h3><p style="font-family:Arial;font-size:9pt;color:#5B678A"><i>Generado el ${esc(hoy)}</i></p><h2 style="color:#1B294E;font-family:Arial;margin-top:20px">En proceso (${proceso.length})</h2>${tp}<h2 style="color:#8B7338;font-family:Arial;margin-top:20px">Completados (${completados.length})</h2>${tc}`;
 }
 function nombreArchivo(e) { return e.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "_").replace(/^_|_$/g, ""); }
@@ -1622,7 +1865,7 @@ function exportarXLS() {
 function exportarPDF() {
     const d = buildExportData(document.getElementById("selScope").value);
     const v = window.open("", "_blank"); if (!v) { alert("Permite ventanas emergentes."); return; }
-    v.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title><style>body{font-family:Arial;padding:20px;color:#1B294E}h1,h2{color:#1B294E}table{border-collapse:collapse;width:100%;font-size:7.5pt}th{background:#1B294E;color:#fff;padding:5px;text-align:left}td{padding:4px;border:1px solid #999;vertical-align:top}@media print{@page{size:landscape;margin:1cm}}</style></head><body>${buildExportHTML(d)}</body></html>`);
+    v.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title><style>body{font-family:Arial;padding:20px;color:#1B294E}h1,h2{color:#1B294E}table{border-collapse:collapse;width:100%;font-size:7pt}th{background:#1B294E;color:#fff;padding:5px;text-align:left}td{padding:4px;border:1px solid #999;vertical-align:top}@media print{@page{size:landscape;margin:1cm}}</style></head><body>${buildExportHTML(d)}</body></html>`);
     v.document.close(); v.focus(); setTimeout(() => v.print(), 500);
 }
 
