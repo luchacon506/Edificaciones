@@ -729,9 +729,7 @@ const SQL_SUGERENCIAS = {
     oficio_consecutivo: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_consecutivo text DEFAULT '';",
     requiere_oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS requiere_oficio_entrega boolean DEFAULT false;",
     oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_entrega text DEFAULT '';",
-    /* NUEVO */
-    fecha_avance: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS fecha_avance date;"
-        /* NUEVO */
+    fecha_avance: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS fecha_avance date;",
     titulo: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS titulo text DEFAULT '';"
 };
 function mostrarErrorSupabase(error, accion) {
