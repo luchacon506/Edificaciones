@@ -77,82 +77,29 @@ header .titulo-derecha { margin-left: auto; font-size: 1.2rem; font-weight: 700;
 button.btn-azul { background: var(--aya-azul); color: var(--aya-blanco); border: none; padding: 10px 18px; border-radius: 6px; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
 button.btn-azul:hover { background: var(--aya-azul-medio); }
 button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowed; }
-.btn-exportar {
-    background: var(--aya-dorado);
-    color: var(--aya-azul);
-    border: 2px solid var(--aya-dorado);
-    padding: 9px 16px;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.15s;
-}
+.btn-exportar { background: var(--aya-dorado); color: var(--aya-azul); border: 2px solid var(--aya-dorado); padding: 9px 16px; border-radius: 6px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; }
 .btn-exportar:hover { background: var(--aya-dorado-hover); border-color: var(--aya-dorado-oscuro); }
-
-.barra-combinada {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    padding: 6px 24px 10px;
-    font-size: 0.85rem;
-    color: var(--aya-azul);
-}
-.barra-combinada .filtros-inline,
-.barra-combinada .leyenda-inline {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-.barra-combinada .filtros-inline strong,
-.barra-combinada .leyenda-inline strong {
-    color: var(--aya-azul);
-    margin-right: 4px;
-    white-space: nowrap;
-}
-.barra-combinada .divider {
-    width: 1px;
-    height: 22px;
-    background: var(--aya-borde-fuerte);
-    flex-shrink: 0;
-}
+.barra-combinada { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 6px 24px 10px; font-size: 0.85rem; color: var(--aya-azul); }
+.barra-combinada .filtros-inline, .barra-combinada .leyenda-inline { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.barra-combinada .filtros-inline strong, .barra-combinada .leyenda-inline strong { color: var(--aya-azul); margin-right: 4px; white-space: nowrap; }
+.barra-combinada .divider { width: 1px; height: 22px; background: var(--aya-borde-fuerte); flex-shrink: 0; }
 @media (max-width: 1100px) { .barra-combinada .divider { display: none; } }
 .leyenda-inline span.dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
 .leyenda-inline .item-leyenda { display: inline-flex; align-items: center; gap: 2px; margin-right: 6px; white-space: nowrap; }
-
 .chip { background: var(--aya-blanco); border: 1px solid var(--aya-borde-fuerte); color: var(--aya-azul); padding: 5px 14px; border-radius: 16px; cursor: pointer; font-size: 0.82rem; font-weight: 500; transition: all 0.15s; font-family: inherit; }
 .chip:hover { border-color: var(--aya-dorado); color: var(--aya-dorado-oscuro); }
 .chip.chip-activo { background: var(--aya-azul); color: var(--aya-blanco); border-color: var(--aya-azul); }
 .chip.chip-todos.chip-activo { background: var(--aya-dorado); color: var(--aya-azul); border-color: var(--aya-dorado); }
 .aviso-filtro { font-size: 0.78rem; color: var(--aya-dorado-oscuro); font-weight: 600; margin-left: 4px; }
-
 .estado-sync { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--aya-azul); padding: 2px 8px; background: var(--aya-blanco); border-radius: 10px; border: 1px solid var(--aya-borde-fuerte); }
 .estado-sync .dot-sync { width: 8px; height: 8px; border-radius: 50%; background: var(--aya-gris-suave); }
 .estado-sync.online .dot-sync { background: var(--aya-exito); }
 .estado-sync.sync .dot-sync { background: var(--aya-warn); animation: pulso 1s infinite; }
 .estado-sync.error .dot-sync { background: var(--aya-peligro); }
 @keyframes pulso { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-/* GRID 3 COLUMNAS — pilas más anchas, visor más angosto */
-.pilas {
-    display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.3fr) minmax(0, 1fr);
-    gap: 20px;
-    padding: 0 24px 18px;
-    align-items: stretch;
-}
-@media (max-width: 1400px) {
-    .pilas { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-    .pilas .ciudad-viewer { grid-column: 1 / -1; }
-}
+.pilas { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; padding: 0 24px 18px; align-items: stretch; }
+@media (max-width: 1400px) { .pilas { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .pilas .ciudad-viewer { grid-column: 1 / -1; } }
 @media (max-width: 800px) { .pilas { grid-template-columns: 1fr; } }
-
 .pila { background: var(--aya-blanco); border-radius: 10px; padding: 12px; min-height: 200px; border: 1px solid var(--aya-borde); border-top: 3px solid var(--aya-dorado); display: flex; flex-direction: column; }
 .pila h2 { margin: 0 0 10px; font-size: 1.02rem; color: var(--aya-azul); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .pila h2 .contador { background: var(--aya-azul); color: var(--aya-blanco); font-size: 0.8rem; border-radius: 12px; padding: 2px 10px; }
@@ -166,6 +113,9 @@ button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowe
 .fila .info .meta .badge-oficio-entrega { background: #e8f7ec; color: #1e7a3b; border: 1px solid #b8e0c3; border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; }
 .fila .info .meta .badge-avance { background: var(--aya-fondo-claro); color: var(--aya-azul); border: 1px solid var(--aya-borde); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 700; white-space: nowrap; }
 .fila .info .meta .badge-avance.completo { background: rgba(39,174,96,.15); color: var(--aya-exito); border-color: rgba(39,174,96,.4); }
+/* ─── NUEVO: badge de fecha de actualización de avance ─── */
+.fila .info .meta .badge-fecha-avance { background: #e6f4ff; color: #1e5b8a; border: 1px solid #b8d8f0; border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
+.fila .info .meta .badge-fecha-avance.hoy { background: #fff4e0; color: #8B5A00; border-color: #f0c060; }
 .fila .info .meta .badge-enlace { background: var(--aya-tinte-dorado); color: var(--aya-azul); border: 1px solid var(--aya-dorado); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; text-decoration: none; cursor: pointer; }
 .fila .info .meta .badge-enlace:hover { background: var(--aya-dorado); color: var(--aya-azul); }
 .fila .info .meta .badge-urgente { background: var(--aya-vino); color: var(--aya-blanco); border: 1px solid var(--aya-vino-oscuro); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; }
@@ -235,131 +185,30 @@ button.btn-rojo:hover { background: var(--aya-peligro); color: var(--aya-blanco)
 footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(--aya-azul); color: var(--aya-gris-suave); border-top: 2px solid var(--aya-dorado); }
 .overlay-carga { position: fixed; inset: 0; background: rgba(245,246,250,0.9); display: flex; justify-content: center; align-items: center; font-size: 1rem; color: var(--aya-azul); z-index: 2000; }
 .overlay-carga.oculto { display: none; }
-
-/* ============================================ */
-/* VISOR — Canvas de fondo detrás de toda la UI */
-/* ============================================ */
-.ciudad-viewer {
-    position: relative;
-    margin: 0;
-    min-height: 500px;
-    background: linear-gradient(160deg, var(--aya-azul-oscuro) 0%, var(--aya-azul) 100%);
-    border-radius: 14px;
-    padding: 12px 14px 10px;
-    color: var(--aya-fondo-claro);
-    box-shadow: 0 8px 28px rgba(27,41,78,0.4);
-    border: 1px solid var(--aya-dorado-oscuro);
-    min-width: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Canvas: cubre TODO el visor (inset 0 = detrás de todo) */
-.ciudad-canvas {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-    background: radial-gradient(circle at 50% -10%, var(--aya-azul-medio) 0%, var(--aya-azul-oscuro) 60%, #060B15 100%);
-}
+.ciudad-viewer { position: relative; margin: 0; min-height: 500px; background: linear-gradient(160deg, var(--aya-azul-oscuro) 0%, var(--aya-azul) 100%); border-radius: 14px; padding: 12px 14px 10px; color: var(--aya-fondo-claro); box-shadow: 0 8px 28px rgba(27,41,78,0.4); border: 1px solid var(--aya-dorado-oscuro); min-width: 0; overflow: hidden; display: flex; flex-direction: column; }
+.ciudad-canvas { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: radial-gradient(circle at 50% -10%, var(--aya-azul-medio) 0%, var(--aya-azul-oscuro) 60%, #060B15 100%); }
 #ciudadSvg { width: 100%; height: 100%; display: block; cursor: grab; user-select: none; }
 #ciudadSvg:active { cursor: grabbing; }
-
-/* Header flotante sobre el canvas — pointer-events:none permite drag a través */
-.ciudad-header {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-    background: rgba(14, 23, 43, 0.72);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(201,173,110,0.28);
-    pointer-events: none;
-}
+.ciudad-header { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; background: rgba(14, 23, 43, 0.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(201,173,110,0.28); pointer-events: none; }
 .ciudad-header h2 { margin: 0; font-size: 1rem; color: var(--aya-dorado); letter-spacing: 0.02em; }
 .ciudad-tools { display: flex; gap: 5px; flex-shrink: 0; pointer-events: auto; }
 .ciudad-btn { background: var(--aya-azul-medio); border: 1px solid var(--aya-dorado-oscuro); color: var(--aya-dorado); border-radius: 8px; width: 30px; height: 30px; cursor: pointer; font-size: 0.95rem; font-weight: 700; font-family: inherit; }
 .ciudad-btn:hover { background: var(--aya-azul-claro); border-color: var(--aya-dorado); color: var(--aya-blanco); }
-
-/* Hint al pie, flotante — pointer-events:none pasa drag al SVG */
-.ciudad-hint {
-    position: relative;
-    z-index: 1;
-    margin-top: auto;
-    text-align: center;
-    font-size: 0.7rem;
-    color: var(--aya-dorado);
-    background: rgba(14, 23, 43, 0.55);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border-radius: 6px;
-    padding: 4px 10px;
-    pointer-events: none;
-}
-
-/* Legend toggle al pie */
-.ciudad-legend-collapse {
-    position: relative;
-    z-index: 1;
-    margin-top: 6px;
-}
-.legend-toggle {
-    display: flex; justify-content: space-between; align-items: center;
-    width: 100%; padding: 8px 12px;
-    background: rgba(27,41,78,0.55);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid var(--aya-dorado-oscuro);
-    border-radius: 8px;
-    color: var(--aya-dorado); font-weight: 700; font-size: 0.78rem;
-    cursor: pointer; font-family: inherit; letter-spacing: 0.5px;
-    transition: background 0.15s, border-color 0.15s;
-}
+.ciudad-hint { position: relative; z-index: 1; margin-top: auto; text-align: center; font-size: 0.7rem; color: var(--aya-dorado); background: rgba(14, 23, 43, 0.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-radius: 6px; padding: 4px 10px; pointer-events: none; }
+.ciudad-legend-collapse { position: relative; z-index: 1; margin-top: 6px; }
+.legend-toggle { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 8px 12px; background: rgba(27,41,78,0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid var(--aya-dorado-oscuro); border-radius: 8px; color: var(--aya-dorado); font-weight: 700; font-size: 0.78rem; cursor: pointer; font-family: inherit; letter-spacing: 0.5px; transition: background 0.15s, border-color 0.15s; }
 .legend-toggle:hover { background: rgba(27,41,78,0.78); border-color: var(--aya-dorado); }
 .legend-toggle.open { border-radius: 8px 8px 0 0; border-bottom-color: transparent; }
 .legend-toggle .legend-title { display: flex; align-items: center; gap: 6px; }
 .legend-chevron { font-size: 0.7rem; transition: transform 0.25s; display: inline-block; }
 .legend-chevron.open { transform: rotate(180deg); }
-
-.ciudad-legend-bar {
-    display: none;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 0.72rem;
-    color: var(--aya-fondo-claro);
-    padding: 10px 12px;
-    background: rgba(14, 23, 43, 0.85);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid var(--aya-dorado-oscuro);
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    align-items: center;
-}
+.ciudad-legend-bar { display: none; flex-wrap: wrap; gap: 12px; font-size: 0.72rem; color: var(--aya-fondo-claro); padding: 10px 12px; background: rgba(14, 23, 43, 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid var(--aya-dorado-oscuro); border-top: none; border-radius: 0 0 8px 8px; align-items: center; }
 .ciudad-legend-bar.open { display: flex; }
-.legend-desc {
-    width: 100%;
-    padding: 6px 0;
-    border-bottom: 1px dashed rgba(201,173,110,0.35);
-    margin-bottom: 6px;
-    color: var(--aya-dorado);
-    font-style: italic;
-    font-size: 0.72rem;
-    text-align: center;
-}
+.legend-desc { width: 100%; padding: 6px 0; border-bottom: 1px dashed rgba(201,173,110,0.35); margin-bottom: 6px; color: var(--aya-dorado); font-style: italic; font-size: 0.72rem; text-align: center; }
 .ciudad-leg { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; }
 .ciudad-leg b { color: var(--aya-dorado); font-weight: 700; margin-right: 4px; }
 .ciudad-leg-item { display: inline-flex; align-items: center; gap: 4px; margin-right: 4px; }
 .ciudad-leg-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 2px; border: 1.5px solid rgba(27,41,78,0.65); vertical-align: middle; }
-
 .ciudad-plate { fill: #16223E; stroke: var(--aya-dorado-oscuro); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .ciudad-plate-label { fill: var(--aya-dorado); font-size: 0.85px; font-weight: 800; letter-spacing: 0.08em; pointer-events: none; font-family: inherit; }
 .ciudad-plate-label.actual { fill: var(--aya-dorado-claro); text-decoration: underline; text-decoration-thickness: 0.08px; text-underline-offset: 0.18px; }
@@ -381,8 +230,6 @@ footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(
 .ciudad-building.reprogramada .ciudad-face-r { fill: #8B6E00; stroke: #A08020; }
 .ciudad-building.reprogramada .ciudad-face-t { fill: #C8A020; stroke: #E0B830; }
 .ciudad-building.reprogramada .ciudad-floorline { stroke: #A08020; opacity: 0.75; }
-
-/* MODAL DE EXPORTACIÓN */
 .export-modal { max-width: 780px; padding: 22px; }
 .export-modal h2 { font-size: 1.2rem; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--aya-dorado); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .export-modal h2 .modal-close { background: transparent; border: none; color: var(--aya-gris-texto); font-size: 1.1rem; cursor: pointer; padding: 4px 8px; border-radius: 4px; }
@@ -443,7 +290,6 @@ footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(
     </div>
 </div>
 
-<!-- BARRA COMBINADA: Filtros + Semáforo con símbolos + y - -->
 <div class="barra-combinada">
     <div class="filtros-inline">
         <strong>Filtrar por responsable:</strong>
@@ -483,12 +329,9 @@ footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(
         </div>
     </div>
     <section class="ciudad-viewer" id="ciudadViewer" style="display:none">
-        <!-- Canvas de fondo: cubre todo el visor -->
         <div class="ciudad-canvas">
             <svg id="ciudadSvg" xmlns="http://www.w3.org/2000/svg"></svg>
         </div>
-
-        <!-- Header flotante sobre el canvas -->
         <div class="ciudad-header">
             <h2>Ciudad de Solicitudes</h2>
             <div class="ciudad-tools">
@@ -497,11 +340,7 @@ footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(
                 <button class="ciudad-btn" id="btnCiudadFit" title="Ajustar vista">⤢</button>
             </div>
         </div>
-
-        <!-- Hint al pie (empujado abajo por margin-top:auto) -->
         <div class="ciudad-hint">Arrastra para mover · Rueda para zoom · Clic en edificio para abrir ficha</div>
-
-        <!-- Simbología plegable -->
         <div class="ciudad-legend-collapse">
             <button type="button" class="legend-toggle" id="legendToggle" onclick="toggleLegend()">
                 <span class="legend-title">📖 Simbología</span>
@@ -577,6 +416,9 @@ footer { text-align: center; font-size: 0.75rem; padding: 10px; background: var(
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+/* =========================================================================
+   CONFIG
+   ========================================================================= */
 const SUPABASE_URL = "https://sqryyhbkgmjvkhgzduwf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_OLPsAD1jyyvXKjpsiMKvig_gXTZxW4K";
 
@@ -600,8 +442,62 @@ let solEnEdicion = null;
 let solEnEdicionEsNueva = false;
 let enlacesEnEdicion = [];
 
+/* =========================================================================
+   UTILIDADES GENERALES
+   ========================================================================= */
 function fmtDate(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function hoyISO() { return fmtDate(new Date()); }
+function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+function isoToDDMMYYYY(iso) { if (!iso) return ""; const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/); if (!m) return ""; return m[3] + "/" + m[2] + "/" + m[1]; }
+function ddmmyyyyToISO(str) {
+    if (!str) return "";
+    const s = String(str).trim().replace(/[.\-]/g, "/");
+    const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if (!m) return "";
+    const d = parseInt(m[1],10), mo = parseInt(m[2],10), y = parseInt(m[3],10);
+    if (mo < 1 || mo > 12 || y < 1900 || y > 2100) return "";
+    const dim = new Date(y, mo, 0).getDate();
+    if (d < 1 || d > dim) return "";
+    return y + "-" + String(mo).padStart(2,"0") + "-" + String(d).padStart(2,"0");
+}
+function diasRestantes(fechaISO) {
+    if (!fechaISO) return null;
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    return Math.ceil((new Date(fechaISO + "T00:00:00") - hoy) / 86400000);
+}
+function colorSemaforo(fechaISO) {
+    const d = diasRestantes(fechaISO);
+    if (d === null) return { color: "#27ae60", texto: "Sin fecha" };
+    if (d < 15) return { color: "#c0392b", texto: d < 0 ? "Vencida (" + Math.abs(d) + "d)" : d + "d" };
+    if (d <= 30) return { color: "#f39c12", texto: d + "d" };
+    return { color: "#27ae60", texto: d + "d" };
+}
+function fechaEfectiva(sol) {
+    if (sol.reprogramada && sol.fechaReprogramada) return sol.fechaReprogramada;
+    return sol.fechaEstimada;
+}
+function semaforoPara(sol) {
+    if (sol.completada) return { color: GRIS_COMPLETADO, texto: "Completada" };
+    return colorSemaforo(fechaEfectiva(sol));
+}
+function pasaFiltroResp(sol) { return filtroResp.size === 0 || sol.responsables.some(r => filtroResp.has(r)); }
+function pasaBusqueda(sol) {
+    const q = (busquedaActual || "").trim().toLowerCase(); if (!q) return true;
+    const palabras = q.split(/\s+/).filter(Boolean);
+    const campos = [sol.cliente || "", sol.descripcion || "", sol.entregables || ""].map(c => c.toLowerCase());
+    return palabras.every(p => campos.some(c => c.includes(p)));
+}
+function pasaTodosFiltros(sol) { return pasaFiltroResp(sol) && pasaBusqueda(sol); }
+function setEstadoSync(estado, texto) {
+    const el = document.getElementById("estadoSync"); if (!el) return;
+    el.classList.remove("online", "sync", "error");
+    if (estado) el.classList.add(estado);
+    document.getElementById("textoSync").textContent = texto;
+}
+function normalizarUrl(u) { if (!u) return ""; u = u.trim(); if (!/^https?:\/\//i.test(u)) u = "https://" + u; return u; }
 
+/* =========================================================================
+   LEYENDA CIUDAD
+   ========================================================================= */
 function toggleLegend() {
     const content = document.getElementById('legendContent');
     const chevron = document.getElementById('legendChevron');
@@ -611,7 +507,9 @@ function toggleLegend() {
     btn.classList.toggle('open', isOpen);
 }
 
-/* ====== EXPORTACIÓN — MODAL ====== */
+/* =========================================================================
+   EXPORTACIÓN — MODAL
+   ========================================================================= */
 function abrirExportModal() {
     document.getElementById('modalExport').classList.add('activo');
     actualizarPreviewExport();
@@ -639,34 +537,24 @@ function actualizarPreviewExport() {
         body.innerHTML = '<div class="exp-preview-empty">No hay registros con los filtros seleccionados.</div>';
         return;
     }
-
     const LIMIT = 8;
     let html = '';
-
     if (data.proceso.length) {
         html += '<div class="exp-prev-group"><div class="exp-prev-group-title">📋 En proceso (' + data.proceso.length + ')</div>';
         data.proceso.slice(0, LIMIT).forEach(s => {
-            const medio = s.medioSolicitud || '—';
-            html += '<div class="exp-prev-item"><span>' + esc(s.cliente || '(Sin cliente)') + '</span><span class="medio-tag">' + esc(medio) + '</span></div>';
+            html += '<div class="exp-prev-item"><span>' + esc(s.cliente || '(Sin cliente)') + '</span><span class="medio-tag">' + esc(s.medioSolicitud || '—') + '</span></div>';
         });
-        if (data.proceso.length > LIMIT) {
-            html += '<div style="font-size:0.75rem;color:#5B678A;font-style:italic;padding:4px 8px;">+ ' + (data.proceso.length - LIMIT) + ' más…</div>';
-        }
+        if (data.proceso.length > LIMIT) html += '<div style="font-size:0.75rem;color:#5B678A;font-style:italic;padding:4px 8px;">+ ' + (data.proceso.length - LIMIT) + ' más…</div>';
         html += '</div>';
     }
-
     if (data.completados.length) {
         html += '<div class="exp-prev-group"><div class="exp-prev-group-title">✅ Completados (' + data.completados.length + ')</div>';
         data.completados.slice(0, LIMIT).forEach(s => {
-            const medio = s.medioSolicitud || '—';
-            html += '<div class="exp-prev-item"><span>' + esc(s.cliente || '(Sin cliente)') + '</span><span class="medio-tag">' + esc(medio) + '</span></div>';
+            html += '<div class="exp-prev-item"><span>' + esc(s.cliente || '(Sin cliente)') + '</span><span class="medio-tag">' + esc(s.medioSolicitud || '—') + '</span></div>';
         });
-        if (data.completados.length > LIMIT) {
-            html += '<div style="font-size:0.75rem;color:#5B678A;font-style:italic;padding:4px 8px;">+ ' + (data.completados.length - LIMIT) + ' más…</div>';
-        }
+        if (data.completados.length > LIMIT) html += '<div style="font-size:0.75rem;color:#5B678A;font-style:italic;padding:4px 8px;">+ ' + (data.completados.length - LIMIT) + ' más…</div>';
         html += '</div>';
     }
-
     body.innerHTML = html;
 }
 function ejecutarExport(fmt) {
@@ -675,26 +563,109 @@ function ejecutarExport(fmt) {
     if (document.getElementById('expTeams').checked) mediosFiltro.push('Teams');
     if (document.getElementById('expCorreo').checked) mediosFiltro.push('Correo');
     if (document.getElementById('expOficio').checked) mediosFiltro.push('Oficio');
-
-    if (mediosFiltro.length === 0) {
-        alert('Debes seleccionar al menos un medio para exportar.');
-        return;
-    }
-
+    if (mediosFiltro.length === 0) { alert('Debes seleccionar al menos un medio para exportar.'); return; }
     const data = buildExportData(scope, mediosFiltro);
-    const total = data.proceso.length + data.completados.length;
-    if (total === 0) {
-        alert('No hay registros con los filtros seleccionados.');
-        return;
-    }
-
+    if ((data.proceso.length + data.completados.length) === 0) { alert('No hay registros con los filtros seleccionados.'); return; }
     if (fmt === 'doc') exportarDOC(data);
     else if (fmt === 'xls') exportarXLS(data);
     else if (fmt === 'pdf') exportarPDF(data);
-
     cerrarExportModal();
 }
+function buildExportData(scope, mediosFiltro) {
+    let items = solicitudes.filter(s => mediosFiltro.includes(s.medioSolicitud));
+    let etiqueta = "";
+    if (scope === "mes") {
+        etiqueta = MESES[mesActual] + " " + anioActual;
+        items = items.filter(s => {
+            const f = s.completada ? s.fechaReal : fechaEfectiva(s);
+            if (!f) return false;
+            const d = new Date(f + "T00:00:00");
+            return d.getMonth() === mesActual && d.getFullYear() === anioActual;
+        });
+    } else if (scope === "anio") {
+        etiqueta = "Año " + anioActual;
+        items = items.filter(s => {
+            const f = s.completada ? s.fechaReal : fechaEfectiva(s);
+            if (!f) return false;
+            return new Date(f + "T00:00:00").getFullYear() === anioActual;
+        });
+    } else {
+        etiqueta = "Todos los registros";
+    }
+    return {
+        etiqueta,
+        proceso: items.filter(s => !s.completada),
+        completados: items.filter(s => s.completada)
+    };
+}
+function tablaExportHTML(data) {
+    let rows = '';
+    const sep = (label, count) => `<tr><td colspan="6" style="background:#1B294E;color:#C9AD6E;font-weight:700;padding:6px 8px;">${label} (${count})</td></tr>`;
+    const head = `<tr style="background:#C9AD6E;color:#1B294E;font-weight:700;">
+        <td style="padding:6px 8px;border:1px solid #ccc;">Cliente</td>
+        <td style="padding:6px 8px;border:1px solid #ccc;">Descripción</td>
+        <td style="padding:6px 8px;border:1px solid #ccc;">Medio</td>
+        <td style="padding:6px 8px;border:1px solid #ccc;">Responsables</td>
+        <td style="padding:6px 8px;border:1px solid #ccc;">Fecha entrega</td>
+        <td style="padding:6px 8px;border:1px solid #ccc;">Avance · Fecha avance</td>
+    </tr>`;
+    const fila = (s) => {
+        const fecha = s.completada ? (s.fechaReal || '—') : (fechaEfectiva(s) || '—');
+        const fa = s.fechaAvance ? isoToDDMMYYYY(s.fechaAvance) : '—';
+        return `<tr>
+            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.cliente || '')}</td>
+            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.descripcion || '')}</td>
+            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.medioSolicitud || '')}</td>
+            <td style="padding:4px 8px;border:1px solid #ddd;">${esc((s.responsables || []).join(', '))}</td>
+            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(fecha)}</td>
+            <td style="padding:4px 8px;border:1px solid #ddd;">${s.avance || 0}% · ${esc(fa)}</td>
+        </tr>`;
+    };
+    if (data.proceso.length) {
+        rows += sep('📋 En proceso', data.proceso.length) + head;
+        data.proceso.forEach(s => rows += fila(s));
+    }
+    if (data.completados.length) {
+        rows += sep('✅ Completados', data.completados.length) + head;
+        data.completados.forEach(s => rows += fila(s));
+    }
+    return `<table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:11pt;">${rows}</table>`;
+}
+function descargarBlob(blob, nombre) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = nombre;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function exportarDOC(data) {
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte Edificaciones</title></head>
+    <body><h1 style="color:#1B294E;font-family:Arial;">Edificaciones — UEN Programación y Control</h1>
+    <h2 style="color:#8B7338;font-family:Arial;">${esc(data.etiqueta)}</h2>
+    ${tablaExportHTML(data)}
+    <p style="font-size:9pt;color:#666;margin-top:20px;font-family:Arial;">Generado: ${new Date().toLocaleString('es-CR')}</p>
+    </body></html>`;
+    descargarBlob(new Blob(['\ufeff', html], { type: 'application/msword' }), 'reporte-edificaciones.doc');
+}
+function exportarXLS(data) {
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>${tablaExportHTML(data)}</body></html>`;
+    descargarBlob(new Blob(['\ufeff', html], { type: 'application/vnd.ms-excel' }), 'reporte-edificaciones.xls');
+}
+function exportarPDF(data) {
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title>
+    <style>body{font-family:Arial;margin:24px;} h1{color:#1B294E;} h2{color:#8B7338;}</style>
+    </head><body><h1>Edificaciones — UEN Programación y Control</h1>
+    <h2>${esc(data.etiqueta)}</h2>${tablaExportHTML(data)}
+    <p style="font-size:9pt;color:#666;margin-top:20px;">Generado: ${new Date().toLocaleString('es-CR')}</p>
+    <script>window.onload=function(){window.print();}<\/script></body></html>`);
+    w.document.close();
+}
 
+/* =========================================================================
+   SQL SUGERENCIAS / ESQUEMA
+   ========================================================================= */
 const SQL_SUGERENCIAS = {
     urgente: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS urgente boolean DEFAULT false;",
     reprogramada: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS reprogramada boolean DEFAULT false;",
@@ -703,7 +674,9 @@ const SQL_SUGERENCIAS = {
     medio_solicitud: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS medio_solicitud text DEFAULT '';",
     oficio_consecutivo: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_consecutivo text DEFAULT '';",
     requiere_oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS requiere_oficio_entrega boolean DEFAULT false;",
-    oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_entrega text DEFAULT '';"
+    oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_entrega text DEFAULT '';",
+    /* NUEVO */
+    fecha_avance: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS fecha_avance date;"
 };
 function mostrarErrorSupabase(error, accion) {
     console.error("Error " + accion + ":", error);
@@ -724,17 +697,22 @@ function mostrarErrorSupabase(error, accion) {
 async function verificarEsquema() {
     if (!supabaseClient) return;
     try {
-        const { error } = await supabaseClient.from("solicitudes").select("urgente,reprogramada,fecha_reprogramada").limit(1);
+        const { error } = await supabaseClient.from("solicitudes")
+            .select("urgente,reprogramada,fecha_reprogramada,fecha_avance").limit(1);
         if (error && /could not find the '([^']+)' column/i.test(error.message)) {
             const col = error.message.match(/could not find the '([^']+)' column/i)[1];
             setTimeout(() => {
-                alert("⚠️ Falta la columna '" + col + "' en Supabase.\n\nEjecuta:\n" + (SQL_SUGERENCIAS[col] || "Revisa el esquema.") + "\n\nLuego Settings → API → Reload schema.");
+                alert("⚠️ Falta la columna '" + col + "' en Supabase.\n\nEjecuta:\n" +
+                    (SQL_SUGERENCIAS[col] || "Revisa el esquema.") +
+                    "\n\nLuego Settings → API → Reload schema.");
             }, 500);
         }
     } catch (e) { console.warn("Verificación de esquema falló:", e); }
 }
 
-/* ====== VISOR CIUDAD NOCTURNA ====== */
+/* =========================================================================
+   VISOR CIUDAD NOCTURNA (sin cambios)
+   ========================================================================= */
 const CIUDAD_FH = 0.62;
 const CIUDAD_MEDIO_LEVELS = { 'Teams': 4, 'Correo': 8, 'Oficio': 12 };
 const CIUDAD_DEFAULT_LEVELS = 4;
@@ -781,7 +759,6 @@ function scheduleApplyCiudadView() {
     if (ciudadRAF) return;
     ciudadRAF = requestAnimationFrame(() => { ciudadRAF = null; applyCiudadView(); });
 }
-
 function buildCiudadData() {
     const groups = new Map();
     const sinFecha = [];
@@ -796,7 +773,6 @@ function buildCiudadData() {
     });
     const sorted = [...groups.values()].sort((a, b) => (a.year * 12 + a.month) - (b.year * 12 + b.month));
     if (sinFecha.length) sorted.push({ year: null, month: null, items: sinFecha, isSinFecha: true });
-
     sorted.forEach(g => {
         const N = g.items.length;
         g.cols = Math.max(1, Math.ceil(Math.sqrt(N)));
@@ -813,7 +789,6 @@ function buildCiudadData() {
     const maxBW = Math.max(3, ...sorted.map(g => g.blockW));
     const maxBH = Math.max(3, ...sorted.map(g => g.blockH));
     const cellW = maxBW + CIUDAD_STREET;
-
     let col = 0, row = 0, prevYear = null;
     sorted.forEach(g => {
         if (g.year !== prevYear && prevYear !== null) { col = 0; row++; }
@@ -821,13 +796,11 @@ function buildCiudadData() {
         if (col >= CIUDAD_BLOCKS_PER_ROW) { col = 0; row++; }
         prevYear = g.year;
     });
-
     const numRows = Math.max(...sorted.map(g => g.row)) + 1;
     const numCols = Math.max(...sorted.map(g => g.col)) + 1;
     const rowY = new Array(numRows).fill(0);
     const rowYear = new Array(numRows).fill(null);
     let yCursor = 0, lastRowIdx = -1, lastYear = null;
-
     sorted.forEach(g => {
         if (g.row !== lastRowIdx) {
             if (lastRowIdx >= 0) {
@@ -840,7 +813,6 @@ function buildCiudadData() {
         g.blockX = g.col * cellW + (maxBW - g.blockW) / 2;
         g.blockY = yCursor + (maxBH - g.blockH) / 2;
     });
-
     sorted.forEach(g => {
         const slots = [];
         for (let j = 0; j < g.rows; j++) {
@@ -854,13 +826,11 @@ function buildCiudadData() {
         slots.sort((a, b) => a.depth - b.depth || a.idx - b.idx);
         g.slots = slots;
     });
-
     const totalWidth = numCols * cellW;
     const totalHeight = rowY[numRows - 1] + maxBH;
     ciudadLayoutInfo = { data: sorted, rowY, rowYear, maxBW, maxBH, cellW, numRows, numCols, totalWidth, totalHeight };
     return sorted;
 }
-
 function drawStreets(parent, defs) {
     const info = ciudadLayoutInfo; if (!info) return;
     const { rowY, rowYear, maxBH, maxBW, cellW, numRows, numCols, totalWidth, totalHeight } = info;
@@ -928,7 +898,6 @@ function drawStreets(parent, defs) {
         rect(xx, 0, xx + sw, totalHeight, gradSW_V, op);
     }
 }
-
 function computeCiudadHash() {
     const filtros = Array.from(filtroResp).sort().join(',');
     const datos = solicitudes.map(s =>
@@ -939,7 +908,6 @@ function computeCiudadHash() {
     ).join('|');
     return filtros + '#' + datos;
 }
-
 function renderCiudad() {
     const svg = document.getElementById('ciudadSvg');
     const viewer = document.getElementById('ciudadViewer');
@@ -947,13 +915,11 @@ function renderCiudad() {
     const hash = computeCiudadHash();
     if (hash === lastCiudadHash && svg.childNodes.length > 0 && !ciudadNeedFit) return;
     lastCiudadHash = hash;
-
     const data = buildCiudadData();
     const total = data.reduce((acc, g) => acc + g.items.length, 0);
     if (total === 0) { viewer.style.display = 'none'; return; }
     viewer.style.display = 'flex';
     svg.innerHTML = '';
-
     const defs = mkSvg('defs', {}, svg);
     const filterCache = new Map();
     const getFilter = (color) => {
@@ -970,7 +936,6 @@ function renderCiudad() {
         filterCache.set(key, id);
         return id;
     };
-
     if (ciudadLayoutInfo) {
         const { totalWidth, totalHeight } = ciudadLayoutInfo;
         mkSvg('polygon', {
@@ -979,10 +944,8 @@ function renderCiudad() {
         }, svg);
     }
     drawStreets(svg, defs);
-
     const ahora = new Date();
     const mesHoy = ahora.getMonth(), anioHoy = ahora.getFullYear();
-
     data.forEach(g => {
         const gBlock = mkSvg('g', { class: 'ciudad-block' }, svg);
         mkSvg('polygon', {
@@ -996,7 +959,6 @@ function renderCiudad() {
             return { sol, cx: slot.x, cy: slot.y, depth: slot.depth, height: ciudadLevelsFor(sol.medioSolicitud) };
         });
         items.forEach(it => drawCiudadBuilding(it, gBlock, getFilter));
-
         const label = g.isSinFecha ? 'SIN FECHA' : (MESES[g.month] + ' ' + g.year).toUpperCase();
         let labelX = g.blockX + g.blockW / 2;
         if (g.slots.length) {
@@ -1012,8 +974,6 @@ function renderCiudad() {
         };
         if (g.isSinFecha) textAttrs.style = 'fill:#c26a6a;';
         else if (esMesActual) {
-            textAttrs['text-decoration'] = 'underline';
-            textAttrs['text-decoration-thickness'] = '0.08';
             textAttrs.style = 'fill:#DEC584;';
         }
         mkSvg('text', textAttrs, gBlock);
@@ -1027,11 +987,9 @@ function renderCiudad() {
             }, gBlock);
         }
     });
-
     if (ciudadNeedFit) { fitCiudadView(); ciudadNeedFit = false; }
     else applyCiudadView();
 }
-
 function drawCiudadBuilding(item, parent, getFilter) {
     const { sol, cx, cy, height: floors } = item;
     const H = floors * CIUDAD_FH;
@@ -1041,23 +999,19 @@ function drawCiudadBuilding(item, parent, getFilter) {
     const filterId = getFilter(windowColor);
     const urgente = !!sol.urgente;
     const reprogramada = !!sol.reprogramada;
-
     let cls = 'ciudad-building';
     if (urgente) cls += ' urgente';
     if (reprogramada) cls += ' reprogramada';
     const g = mkSvg('g', { class: cls, 'data-sid': sol.id }, parent);
-
     mkSvg('polygon', { points: [ciudadP(x1, y0, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x1, y0, H)].join(' '), class: 'ciudad-face-r' }, g);
     mkSvg('polygon', { points: [ciudadP(x0, y1, 0), ciudadP(x1, y1, 0), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-l' }, g);
     mkSvg('polygon', { points: [ciudadP(x0, y0, H), ciudadP(x1, y0, H), ciudadP(x1, y1, H), ciudadP(x0, y1, H)].join(' '), class: 'ciudad-face-t' }, g);
-
     for (let f = 1; f < floors; f++) {
         const z = f * CIUDAD_FH;
         const a = ciudadPT(x1, y0, z), b = ciudadPT(x1, y1, z), c = ciudadPT(x0, y1, z);
         mkSvg('line', { x1: a[0].toFixed(3), y1: a[1].toFixed(3), x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'ciudad-floorline' }, g);
         mkSvg('line', { x1: c[0].toFixed(3), y1: c[1].toFixed(3), x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'ciudad-floorline' }, g);
     }
-
     const glowGroup = mkSvg('g', { filter: `url(#${filterId})` }, g);
     const winGroup = mkSvg('g', {}, g);
     const totalWin = floors * 4;
@@ -1088,7 +1042,6 @@ function drawCiudadBuilding(item, parent, getFilter) {
             dibujarVentana([ciudadP(r[0], y1, zA), ciudadP(r[1], y1, zA), ciudadP(r[1], y1, zB), ciudadP(r[0], y1, zB)].join(' '));
         }
     }
-
     if (urgente) {
         const antennaH = 1.6;
         const [px1, py1] = ciudadPT(cx, cy, H);
@@ -1113,7 +1066,6 @@ function drawCiudadBuilding(item, parent, getFilter) {
         anim.setAttribute('repeatCount', 'indefinite');
         light.appendChild(anim);
     }
-
     if (reprogramada) {
         const flagTopZ = H + 1.7;
         const flagBotZ = H + 1.15;
@@ -1129,27 +1081,17 @@ function drawCiudadBuilding(item, parent, getFilter) {
         const bl = ciudadPT(cx, cy, flagBotZ);
         const tc = ciudadPT(cx + flagW / 2, cy, flagTopZ - 0.08);
         const bc = ciudadPT(cx + flagW / 2, cy, flagBotZ + 0.08);
-        const pathD = `M ${tl[0].toFixed(3)} ${tl[1].toFixed(3)} ` +
-                      `Q ${tc[0].toFixed(3)} ${tc[1].toFixed(3)} ${tr[0].toFixed(3)} ${tr[1].toFixed(3)} ` +
-                      `L ${br[0].toFixed(3)} ${br[1].toFixed(3)} ` +
-                      `Q ${bc[0].toFixed(3)} ${bc[1].toFixed(3)} ${bl[0].toFixed(3)} ${bl[1].toFixed(3)} Z`;
-        const flagEl = mkSvg('path', {
-            d: pathD, fill: '#FFD700', stroke: '#8B6E00',
-            'stroke-width': '0.05', 'stroke-linejoin': 'round'
-        }, g);
+        const pathD = `M ${tl[0].toFixed(3)} ${tl[1].toFixed(3)} Q ${tc[0].toFixed(3)} ${tc[1].toFixed(3)} ${tr[0].toFixed(3)} ${tr[1].toFixed(3)} L ${br[0].toFixed(3)} ${br[1].toFixed(3)} Q ${bc[0].toFixed(3)} ${bc[1].toFixed(3)} ${bl[0].toFixed(3)} ${bl[1].toFixed(3)} Z`;
+        const flagEl = mkSvg('path', { d: pathD, fill: '#FFD700', stroke: '#8B6E00', 'stroke-width': '0.05', 'stroke-linejoin': 'round' }, g);
         const attach = ciudadPT(cx, cy, (flagTopZ + flagBotZ) / 2);
         const animT = document.createElementNS(CIUDAD_SVGNS, 'animateTransform');
         animT.setAttribute('attributeName', 'transform');
         animT.setAttribute('type', 'rotate');
-        animT.setAttribute('values',
-            `-2 ${attach[0].toFixed(2)} ${attach[1].toFixed(2)}; ` +
-            `3 ${attach[0].toFixed(2)} ${attach[1].toFixed(2)}; ` +
-            `-2 ${attach[0].toFixed(2)} ${attach[1].toFixed(2)}`);
+        animT.setAttribute('values', `-2 ${attach[0].toFixed(2)} ${attach[1].toFixed(2)}; 3 ${attach[0].toFixed(2)} ${attach[1].toFixed(2)}; -2 ${attach[0].toFixed(2)} ${attach[1].toFixed(2)}`);
         animT.setAttribute('dur', '3.5s');
         animT.setAttribute('repeatCount', 'indefinite');
         flagEl.appendChild(animT);
     }
-
     const raw = (sol.cliente || '').trim();
     const label = raw ? (raw.length > 18 ? raw.slice(0, 17) + '…' : raw) : 'Solicitud';
     const fs = Math.max(0.32, Math.min(0.85, 4.8 / Math.max(label.length, 4)));
@@ -1161,12 +1103,8 @@ function drawCiudadBuilding(item, parent, getFilter) {
         mkSvg('line', { x1: a[0].toFixed(3), y1: a[1].toFixed(3), x2: b[0].toFixed(3), y2: b[1].toFixed(3), class: 'ciudad-sign-post' }, g);
     });
     const cs = ciudadPT(cx, cy, zSign);
-    const t = mkSvg('text', {
-        x: cs[0].toFixed(3), y: cs[1].toFixed(3), 'text-anchor': 'middle',
-        'dominant-baseline': 'middle', class: 'ciudad-sign', fill: signColor, 'font-size': fs.toFixed(3)
-    }, g);
+    const t = mkSvg('text', { x: cs[0].toFixed(3), y: cs[1].toFixed(3), 'text-anchor': 'middle', 'dominant-baseline': 'middle', class: 'ciudad-sign', fill: signColor, 'font-size': fs.toFixed(3) }, g);
     t.textContent = label;
-
     const titleEl = mkSvg('title', {}, g);
     titleEl.textContent =
         (urgente ? '🚨 URGENTE · ' : '') +
@@ -1174,11 +1112,11 @@ function drawCiudadBuilding(item, parent, getFilter) {
         (sol.cliente || 'Sin cliente') + '\n' +
         'Avance: ' + sol.avance + '% · ' + (sol.medioSolicitud || 'Sin medio') + '\n' +
         'Niveles: ' + floors +
+        (sol.fechaAvance ? '\nÚltima actualización de avance: ' + isoToDDMMYYYY(sol.fechaAvance) : '') +
         (reprogramada && sol.fechaReprogramada ? '\nReprogramada a: ' + sol.fechaReprogramada : '') +
         (sol.responsables.length ? '\nResp: ' + sol.responsables.join(', ') : '') +
         (sol.fechaEstimada ? '\nEntrega: ' + sol.fechaEstimada : '');
 }
-
 function fitCiudadView() {
     const svg = document.getElementById('ciudadSvg'); if (!svg) return;
     let b; try { b = svg.getBBox(); } catch (e) { b = { x: 0, y: 0, width: 20, height: 20 }; }
@@ -1243,8 +1181,6 @@ function setupCiudadInteraction() {
         document.getElementById('btnCiudadZoomIn').addEventListener('click', () => zoomCiudad(0.8));
         document.getElementById('btnCiudadZoomOut').addEventListener('click', () => zoomCiudad(1.25));
         document.getElementById('btnCiudadFit').addEventListener('click', () => { lastCiudadHash = ''; fitCiudadView(); });
-
-        /* Reajustar la vista si el contenedor cambia de aspecto (ventana redimensionada) */
         window.addEventListener('resize', () => {
             if (!ciudadView) return;
             clearTimeout(ciudadResizeTimer);
@@ -1263,61 +1199,9 @@ function scheduleCiudadRender() {
     ciudadDebounceTimer = setTimeout(() => { try { renderCiudad(); } catch (e) { console.error("[Visor] render:", e); } }, 120);
 }
 
-/* ====== UTILIDADES ====== */
-function hoyISO() { return fmtDate(new Date()); }
-function isoToDDMMYYYY(iso) { if (!iso) return ""; const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/); if (!m) return ""; return m[3] + "/" + m[2] + "/" + m[1]; }
-function ddmmyyyyToISO(str) {
-    if (!str) return "";
-    const s = String(str).trim().replace(/[.\-]/g, "/");
-    const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if (!m) return "";
-    const d = parseInt(m[1],10), mo = parseInt(m[2],10), y = parseInt(m[3],10);
-    if (mo < 1 || mo > 12 || y < 1900 || y > 2100) return "";
-    const dim = new Date(y, mo, 0).getDate();
-    if (d < 1 || d > dim) return "";
-    return y + "-" + String(mo).padStart(2,"0") + "-" + String(d).padStart(2,"0");
-}
-function diasRestantes(fechaISO) {
-    if (!fechaISO) return null;
-    const hoy = new Date(); hoy.setHours(0,0,0,0);
-    return Math.ceil((new Date(fechaISO + "T00:00:00") - hoy) / 86400000);
-}
-function colorSemaforo(fechaISO) {
-    const d = diasRestantes(fechaISO);
-    if (d === null) return { color: "#27ae60", texto: "Sin fecha" };
-    if (d < 15) return { color: "#c0392b", texto: d < 0 ? "Vencida (" + Math.abs(d) + "d)" : d + "d" };
-    if (d <= 30) return { color: "#f39c12", texto: d + "d" };
-    return { color: "#27ae60", texto: d + "d" };
-}
-function fechaEfectiva(sol) {
-    if (sol.reprogramada && sol.fechaReprogramada) return sol.fechaReprogramada;
-    return sol.fechaEstimada;
-}
-function semaforoPara(sol) {
-    if (sol.completada) return { color: GRIS_COMPLETADO, texto: "Completada" };
-    return colorSemaforo(fechaEfectiva(sol));
-}
-function pasaFiltroResp(sol) { return filtroResp.size === 0 || sol.responsables.some(r => filtroResp.has(r)); }
-function pasaBusqueda(sol) {
-    const q = (busquedaActual || "").trim().toLowerCase(); if (!q) return true;
-    const palabras = q.split(/\s+/).filter(Boolean);
-    const campos = [sol.cliente || "", sol.descripcion || "", sol.entregables || ""].map(c => c.toLowerCase());
-    return palabras.every(p => campos.some(c => c.includes(p)));
-}
-function pasaTodosFiltros(sol) { return pasaFiltroResp(sol) && pasaBusqueda(sol); }
-function setEstadoSync(estado, texto) {
-    const el = document.getElementById("estadoSync"); if (!el) return;
-    el.classList.remove("online", "sync", "error");
-    if (estado) el.classList.add(estado);
-    document.getElementById("textoSync").textContent = texto;
-}
-function limpiarFiltros() {
-    filtroResp.clear(); busquedaActual = "";
-    document.getElementById("buscador").value = "";
-    const b = document.querySelector(".btn-clear-busqueda"); if (b) b.classList.remove("visible");
-    actualizarChips();
-}
-function normalizarUrl(u) { if (!u) return ""; u = u.trim(); if (!/^https?:\/\//i.test(u)) u = "https://" + u; return u; }
-
+/* =========================================================================
+   BÚSQUEDA
+   ========================================================================= */
 function onBuscar() {
     busquedaActual = document.getElementById("buscador").value;
     const btn = document.querySelector(".btn-clear-busqueda");
@@ -1389,6 +1273,7 @@ function renderBuscadorResultados() {
         tit.appendChild(tc); tit.appendChild(est);
         const det = document.createElement("div"); det.className = "detalle";
         let txt = fechaTxt + " · " + sol.avance + "% avance";
+        if (sol.fechaAvance) txt += " (act. " + isoToDDMMYYYY(sol.fechaAvance) + ")";
         if (sol.responsables.length) txt += " · " + sol.responsables.join(", ");
         if (sol.medioSolicitud) txt += " · " + sol.medioSolicitud;
         det.textContent = txt;
@@ -1408,10 +1293,13 @@ document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
         document.getElementById("buscadorResultados").classList.remove("visible");
         if (document.getElementById("modalExport").classList.contains("activo")) cerrarExportModal();
+        cerrarModal();
     }
 });
 
-/* ====== MAPEO ====== */
+/* =========================================================================
+   MAPEO DB ↔ MODELO  (con fecha_avance)
+   ========================================================================= */
 function toDB(sol) {
     return {
         id: sol.id, cliente: sol.cliente || "",
@@ -1425,7 +1313,8 @@ function toDB(sol) {
         requiere_oficio_entrega: !!sol.requiereOficioEntrega, oficio_entrega: sol.oficioEntrega || "",
         urgente: !!sol.urgente,
         reprogramada: !!sol.reprogramada,
-        fecha_reprogramada: sol.fechaReprogramada || null
+        fecha_reprogramada: sol.fechaReprogramada || null,
+        fecha_avance: sol.fechaAvance || null   /* ← NUEVO */
     };
 }
 function fromDB(row) {
@@ -1440,7 +1329,8 @@ function fromDB(row) {
         requiereOficioEntrega: !!row.requiere_oficio_entrega, oficioEntrega: row.oficio_entrega || "",
         urgente: !!row.urgente,
         reprogramada: !!row.reprogramada,
-        fechaReprogramada: row.fecha_reprogramada || ""
+        fechaReprogramada: row.fecha_reprogramada || "",
+        fechaAvance: row.fecha_avance || ""   /* ← NUEVO */
     };
 }
 function crearSolicitudVacia() {
@@ -1449,13 +1339,18 @@ function crearSolicitudVacia() {
             const r = Math.random() * 16 | 0;
             return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
         });
-    return { id: uid, cliente: "", fechaSolicitud: hoyISO(), descripcion: "",
+    return {
+        id: uid, cliente: "", fechaSolicitud: hoyISO(), descripcion: "",
         fechaEstimada: "", avance: 0, responsables: [], entregables: "", enlaces: [], fechaReal: "", completada: false,
         medioSolicitud: "", oficioConsecutivo: "", requiereOficioEntrega: false, oficioEntrega: "",
-        urgente: false, reprogramada: false, fechaReprogramada: "" };
+        urgente: false, reprogramada: false, fechaReprogramada: "",
+        fechaAvance: ""   /* ← NUEVO */
+    };
 }
 
-/* ====== SUPABASE ====== */
+/* =========================================================================
+   SUPABASE
+   ========================================================================= */
 async function cargarDesdeNube() {
     if (!supabaseClient) { setEstadoSync("error", "Supabase no disponible"); solicitudes = []; return; }
     setEstadoSync("sync", "Sincronizando…");
@@ -1473,6 +1368,8 @@ async function cargarDesdeNube() {
 }
 async function insertarEnNube(sol) {
     if (!supabaseClient) { alert("Supabase no disponible."); return false; }
+    /* NUEVO: si nace con avance > 0, registrar fecha de avance */
+    if (sol.avance > 0 && !sol.fechaAvance) sol.fechaAvance = hoyISO();
     setEstadoSync("sync", "Guardando…");
     try {
         const { data, error } = await supabaseClient.from("solicitudes").insert([toDB(sol)]).select();
@@ -1484,6 +1381,13 @@ async function insertarEnNube(sol) {
 }
 async function actualizarEnNube(sol) {
     if (!supabaseClient) { alert("Supabase no disponible."); return false; }
+    /* NUEVO: detectar cambio de avance respecto al original */
+    const orig = solicitudes.find(s => String(s.id) === String(sol.id));
+    if (orig && orig.avance !== sol.avance) {
+        sol.fechaAvance = sol.avance > 0 ? hoyISO() : "";
+    } else if (orig) {
+        sol.fechaAvance = orig.fechaAvance || "";
+    }
     setEstadoSync("sync", "Guardando…");
     try {
         const { error } = await supabaseClient.from("solicitudes").update(toDB(sol)).eq("id", sol.id);
@@ -1503,7 +1407,9 @@ async function eliminarEnNube(id) {
     } catch (e) { setEstadoSync("error", "Error al eliminar"); mostrarErrorSupabase(e, "eliminar"); return false; }
 }
 
-/* ====== NAVEGADOR ====== */
+/* =========================================================================
+   NAVEGADOR
+   ========================================================================= */
 function poblarSelects() {
     const sm = document.getElementById("selMes"), sa = document.getElementById("selAnio");
     sm.innerHTML = MESES.map((m, i) => `<option value="${i}">${m}</option>`).join("");
@@ -1551,7 +1457,9 @@ document.querySelectorAll(".chip").forEach(chip => {
     });
 });
 
-/* ====== RENDER PRINCIPAL ====== */
+/* =========================================================================
+   RENDER PRINCIPAL
+   ========================================================================= */
 function render() {
     const procesoMes = [], procesoSinFecha = [], compMes = [], compSinFecha = [];
     solicitudes.filter(s => !s.completada).filter(pasaTodosFiltros).forEach(s => {
@@ -1579,544 +1487,445 @@ function render() {
     renderSinFecha("sfProceso", "sfProcesoTitulo", "sfProcesoLista", procesoSinFecha, "proceso");
     renderSinFecha("sfCompletados", "sfCompletadosTitulo", "sfCompletadosLista", compSinFecha, "completado");
     renderAlertaMeses();
+    scheduleCiudadRender();
 }
+
 function renderLista(id, arr, msg) {
     const el = document.getElementById(id); el.innerHTML = "";
-    if (!arr.length) el.innerHTML = `<div class="vacio-pila">${msg}</div>`;
-    else arr.forEach(s => el.appendChild(crearFilaDOM(s)));
+    if (!arr.length) { el.innerHTML = `<div class="vacio-pila">${msg}</div>`; return; }
+    arr.forEach(s => el.appendChild(crearFilaDOM(s)));
 }
-function renderSinFecha(cid, tid, lid, arr, tipo) {
-    const c = document.getElementById(cid);
-    if (!arr.length) { c.style.display = "none"; return; }
-    c.style.display = "block";
-    const et = tipo === "proceso" ? "sin fecha estimada" : "sin fecha real";
-    document.getElementById(tid).textContent = `⚠ ${arr.length} registro(s) ${et}`;
-    const l = document.getElementById(lid); l.innerHTML = "";
-    arr.forEach(s => { const f = crearFilaDOM(s); f.style.opacity = "0.85"; l.appendChild(f); });
+
+function renderSinFecha(idWrap, idTitulo, idLista, arr, tipo) {
+    const wrap = document.getElementById(idWrap);
+    if (!wrap) return;
+    if (!arr.length) { wrap.style.display = "none"; return; }
+    wrap.style.display = "block";
+    document.getElementById(idTitulo).textContent = arr.length + " sin fecha (" + tipo + ")";
+    const lista = document.getElementById(idLista); lista.innerHTML = "";
+    arr.forEach(s => lista.appendChild(crearFilaDOM(s)));
 }
-function renderAlertaMeses() {
-    const cont = document.getElementById("alertaMeses"), chips = document.getElementById("alertaChips");
-    const pend = solicitudes.filter(s => !s.completada).filter(pasaTodosFiltros).filter(s => {
-        const f = fechaEfectiva(s);
-        if (!f) return false;
-        const d = new Date(f + "T00:00:00");
-        const y = d.getFullYear(), m = d.getMonth();
-        return (y < anioActual) || (y === anioActual && m < mesActual);
-    });
-    const g = {};
-    pend.forEach(s => { const d = new Date(fechaEfectiva(s) + "T00:00:00"); const k = d.getFullYear() + "-" + d.getMonth(); if (!g[k]) g[k] = { anio: d.getFullYear(), mes: d.getMonth(), count: 0 }; g[k].count++; });
-    const arr = Object.values(g).sort((a,b) => (b.anio - a.anio) || (b.mes - a.mes));
-    if (!arr.length) { cont.style.display = "none"; chips.innerHTML = ""; return; }
-    cont.style.display = "flex"; chips.innerHTML = "";
-    arr.forEach(g => {
-        const b = document.createElement("button");
-        b.className = "alerta-chip";
-        b.title = `Ir a ${MESES[g.mes]} ${g.anio}`;
-        b.innerHTML = `${MESES[g.mes]} ${g.anio}<span class="num">${g.count}</span>`;
-        b.addEventListener("click", () => { mesActual = g.mes; anioActual = g.anio; sincronizarSelects(); render(); });
-        chips.appendChild(b);
-    });
-}
+
+/* =========================================================================
+   FILA / MINIATURA  — incluye badge de fecha de avance
+   ========================================================================= */
 function crearFilaDOM(sol) {
     const fila = document.createElement("div");
     fila.className = "fila" + (sol.completada ? " completada" : "");
     const sem = semaforoPara(sol);
-    fila.style.borderLeftColor = sol.urgente ? "var(--aya-vino)" : (sol.reprogramada ? "var(--aya-amarillo)" : sem.color);
-    const info = document.createElement("div"); info.className = "info";
-    const h3 = document.createElement("h3"); h3.textContent = sol.cliente || "(Sin cliente)";
-    const meta = document.createElement("div"); meta.className = "meta";
-    let ft;
-    if (sol.completada) ft = sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha";
-    else if (sol.reprogramada && sol.fechaReprogramada) ft = "Reprog.: " + sol.fechaReprogramada;
-    else if (sol.fechaEstimada) ft = "Entrega: " + sol.fechaEstimada;
-    else ft = "Sin fecha";
-    meta.appendChild(document.createTextNode(ft));
-    meta.appendChild(document.createTextNode(" · "));
-    const ba = document.createElement("span");
-    ba.className = "badge-avance" + (sol.avance >= 100 ? " completo" : "");
-    ba.textContent = sol.avance + "% avance";
-    meta.appendChild(ba);
+    fila.style.borderLeftColor = sem.color;
+
+    const info = document.createElement("div");
+    info.className = "info";
+
+    const h3 = document.createElement("h3");
+    h3.textContent = sol.cliente || "(Sin cliente)";
+    info.appendChild(h3);
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+
+    /* Medio */
     if (sol.medioSolicitud) {
-        meta.appendChild(document.createTextNode(" · "));
-        const bm = document.createElement("span"); bm.className = "badge-medio";
-        bm.textContent = (sol.medioSolicitud === "Oficio" && sol.oficioConsecutivo) ? "Oficio " + sol.oficioConsecutivo : sol.medioSolicitud;
-        meta.appendChild(bm);
+        const b = document.createElement("span");
+        b.className = "badge-medio";
+        b.textContent = sol.medioSolicitud;
+        meta.appendChild(b);
     }
-    if (sol.medioSolicitud === "Oficio" && sol.requiereOficioEntrega && sol.oficioEntrega) {
-        meta.appendChild(document.createTextNode(" · "));
-        const bOe = document.createElement("span");
-        bOe.className = "badge-oficio-entrega";
-        bOe.textContent = "📄 Of. entrega: " + sol.oficioEntrega;
-        meta.appendChild(bOe);
+    /* Oficio entrega */
+    if (sol.requiereOficioEntrega && sol.oficioEntrega) {
+        const b = document.createElement("span");
+        b.className = "badge-oficio-entrega";
+        b.textContent = "📄 " + sol.oficioEntrega;
+        meta.appendChild(b);
     }
+    /* Avance */
+    const bAv = document.createElement("span");
+    bAv.className = "badge-avance" + (sol.avance >= 100 ? " completo" : "");
+    bAv.textContent = sol.avance + "%";
+    meta.appendChild(bAv);
+
+    /* ─── NUEVO: fecha de última actualización de avance ─── */
+    if (sol.fechaAvance) {
+        const bFA = document.createElement("span");
+        const esHoy = sol.fechaAvance === hoyISO();
+        bFA.className = "badge-fecha-avance" + (esHoy ? " hoy" : "");
+        bFA.textContent = "📅 " + isoToDDMMYYYY(sol.fechaAvance);
+        bFA.title = "Última actualización de avance";
+        meta.appendChild(bFA);
+    }
+
+    /* Urgente / Reprogramada */
     if (sol.urgente) {
-        meta.appendChild(document.createTextNode(" · "));
-        const bU = document.createElement("span");
-        bU.className = "badge-urgente"; bU.textContent = "🚨 URGENTE";
-        meta.appendChild(bU);
+        const b = document.createElement("span");
+        b.className = "badge-urgente";
+        b.textContent = "🚨 URGENTE";
+        meta.appendChild(b);
     }
     if (sol.reprogramada) {
-        meta.appendChild(document.createTextNode(" · "));
-        const bR = document.createElement("span");
-        bR.className = "badge-reprogramada"; bR.textContent = "🔄 Reprogramada";
-        bR.title = sol.fechaEstimada ? "Original: " + sol.fechaEstimada : "";
-        meta.appendChild(bR);
+        const b = document.createElement("span");
+        b.className = "badge-reprogramada";
+        b.textContent = "🔄 REPROG.";
+        meta.appendChild(b);
     }
-    if (sol.enlaces && sol.enlaces.length > 0) {
-        meta.appendChild(document.createTextNode(" · "));
-        const a = document.createElement("a"); a.className = "badge-enlace";
-        a.href = normalizarUrl(sol.enlaces[0]); a.target = "_blank"; a.rel = "noopener noreferrer";
-        a.textContent = sol.enlaces.length === 1 ? "🔗 Enlace" : "🔗 " + sol.enlaces.length + " enlaces";
-        a.title = sol.enlaces.join("\n");
-        a.addEventListener("click", e => e.stopPropagation());
+    /* Enlaces */
+    if (sol.enlaces && sol.enlaces.length) {
+        const a = document.createElement("a");
+        a.className = "badge-enlace";
+        a.textContent = "🔗 " + sol.enlaces.length + " enlace" + (sol.enlaces.length === 1 ? "" : "s");
+        a.href = normalizarUrl(sol.enlaces[0]);
+        a.target = "_blank"; a.rel = "noopener";
+        a.addEventListener("click", ev => ev.stopPropagation());
         meta.appendChild(a);
     }
-    if (sol.responsables.length) meta.appendChild(document.createTextNode(" · " + sol.responsables.join(", ")));
-    info.appendChild(h3); info.appendChild(meta);
+
+    info.appendChild(meta);
+    fila.appendChild(info);
+
+    /* Badge semáforo */
     const semSpan = document.createElement("span");
-    semSpan.className = "sem"; semSpan.style.background = sem.color; semSpan.textContent = sem.texto;
-    fila.appendChild(info); fila.appendChild(semSpan);
+    semSpan.className = "sem";
+    semSpan.style.background = sem.color;
+    semSpan.textContent = sem.texto;
+    fila.appendChild(semSpan);
+
     fila.addEventListener("click", () => abrirFichaPorId(sol.id));
     return fila;
 }
 
-/* ====== FICHA ====== */
-function nuevaSolicitud() { if (cargando || solEnEdicion) return; abrirFicha(crearSolicitudVacia(), true); }
+/* =========================================================================
+   ALERTA MESES ANTERIORES
+   ========================================================================= */
+function renderAlertaMeses() {
+    const alerta = document.getElementById("alertaMeses");
+    const chips = document.getElementById("alertaChips");
+    if (!alerta || !chips) return;
+    const grupos = new Map();
+    const hoy = new Date();
+    const nowKey = hoy.getFullYear() * 12 + hoy.getMonth();
+    solicitudes.filter(s => !s.completada && pasaFiltroResp(s)).forEach(s => {
+        const f = fechaEfectiva(s);
+        if (!f) return;
+        const d = new Date(f + "T00:00:00");
+        const key = d.getFullYear() * 12 + d.getMonth();
+        if (key < nowKey) {
+            if (!grupos.has(key)) grupos.set(key, { year: d.getFullYear(), month: d.getMonth(), count: 0 });
+            grupos.get(key).count++;
+        }
+    });
+    chips.innerHTML = "";
+    if (grupos.size === 0) { alerta.style.display = "none"; return; }
+    alerta.style.display = "flex";
+    [...grupos.values()].sort((a, b) => (a.year * 12 + a.month) - (b.year * 12 + b.month)).forEach(g => {
+        const btn = document.createElement("button");
+        btn.className = "alerta-chip";
+        btn.innerHTML = `${MESES[g.month]} ${g.year} <span class="num">${g.count}</span>`;
+        btn.addEventListener("click", () => {
+            mesActual = g.month; anioActual = g.year;
+            sincronizarSelects(); render();
+        });
+        chips.appendChild(btn);
+    });
+}
+
+/* =========================================================================
+   MODAL FORMULARIO
+   ========================================================================= */
 function abrirFichaPorId(id) {
     const sol = solicitudes.find(s => String(s.id) === String(id));
-    if (!sol) { alert("Esta solicitud ya no existe."); return; }
-    abrirFicha(sol, false);
+    if (!sol) return;
+    solEnEdicion = JSON.parse(JSON.stringify(sol));
+    solEnEdicionEsNueva = false;
+    enlacesEnEdicion = [...(solEnEdicion.enlaces || [])];
+    renderModal();
 }
-function abrirFicha(sol, isNew) {
-    solEnEdicion = sol; solEnEdicionEsNueva = isNew; enlacesEnEdicion = [...(sol.enlaces || [])];
-    document.getElementById("buscadorResultados").classList.remove("visible");
-    const sem = semaforoPara(sol);
-    const m = document.getElementById("modalContenido");
-    function aplicarColorModal() {
-        const urg = document.getElementById("f_urgente")?.checked;
-        const rep = document.getElementById("f_reprogramada")?.checked;
-        const comp = document.getElementById("f_comp")?.checked;
-        if (urg) m.style.borderTopColor = "var(--aya-vino)";
-        else if (rep) m.style.borderTopColor = "var(--aya-amarillo)";
-        else if (comp) m.style.borderTopColor = GRIS_COMPLETADO;
-        else m.style.borderTopColor = colorSemaforo(resFE?.input?.getISO() || sol.fechaEstimada).color;
-    }
-    m.style.borderTopColor = sol.urgente ? "var(--aya-vino)" : (sol.reprogramada ? "var(--aya-amarillo)" : sem.color);
-    m.innerHTML = "";
-    const h2 = document.createElement("h2");
-    h2.innerHTML = "<span>" + (isNew ? "Nueva solicitud" : "Ficha de solicitud") + "</span>";
-    const semSpan = document.createElement("span");
-    semSpan.className = "sem"; semSpan.style.background = sem.color; semSpan.textContent = sem.texto;
-    h2.appendChild(semSpan); m.appendChild(h2);
-
-    function campo(lblTxt, inputEl) {
-        const d = document.createElement("div"); d.className = "campo";
-        const l = document.createElement("label"); l.textContent = lblTxt;
-        d.appendChild(l); d.appendChild(inputEl); m.appendChild(d); return d;
-    }
-
-    function campoFecha(lblTxt, inputId, initialISO, onChange) {
-        const d = document.createElement("div"); d.className = "campo";
-        const l = document.createElement("label"); l.textContent = lblTxt;
-        const w = document.createElement("div"); w.className = "campo-fecha";
-        const ti = document.createElement("input");
-        ti.type = "text"; ti.id = inputId; ti.placeholder = "dd/mm/aaaa"; ti.maxLength = 10;
-        ti.autocomplete = "off"; ti.inputMode = "numeric";
-        ti.value = isoToDDMMYYYY(initialISO); ti.dataset.isoValue = initialISO || "";
-        ti.getISO = () => ti.dataset.isoValue || "";
-        ti.setISO = iso => {
-            ti.dataset.isoValue = iso || "";
-            ti.value = isoToDDMMYYYY(iso || "");
-            ti.classList.remove("invalido");
-            if (iso) lockField(); else unlockField();
-        };
-        const btnEdit = document.createElement("button"); btnEdit.type = "button"; btnEdit.className = "btn-edit-fecha"; btnEdit.innerHTML = "✏️"; btnEdit.title = "Editar fecha";
-        const dp = document.createElement("input"); dp.type = "date"; dp.className = "date-hidden-picker"; dp.tabIndex = -1;
-        const bc = document.createElement("button"); bc.type = "button"; bc.className = "btn-calendario"; bc.textContent = "📅"; bc.title = "Abrir calendario";
-
-        function lockField() {
-            if (!ti.value.trim()) return;
-            ti.readOnly = true; ti.classList.add("locked");
-            btnEdit.style.display = "inline-flex"; bc.style.display = "none";
-        }
-        function unlockField() {
-            ti.readOnly = false; ti.classList.remove("locked");
-            btnEdit.style.display = "none"; bc.style.display = "inline-flex";
-        }
-        btnEdit.addEventListener("click", e => { e.preventDefault(); unlockField(); ti.focus(); ti.select(); });
-        bc.addEventListener("click", e => {
-            e.preventDefault(); unlockField(); dp.value = ti.getISO() || "";
-            if (typeof dp.showPicker === "function") { try { dp.showPicker(); return; } catch(err){} }
-            dp.style.pointerEvents = "auto"; dp.focus(); dp.click();
-            setTimeout(() => { dp.style.pointerEvents = "none"; }, 200);
-        });
-        dp.addEventListener("change", () => {
-            if (!dp.value) return;
-            ti.value = isoToDDMMYYYY(dp.value); ti.dataset.isoValue = dp.value;
-            ti.classList.remove("invalido"); lockField();
-            if (onChange) onChange();
-        });
-        ti.addEventListener("input", () => {
-            let v = ti.value.replace(/[.\-]/g, "/").replace(/[^\d/]/g, "");
-            if (v.length > 10) v = v.slice(0, 10);
-            ti.value = v;
-            const iso = ddmmyyyyToISO(v);
-            if (iso) { ti.dataset.isoValue = iso; ti.classList.remove("invalido"); }
-            else if (!v.trim()) { ti.dataset.isoValue = ""; ti.classList.remove("invalido"); }
-            if (onChange) onChange();
-        });
-        ti.addEventListener("blur", () => {
-            if (ti.readOnly) return;
-            const v = ti.value.trim();
-            if (!v) { ti.dataset.isoValue = ""; ti.classList.remove("invalido"); if (onChange) onChange(); return; }
-            const iso = ddmmyyyyToISO(v);
-            if (iso) {
-                ti.value = isoToDDMMYYYY(iso); ti.dataset.isoValue = iso;
-                ti.classList.remove("invalido");
-                setTimeout(() => {
-                    const ae = document.activeElement;
-                    if (ae !== ti && ae !== bc && ae !== dp && ae !== btnEdit) lockField();
-                }, 0);
-            } else { ti.classList.add("invalido"); ti.dataset.isoValue = ""; }
-            if (onChange) onChange();
-        });
-        const bw = document.createElement("div"); bw.className = "btn-cal-wrapper";
-        bw.appendChild(btnEdit); bw.appendChild(bc); bw.appendChild(dp);
-        w.appendChild(ti); w.appendChild(bw);
-        d.appendChild(l); d.appendChild(w); m.appendChild(d);
-        if (initialISO) lockField();
-        return { input: ti, div: d };
-    }
-
-    const ic = document.createElement("input"); ic.type = "text"; ic.id = "f_cliente"; ic.value = sol.cliente;
-    campo("Cliente", ic);
-    campoFecha("Fecha de solicitud", "f_fs", sol.fechaSolicitud);
-    const idd = document.createElement("textarea"); idd.id = "f_desc"; idd.value = sol.descripcion;
-    campo("Descripción", idd);
-    const im = document.createElement("select"); im.id = "f_medio";
-    im.innerHTML = `<option value="">— Seleccione —</option>` + MEDIOS.map(x => `<option value="${x}">${x}</option>`).join("");
-    im.value = sol.medioSolicitud || ""; campo("Medio de solicitud", im);
-    const dc = document.createElement("div"); dc.className = "campo"; dc.id = "cont_consecutivo";
-    dc.innerHTML = `<label>Consecutivo de oficio</label><input type="text" id="f_consec" value="${sol.oficioConsecutivo || ''}" placeholder="Ej: OF-2025-001">`;
-    m.appendChild(dc);
-    const dr = document.createElement("div"); dr.className = "campo"; dr.id = "cont_req_oficio";
-    dr.innerHTML = `<label class="check-inline"><input type="checkbox" id="f_req_oficio" ${sol.requiereOficioEntrega ? 'checked' : ''}> Se requiere oficio de entrega</label>`;
-    m.appendChild(dr);
-    const resFE = campoFecha("Fecha estimada de entrega", "f_fe", sol.fechaEstimada, () => {
-        const cc = document.getElementById("f_comp"); if (cc && cc.checked) return;
-        const uu = document.getElementById("f_urgente"); if (uu && uu.checked) return;
-        const rr = document.getElementById("f_reprogramada"); if (rr && rr.checked) return;
-        const ns = colorSemaforo(resFE.input.getISO());
-        semSpan.style.background = ns.color; semSpan.textContent = ns.texto;
-        if (!document.getElementById("f_urgente")?.checked && !document.getElementById("f_reprogramada")?.checked) {
-            m.style.borderTopColor = ns.color;
-        }
-    });
-    const divReprogChk = document.createElement("div");
-    divReprogChk.className = "campo"; divReprogChk.id = "cont_reprog_chk";
-    divReprogChk.style.marginTop = "2px"; divReprogChk.style.marginBottom = "10px";
-    const lblReprog = document.createElement("label"); lblReprog.className = "check-inline reprog-lbl";
-    const chkReprog = document.createElement("input"); chkReprog.type = "checkbox"; chkReprog.id = "f_reprogramada";
-    chkReprog.checked = !!sol.reprogramada;
-    lblReprog.appendChild(chkReprog); lblReprog.appendChild(document.createTextNode("Reprogramación"));
-    divReprogChk.appendChild(lblReprog); m.appendChild(divReprogChk);
-    const resFR = campoFecha("Nueva fecha estimada de entrega", "f_fr_reprog", sol.fechaReprogramada || "");
-    resFR.div.style.display = sol.reprogramada ? "block" : "none";
-    resFR.div.id = "cont_fecha_reprog";
-    chkReprog.addEventListener("change", e => {
-        resFR.div.style.display = e.target.checked ? "block" : "none";
-        if (e.target.checked) setTimeout(() => { resFR.input.focus(); }, 50);
-        aplicarColorModal();
-    });
-    const ia = document.createElement("input"); ia.type = "number"; ia.id = "f_av"; ia.min = 0; ia.max = 100; ia.value = sol.avance;
-    campo("Porcentaje de avance (%)", ia);
-    const drr = document.createElement("div"); drr.className = "campo";
-    drr.innerHTML = `<label>Responsable(s)</label><div class="responsables" id="resp_list"></div>`;
-    m.appendChild(drr);
-    const contResp = drr.querySelector("#resp_list");
-    RESPONSABLES.forEach(n => {
-        const lb = document.createElement("label");
-        const ck = document.createElement("input"); ck.type = "checkbox"; ck.value = n; ck.checked = sol.responsables.includes(n);
-        lb.appendChild(ck); lb.appendChild(document.createTextNode(n)); contResp.appendChild(lb);
-    });
-    const ie = document.createElement("textarea"); ie.id = "f_ent"; ie.value = sol.entregables;
-    campo("Actividades y Entregables", ie);
-    const den = document.createElement("div"); den.className = "campo";
-    den.innerHTML = `<label>Enlaces</label><div id="enlaces_container"></div>`;
-    m.appendChild(den);
-    renderEnlacesSection(den.querySelector("#enlaces_container"));
-    const doe = document.createElement("div"); doe.className = "campo"; doe.id = "cont_oficio_entrega";
-    doe.innerHTML = `<label>Oficio de entrega</label><input type="text" id="f_oficio_entrega" value="${sol.oficioEntrega || ''}" placeholder="Ej: OF-2025-042">`;
-    m.appendChild(doe);
-    campoFecha("Fecha real de entrega", "f_fr", sol.fechaReal);
-    function vis() {
-        const of = im.value === "Oficio";
-        dc.style.display = of ? "block" : "none";
-        dr.style.display = of ? "block" : "none";
-        const req = of && document.getElementById("f_req_oficio").checked;
-        doe.style.display = req ? "block" : "none";
-    }
-    im.addEventListener("change", vis); document.getElementById("f_req_oficio").addEventListener("change", vis); vis();
-
-    const acc = document.createElement("div"); acc.className = "acciones";
-    const izq = document.createElement("div"); izq.className = "izquierda";
-    const lblComp = document.createElement("label");
-    const ck = document.createElement("input"); ck.type = "checkbox"; ck.id = "f_comp"; ck.checked = sol.completada;
-    ck.addEventListener("change", e => {
-        if (e.target.checked) {
-            const fr = document.getElementById("f_fr");
-            if (fr && fr.getISO && !fr.getISO()) fr.setISO(hoyISO());
-            document.getElementById("f_av").value = 100;
-            semSpan.style.background = GRIS_COMPLETADO; semSpan.textContent = "Completada";
-        } else {
-            const ns = colorSemaforo(resFE.input.getISO());
-            semSpan.style.background = ns.color; semSpan.textContent = ns.texto;
-        }
-        aplicarColorModal();
-    });
-    lblComp.appendChild(ck); lblComp.appendChild(document.createTextNode("Completada"));
-    const lblUrg = document.createElement("label"); lblUrg.className = "urgente-lbl";
-    const ckUrg = document.createElement("input"); ckUrg.type = "checkbox"; ckUrg.id = "f_urgente"; ckUrg.checked = !!sol.urgente;
-    ckUrg.addEventListener("change", aplicarColorModal);
-    lblUrg.appendChild(ckUrg); lblUrg.appendChild(document.createTextNode("Urgencia"));
-    izq.appendChild(lblComp); izq.appendChild(lblUrg); acc.appendChild(izq);
-
-    const be = document.createElement("button"); be.className = "btn-rojo"; be.textContent = isNew ? "Descartar" : "Eliminar";
-    be.addEventListener("click", async () => {
-        if (isNew) { cerrarFicha(); return; }
-        if (!confirm("¿Eliminar esta solicitud?")) return;
-        be.disabled = true;
-        const ok = await eliminarEnNube(sol.id);
-        if (ok) { solicitudes = solicitudes.filter(s => s.id !== sol.id); render(); scheduleCiudadRender(); cerrarFicha(); }
-        else be.disabled = false;
-    });
-    acc.appendChild(be);
-    const bc2 = document.createElement("button"); bc2.className = "btn-gris"; bc2.textContent = "Cancelar"; bc2.addEventListener("click", cerrarFicha); acc.appendChild(bc2);
-    const bg = document.createElement("button"); bg.className = "btn-azul"; bg.textContent = "Guardar";
-    bg.addEventListener("click", async () => {
-        bg.disabled = true; bg.textContent = "Guardando…";
-        const ok = await guardarFicha(sol, isNew);
-        if (ok) {
-            render(); cerrarFicha();
-            if (busquedaActual.trim()) renderBuscadorResultados();
-            scheduleCiudadRender();
-        } else { bg.disabled = false; bg.textContent = "Guardar"; }
-    });
-    acc.appendChild(bg);
-    m.appendChild(acc);
-    document.getElementById("modalFondo").classList.add("activo");
+function nuevaSolicitud() {
+    solEnEdicion = crearSolicitudVacia();
+    solEnEdicionEsNueva = true;
+    enlacesEnEdicion = [];
+    renderModal();
 }
-
-function renderEnlacesSection(cont) {
-    cont.innerHTML = "";
-    const lista = document.createElement("div"); lista.className = "enlaces-lista";
-    if (!enlacesEnEdicion.length) { const v = document.createElement("div"); v.className = "enlaces-vacio"; v.textContent = "Sin enlaces."; lista.appendChild(v); }
-    else enlacesEnEdicion.forEach((url, i) => {
-        const it = document.createElement("div"); it.className = "enlace-item";
-        const ud = document.createElement("div"); ud.className = "enlace-url"; ud.textContent = url; ud.title = url;
-        const ac = document.createElement("div"); ac.className = "enlace-acciones";
-        const ba = document.createElement("button"); ba.type = "button"; ba.textContent = "🔗"; ba.title = "Abrir";
-        ba.addEventListener("click", () => window.open(normalizarUrl(url), "_blank", "noopener,noreferrer"));
-        const be = document.createElement("button"); be.type = "button"; be.textContent = "Editar";
-        be.addEventListener("click", () => activarEdicionEnlace(i, lista, cont));
-        const bx = document.createElement("button"); bx.type = "button"; bx.className = "btn-enlace-eliminar"; bx.textContent = "🗑";
-        bx.addEventListener("click", () => { if (confirm("¿Eliminar enlace?")) { enlacesEnEdicion.splice(i, 1); renderEnlacesSection(cont); } });
-        ac.appendChild(ba); ac.appendChild(be); ac.appendChild(bx);
-        it.appendChild(ud); it.appendChild(ac); lista.appendChild(it);
-    });
-    cont.appendChild(lista);
-    const aw = document.createElement("div"); aw.className = "enlace-agregar";
-    const inp = document.createElement("input"); inp.type = "url"; inp.id = "nuevoEnlaceInput"; inp.placeholder = "https://ejemplo.com";
-    const btn = document.createElement("button"); btn.type = "button"; btn.className = "btn-enlace-agregar"; btn.innerHTML = "➕ Agregar";
-    const add = () => { const u = inp.value.trim(); if (!u) return; enlacesEnEdicion.push(u); renderEnlacesSection(cont); setTimeout(() => { const n = document.getElementById("nuevoEnlaceInput"); if (n) n.focus(); }, 0); };
-    btn.addEventListener("click", add);
-    inp.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); add(); } });
-    aw.appendChild(inp); aw.appendChild(btn); cont.appendChild(aw);
-}
-function activarEdicionEnlace(i, lista, cont) {
-    const it = lista.children[i]; if (!it) return;
-    it.innerHTML = "";
-    const inp = document.createElement("input"); inp.type = "url"; inp.className = "enlace-edit-input"; inp.value = enlacesEnEdicion[i];
-    const ac = document.createElement("div"); ac.className = "enlace-acciones";
-    const bg = document.createElement("button"); bg.type = "button"; bg.className = "btn-enlace-guardar"; bg.textContent = "💾";
-    bg.addEventListener("click", () => { const n = inp.value.trim(); if (!n) return; enlacesEnEdicion[i] = n; renderEnlacesSection(cont); });
-    const bc = document.createElement("button"); bc.type = "button"; bc.textContent = "✕";
-    bc.addEventListener("click", () => renderEnlacesSection(cont));
-    ac.appendChild(bg); ac.appendChild(bc);
-    it.appendChild(inp); it.appendChild(ac);
-    inp.focus(); inp.select();
-}
-
-async function guardarFicha(sol, isNew) {
-    if (!sol) return false;
-    const dateIds = ["f_fs", "f_fe", "f_fr"];
-    const chkReprog = document.getElementById("f_reprogramada");
-    if (chkReprog && chkReprog.checked) dateIds.push("f_fr_reprog");
-    for (const id of dateIds) {
-        const el = document.getElementById(id);
-        if (el && el.classList.contains("invalido")) { alert("Fecha inválida (dd/mm/aaaa) en el campo con borde rojo."); el.focus(); return false; }
-    }
-    function getFechaISO(id) { const el = document.getElementById(id); if (!el) return ""; if (typeof el.getISO === "function") return el.getISO(); return ddmmyyyyToISO(el.value); }
-    const inpN = document.getElementById("nuevoEnlaceInput");
-    if (inpN && inpN.value.trim()) enlacesEnEdicion.push(inpN.value.trim());
-    sol.cliente = document.getElementById("f_cliente").value.trim();
-    sol.fechaSolicitud = getFechaISO("f_fs");
-    sol.descripcion = document.getElementById("f_desc").value.trim();
-    sol.fechaEstimada = getFechaISO("f_fe");
-    let av = parseInt(document.getElementById("f_av").value, 10); if (isNaN(av)) av = 0;
-    sol.avance = Math.max(0, Math.min(100, av));
-    sol.responsables = Array.from(document.querySelectorAll(".responsables input:checked")).map(c => c.value);
-    sol.entregables = document.getElementById("f_ent").value.trim();
-    sol.enlaces = enlacesEnEdicion.slice();
-    sol.fechaReal = getFechaISO("f_fr");
-    sol.completada = document.getElementById("f_comp").checked;
-    sol.urgente = document.getElementById("f_urgente").checked;
-    sol.reprogramada = chkReprog.checked;
-    sol.fechaReprogramada = sol.reprogramada ? getFechaISO("f_fr_reprog") : "";
-    if (sol.completada) sol.avance = 100;
-    sol.medioSolicitud = document.getElementById("f_medio").value;
-    if (sol.medioSolicitud === "Oficio") {
-        sol.oficioConsecutivo = document.getElementById("f_consec").value.trim();
-        sol.requiereOficioEntrega = document.getElementById("f_req_oficio").checked;
-        sol.oficioEntrega = sol.requiereOficioEntrega ? document.getElementById("f_oficio_entrega").value.trim() : "";
-    } else { sol.oficioConsecutivo = ""; sol.requiereOficioEntrega = false; sol.oficioEntrega = ""; }
-    if (isNew) { const ok = await insertarEnNube(sol); if (ok) { solicitudes.push(sol); limpiarFiltros(); return true; } return false; }
-    return await actualizarEnNube(sol);
-}
-function cerrarFicha() {
+function cerrarModal() {
     document.getElementById("modalFondo").classList.remove("activo");
     solEnEdicion = null; solEnEdicionEsNueva = false; enlacesEnEdicion = [];
 }
+function renderModal() {
+    if (!solEnEdicion) return;
+    const s = solEnEdicion;
+    const m = document.getElementById("modalContenido");
+    const sem = semaforoPara(s);
 
-function suscribirRealtime() {
-    if (!supabaseClient) return;
-    try {
-        supabaseClient.channel("sol").on("postgres_changes", { event: "*", schema: "public", table: "solicitudes" }, async () => {
-            await cargarDesdeNube(); render();
-            if (busquedaActual.trim()) renderBuscadorResultados();
-            scheduleCiudadRender();
-        }).subscribe(s => { if (s === "SUBSCRIBED") setEstadoSync("online", "En línea"); });
-    } catch (e) { console.warn("Realtime no disponible:", e); }
-}
+    m.innerHTML = `
+        <h2>
+            <span>${solEnEdicionEsNueva ? "Nueva solicitud" : "Editar solicitud"}</span>
+            <span class="sem" style="background:${sem.color}">${sem.texto}</span>
+        </h2>
 
-/* ====== EXPORTACIÓN ====== */
-function esc(v) { return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
+        <div class="campo">
+            <label>Cliente</label>
+            <input type="text" id="mCliente" value="${esc(s.cliente)}" placeholder="Nombre del cliente">
+        </div>
 
-function buildExportData(scope, mediosFiltro) {
-    const mediosSet = new Set(mediosFiltro || ['Teams','Correo','Oficio']);
-    function matchesMedio(s) {
-        const m = s.medioSolicitud || '';
-        if (!m) return true;
-        return mediosSet.has(m);
+        <div class="campo">
+            <label>Fecha de solicitud</label>
+            <div class="campo-fecha">
+                <input type="text" id="mFechaSolicitud" value="${isoToDDMMYYYY(s.fechaSolicitud)}" placeholder="dd/mm/aaaa">
+                <div class="btn-cal-wrapper">
+                    <button type="button" class="btn-calendario">📅</button>
+                    <input type="date" class="date-hidden-picker" id="mFechaSolicitudPicker" value="${s.fechaSolicitud || ''}">
+                </div>
+            </div>
+        </div>
+
+        <div class="campo">
+            <label>Descripción</label>
+            <textarea id="mDescripcion" rows="2">${esc(s.descripcion)}</textarea>
+        </div>
+
+        <div class="campo">
+            <label>Fecha estimada de entrega</label>
+            <div class="campo-fecha">
+                <input type="text" id="mFechaEstimada" value="${isoToDDMMYYYY(s.fechaEstimada)}" placeholder="dd/mm/aaaa">
+                <div class="btn-cal-wrapper">
+                    <button type="button" class="btn-calendario">📅</button>
+                    <input type="date" class="date-hidden-picker" id="mFechaEstimadaPicker" value="${s.fechaEstimada || ''}">
+                </div>
+            </div>
+        </div>
+
+        <div class="campo">
+            <label class="check-inline reprog-lbl"><input type="checkbox" id="mReprogramada" ${s.reprogramada ? "checked" : ""}> Reprogramada</label>
+            <div class="campo-fecha" style="margin-top:6px">
+                <input type="text" id="mFechaReprog" value="${isoToDDMMYYYY(s.fechaReprogramada)}" placeholder="dd/mm/aaaa" ${s.reprogramada ? "" : "disabled"}>
+                <div class="btn-cal-wrapper">
+                    <button type="button" class="btn-calendario">📅</button>
+                    <input type="date" class="date-hidden-picker" id="mFechaReprogPicker" value="${s.fechaReprogramada || ''}">
+                </div>
+            </div>
+        </div>
+
+        <div class="campo">
+            <label>Avance (%)</label>
+            <input type="number" id="mAvance" min="0" max="100" step="1" value="${s.avance || 0}">
+            ${s.fechaAvance ? `<div style="font-size:0.75rem;color:#5B678A;margin-top:4px;">📅 Última actualización: <b>${isoToDDMMYYYY(s.fechaAvance)}</b> · Al modificar el avance se actualizará a la fecha de hoy.</div>` : `<div style="font-size:0.75rem;color:#5B678A;margin-top:4px;">Al registrar avance, se guardará la fecha actual para seguimiento.</div>`}
+        </div>
+
+        <div class="campo">
+            <label>Responsables</label>
+            <div class="responsables">
+                ${RESPONSABLES.map(r => `<label><input type="checkbox" value="${r}" ${s.responsables.includes(r) ? "checked" : ""} class="mResp"> ${r}</label>`).join("")}
+            </div>
+        </div>
+
+        <div class="campo">
+            <label>Medio de solicitud</label>
+            <select id="mMedio">
+                <option value="">—</option>
+                ${MEDIOS.map(m => `<option value="${m}" ${s.medioSolicitud === m ? "selected" : ""}>${m}</option>`).join("")}
+            </select>
+        </div>
+
+        <div class="campo">
+            <label>Oficio consecutivo</label>
+            <input type="text" id="mOficioCons" value="${esc(s.oficioConsecutivo)}">
+        </div>
+
+        <div class="campo">
+            <label class="check-inline"><input type="checkbox" id="mReqOficio" ${s.requiereOficioEntrega ? "checked" : ""}> Requiere oficio de entrega</label>
+            <input type="text" id="mOficioEntrega" value="${esc(s.oficioEntrega)}" placeholder="Número de oficio" style="margin-top:6px" ${s.requiereOficioEntrega ? "" : "disabled"}>
+        </div>
+
+        <div class="campo">
+            <label>Entregables</label>
+            <textarea id="mEntregables" rows="2">${esc(s.entregables)}</textarea>
+        </div>
+
+        <div class="campo">
+            <label>Enlaces</label>
+            <div class="enlaces-lista" id="mEnlacesLista"></div>
+            <div class="enlace-agregar">
+                <input type="text" id="mNuevoEnlace" placeholder="https://…">
+                <button type="button" class="btn-enlace-agregar" onclick="agregarEnlace()">Agregar</button>
+            </div>
+        </div>
+
+        <div class="campo">
+            <label class="check-inline"><input type="checkbox" id="mCompletada" ${s.completada ? "checked" : ""}> Completada</label>
+        </div>
+
+        <div class="campo">
+            <label>Fecha real de entrega</label>
+            <div class="campo-fecha">
+                <input type="text" id="mFechaReal" value="${isoToDDMMYYYY(s.fechaReal)}" placeholder="dd/mm/aaaa">
+                <div class="btn-cal-wrapper">
+                    <button type="button" class="btn-calendario">📅</button>
+                    <input type="date" class="date-hidden-picker" id="mFechaRealPicker" value="${s.fechaReal || ''}">
+                </div>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <div class="izquierda">
+                <label class="urgente-lbl"><input type="checkbox" id="mUrgente" ${s.urgente ? "checked" : ""}> 🚨 Urgente</label>
+            </div>
+            ${!solEnEdicionEsNueva ? `<button type="button" class="btn-rojo" onclick="eliminarSolicitud()">Eliminar</button>` : ""}
+            <button type="button" class="btn-gris" onclick="cerrarModal()">Cancelar</button>
+            <button type="button" class="btn-azul" onclick="guardarSolicitud()">Guardar</button>
+        </div>
+    `;
+
+    renderEnlacesEnModal();
+
+    /* Handlers fecha con picker nativo */
+    function wireFecha(txtId, pickerId) {
+        const txt = document.getElementById(txtId);
+        const pick = document.getElementById(pickerId);
+        if (!txt || !pick) return;
+        const btn = pick.parentElement.querySelector('.btn-calendario');
+        if (btn) btn.addEventListener('click', () => { try { pick.showPicker(); } catch(e) { pick.focus(); pick.click(); } });
+        pick.addEventListener('change', () => {
+            txt.value = isoToDDMMYYYY(pick.value);
+        });
+        txt.addEventListener('blur', () => {
+            const iso = ddmmyyyyToISO(txt.value);
+            if (iso) { txt.value = isoToDDMMYYYY(iso); pick.value = iso; }
+        });
     }
-    const base = solicitudes.filter(pasaTodosFiltros).filter(matchesMedio);
+    wireFecha("mFechaSolicitud", "mFechaSolicitudPicker");
+    wireFecha("mFechaEstimada", "mFechaEstimadaPicker");
+    wireFecha("mFechaReprog", "mFechaReprogPicker");
+    wireFecha("mFechaReal", "mFechaRealPicker");
 
-    if (scope === "mes") return {
-        proceso: base.filter(s => !s.completada).filter(s => {
-            const f = fechaEfectiva(s);
-            if (!f) return true;
-            const d = new Date(f + "T00:00:00");
-            return d.getMonth() === mesActual && d.getFullYear() === anioActual;
-        }),
-        completados: base.filter(s => s.completada).filter(s => {
-            if (!s.fechaReal) return true;
-            const d = new Date(s.fechaReal + "T00:00:00");
-            return d.getMonth() === mesActual && d.getFullYear() === anioActual;
-        }),
-        etiqueta: `${MESES[mesActual]} ${anioActual}`
-    };
-    if (scope === "anio") return {
-        proceso: base.filter(s => !s.completada).filter(s => {
-            const f = fechaEfectiva(s);
-            if (!f) return true;
-            return new Date(f + "T00:00:00").getFullYear() === anioActual;
-        }),
-        completados: base.filter(s => s.completada).filter(s => {
-            if (!s.fechaReal) return true;
-            return new Date(s.fechaReal + "T00:00:00").getFullYear() === anioActual;
-        }),
-        etiqueta: `Año ${anioActual}`
-    };
-    return {
-        proceso: base.filter(s => !s.completada),
-        completados: base.filter(s => s.completada),
-        etiqueta: "Todo"
-    };
+    /* Toggle fecha reprogramada */
+    document.getElementById("mReprogramada").addEventListener("change", e => {
+        const inp = document.getElementById("mFechaReprog");
+        const pick = document.getElementById("mFechaReprogPicker");
+        if (inp) inp.disabled = !e.target.checked;
+        if (pick) pick.disabled = !e.target.checked;
+    });
+    /* Toggle oficio entrega */
+    document.getElementById("mReqOficio").addEventListener("change", e => {
+        const inp = document.getElementById("mOficioEntrega");
+        if (inp) inp.disabled = !e.target.checked;
+    });
+
+    document.getElementById("modalFondo").classList.add("activo");
 }
 
-function buildExportHTML(data) {
-    const { proceso, completados, etiqueta } = data;
-    const hoy = new Date().toLocaleDateString("es-CR", { day: "2-digit", month: "long", year: "numeric" });
-    const ths = ["Cliente","F. Solicitud","Medio","Consecutivo","Of. Entrega","F. Estimada","F. Reprogramada","F. Real","Avance","Responsables","Estados","Descripción","Entregables","Enlaces"];
-    const fila = s => {
-        const estados = [];
-        if (s.completada) estados.push("Completada");
-        if (s.urgente) estados.push("🚨 Urgente");
-        if (s.reprogramada) estados.push("🔄 Reprogramada");
-        return `<tr${s.urgente ? ' style="background:#f5e0e0;"' : (s.reprogramada ? ' style="background:#fffbe0;"' : '')}>
-            <td>${esc(s.cliente || '')}</td>
-            <td>${esc(s.fechaSolicitud || '')}</td>
-            <td>${esc(s.medioSolicitud || '')}</td>
-            <td>${esc(s.oficioConsecutivo || '')}</td>
-            <td>${esc(s.oficioEntrega || '')}</td>
-            <td>${esc(s.fechaEstimada || '')}</td>
-            <td>${esc(s.reprogramada ? (s.fechaReprogramada || '') : '')}</td>
-            <td>${esc(s.fechaReal || '')}</td>
-            <td style="text-align:center">${s.avance || 0}%</td>
-            <td>${esc((s.responsables || []).join(", "))}</td>
-            <td>${esc(estados.join(" · "))}</td>
-            <td>${esc(s.descripcion || '')}</td>
-            <td>${esc(s.entregables || '')}</td>
-            <td style="font-size:8pt;word-break:break-all;">${esc((s.enlaces || []).join(" | "))}</td>
-        </tr>`;
-    };
-    const tp = proceso.length
-        ? `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:9pt"><thead><tr style="background:#1B294E;color:#fff">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead><tbody>${proceso.map(fila).join("")}</tbody></table>`
-        : "<p><i>Sin registros.</i></p>";
-    const tc = completados.length
-        ? `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse;width:100%;font-family:Arial;font-size:9pt"><thead><tr style="background:#C9AD6E;color:#1B294E">${ths.map(t => `<th>${t}</th>`).join("")}</tr></thead><tbody>${completados.map(fila).join("")}</tbody></table>`
-        : "<p><i>Sin registros.</i></p>";
-    return `<h1 style="color:#1B294E;font-family:Arial;margin:0">Edificaciones · UEN Programación y Control</h1>
-        <h2 style="color:#1B294E;font-family:Arial;margin:4px 0">Instituto Costarricense de Acueductos y Alcantarillados</h2>
-        <h3 style="font-family:Arial;margin:10px 0 4px">Reporte — ${esc(etiqueta)}</h3>
-        <p style="font-family:Arial;font-size:9pt;color:#5B678A"><i>Generado el ${esc(hoy)}</i></p>
-        <h2 style="color:#1B294E;font-family:Arial;margin-top:20px">En proceso (${proceso.length})</h2>${tp}
-        <h2 style="color:#8B7338;font-family:Arial;margin-top:20px">Completados (${completados.length})</h2>${tc}`;
+function renderEnlacesEnModal() {
+    const cont = document.getElementById("mEnlacesLista");
+    if (!cont) return;
+    cont.innerHTML = "";
+    if (!enlacesEnEdicion.length) {
+        cont.innerHTML = '<div class="enlaces-vacio">Sin enlaces registrados.</div>';
+        return;
+    }
+    enlacesEnEdicion.forEach((url, idx) => {
+        const item = document.createElement("div");
+        item.className = "enlace-item";
+        item.innerHTML = `
+            <span class="enlace-url" title="${esc(url)}">${esc(url)}</span>
+            <div class="enlace-acciones">
+                <button type="button" onclick="abrirEnlace(${idx})">Abrir</button>
+                <button type="button" class="btn-enlace-eliminar" onclick="quitarEnlace(${idx})">Quitar</button>
+            </div>
+        `;
+        cont.appendChild(item);
+    });
+}
+function agregarEnlace() {
+    const inp = document.getElementById("mNuevoEnlace");
+    if (!inp) return;
+    const u = normalizarUrl(inp.value);
+    if (!u || u === "https://") { inp.focus(); return; }
+    enlacesEnEdicion.push(u);
+    inp.value = "";
+    renderEnlacesEnModal();
+}
+function quitarEnlace(idx) {
+    enlacesEnEdicion.splice(idx, 1);
+    renderEnlacesEnModal();
+}
+function abrirEnlace(idx) {
+    const u = enlacesEnEdicion[idx];
+    if (u) window.open(normalizarUrl(u), "_blank", "noopener");
 }
 
-function nombreArchivo(e) { return e.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "_").replace(/^_|_$/g, ""); }
-function descargar(b, n) { const u = URL.createObjectURL(b); const a = document.createElement("a"); a.href = u; a.download = n; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(u), 1000); }
-function exportarDOC(data) {
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title></head><body>${buildExportHTML(data)}</body></html>`;
-    descargar(new Blob(["\ufeff", html], { type: "application/msword" }), `Reporte_${nombreArchivo(data.etiqueta)}.doc`);
+async function guardarSolicitud() {
+    if (!solEnEdicion) return;
+    /* Recolectar del formulario */
+    const s = solEnEdicion;
+    s.cliente = document.getElementById("mCliente").value.trim();
+    s.fechaSolicitud = ddmmyyyyToISO(document.getElementById("mFechaSolicitud").value) || s.fechaSolicitud || "";
+    s.descripcion = document.getElementById("mDescripcion").value.trim();
+    s.fechaEstimada = ddmmyyyyToISO(document.getElementById("mFechaEstimada").value) || "";
+    s.reprogramada = document.getElementById("mReprogramada").checked;
+    s.fechaReprogramada = s.reprogramada
+        ? (ddmmyyyyToISO(document.getElementById("mFechaReprog").value) || "")
+        : "";
+    const nuevoAvance = Math.max(0, Math.min(100, parseInt(document.getElementById("mAvance").value, 10) || 0));
+    s.avance = nuevoAvance;
+    s.responsables = Array.from(document.querySelectorAll(".mResp:checked")).map(i => i.value);
+    s.medioSolicitud = document.getElementById("mMedio").value;
+    s.oficioConsecutivo = document.getElementById("mOficioCons").value.trim();
+    s.requiereOficioEntrega = document.getElementById("mReqOficio").checked;
+    s.oficioEntrega = s.requiereOficioEntrega ? document.getElementById("mOficioEntrega").value.trim() : "";
+    s.entregables = document.getElementById("mEntregables").value.trim();
+    s.enlaces = [...enlacesEnEdicion];
+    s.completada = document.getElementById("mCompletada").checked;
+    s.fechaReal = ddmmyyyyToISO(document.getElementById("mFechaReal").value) || "";
+    s.urgente = document.getElementById("mUrgente").checked;
+
+    /* Validaciones mínimas */
+    if (!s.cliente) { alert("Debes indicar el cliente."); return; }
+
+    /* Persistencia */
+    if (solEnEdicionEsNueva) {
+        const ok = await insertarEnNube(s);
+        if (ok) {
+            solicitudes.push({ ...s });
+        } else return;
+    } else {
+        const ok = await actualizarEnNube(s);
+        if (ok) {
+            const idx = solicitudes.findIndex(x => String(x.id) === String(s.id));
+            if (idx >= 0) solicitudes[idx] = { ...s };
+        } else return;
+    }
+
+    cerrarModal();
+    poblarSelects();
+    render();
+    if (busquedaActual.trim()) renderBuscadorResultados();
+    scheduleCiudadRender();
 }
-function exportarXLS(data) {
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title></head><body>${buildExportHTML(data)}</body></html>`;
-    descargar(new Blob(["\ufeff", html], { type: "application/vnd.ms-excel" }), `Reporte_${nombreArchivo(data.etiqueta)}.xls`);
-}
-function exportarPDF(data) {
-    const v = window.open("", "_blank"); if (!v) { alert("Permite ventanas emergentes para generar el PDF."); return; }
-    v.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title><style>body{font-family:Arial;padding:20px;color:#1B294E}h1,h2{color:#1B294E}table{border-collapse:collapse;width:100%;font-size:7.5pt}th{background:#1B294E;color:#fff;padding:5px;text-align:left}td{padding:4px;border:1px solid #999;vertical-align:top}@media print{@page{size:landscape;margin:1cm}}</style></head><body>${buildExportHTML(data)}</body></html>`);
-    v.document.close(); v.focus(); setTimeout(() => v.print(), 500);
+async function eliminarSolicitud() {
+    if (!solEnEdicion || solEnEdicionEsNueva) return;
+    if (!confirm("¿Eliminar esta solicitud? Esta acción no se puede deshacer.")) return;
+    const ok = await eliminarEnNube(solEnEdicion.id);
+    if (!ok) return;
+    const idx = solicitudes.findIndex(x => String(x.id) === String(solEnEdicion.id));
+    if (idx >= 0) solicitudes.splice(idx, 1);
+    cerrarModal();
+    render();
+    if (busquedaActual.trim()) renderBuscadorResultados();
+    scheduleCiudadRender();
 }
 
-/* ====== INICIALIZACIÓN ====== */
+/* =========================================================================
+   INIT
+   ========================================================================= */
 async function init() {
-    try {
-        document.getElementById("overlayCarga").classList.remove("oculto");
-        document.getElementById("btnNueva").disabled = true;
-        await cargarDesdeNube();
-        verificarEsquema();
-        poblarSelects(); actualizarChips(); render(); suscribirRealtime();
-        try { setupCiudadInteraction(); ciudadNeedFit = true; renderCiudad(); } catch (e) { console.error("[Visor]", e); }
-    } catch (e) { console.error("Error init:", e); }
-    finally {
-        cargando = false;
-        document.getElementById("btnNueva").disabled = false;
-        document.getElementById("overlayCarga").classList.add("oculto");
-    }
+    setupCiudadInteraction();
+    actualizarChips();
+    await verificarEsquema();
+    await cargarDesdeNube();
+    cargando = false;
+    document.getElementById("overlayCarga").classList.add("oculto");
+    poblarSelects();
+    render();
 }
-init();
+window.addEventListener("DOMContentLoaded", init);
 </script>
 </body>
 </html>
