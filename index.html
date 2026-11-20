@@ -116,6 +116,47 @@ button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowe
 /* ─── NUEVO: badge de fecha de actualización de avance ─── */
 .fila .info .meta .badge-fecha-avance { background: #e6f4ff; color: #1e5b8a; border: 1px solid #b8d8f0; border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
 .fila .info .meta .badge-fecha-avance.hoy { background: #fff4e0; color: #8B5A00; border-color: #f0c060; }
+    /* Días restantes dentro de la meta */
+.fila .info .meta .badge-dias {
+    color: #fff;
+    padding: 0 10px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+}
+
+/* Responsables */
+.fila .info .meta .badge-responsable {
+    background: rgba(27,41,78,.08);
+    color: var(--aya-azul);
+    border: 1px solid var(--aya-borde);
+    border-radius: 10px;
+    padding: 0 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Número de oficio consecutivo */
+.fila .info .meta .badge-oficio-consec {
+    background: var(--aya-tinte-dorado);
+    color: var(--aya-azul);
+    border: 1px solid var(--aya-dorado);
+    border-radius: 10px;
+    padding: 0 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Reprogramada: fecha al lado */
+.fila .info .meta .badge-reprogramada .fecha-reprog {
+    font-weight: 500;
+    opacity: 0.85;
+    margin-left: 4px;
+}
 .fila .info .meta .badge-enlace { background: var(--aya-tinte-dorado); color: var(--aya-azul); border: 1px solid var(--aya-dorado); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; text-decoration: none; cursor: pointer; }
 .fila .info .meta .badge-enlace:hover { background: var(--aya-dorado); color: var(--aya-azul); }
 .fila .info .meta .badge-urgente { background: var(--aya-vino); color: var(--aya-blanco); border: 1px solid var(--aya-vino-oscuro); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; }
@@ -1518,6 +1559,7 @@ function crearFilaDOM(sol) {
     const info = document.createElement("div");
     info.className = "info";
 
+    /* 1) CLIENTE */
     const h3 = document.createElement("h3");
     h3.textContent = sol.cliente || "(Sin cliente)";
     info.appendChild(h3);
@@ -1525,27 +1567,41 @@ function crearFilaDOM(sol) {
     const meta = document.createElement("div");
     meta.className = "meta";
 
-    /* Medio */
+    /* 2) DÍAS RESTANTES */
+    const bDias = document.createElement("span");
+    bDias.className = "badge-dias";
+    bDias.style.background = sem.color;
+    bDias.textContent = sol.completada ? "✔ Completada" : "⏱ " + sem.texto;
+    bDias.title = sol.completada
+        ? "Solicitud completada"
+        : "Días restantes para la entrega";
+    meta.appendChild(bDias);
+
+    /* 3) RESPONSABLES */
+    if (sol.responsables && sol.responsables.length) {
+        sol.responsables.forEach(r => {
+            const b = document.createElement("span");
+            b.className = "badge-responsable";
+            b.textContent = "👤 " + r;
+            meta.appendChild(b);
+        });
+    }
+
+    /* 4) MEDIO */
     if (sol.medioSolicitud) {
         const b = document.createElement("span");
         b.className = "badge-medio";
         b.textContent = sol.medioSolicitud;
         meta.appendChild(b);
     }
-    /* Oficio entrega */
-    if (sol.requiereOficioEntrega && sol.oficioEntrega) {
-        const b = document.createElement("span");
-        b.className = "badge-oficio-entrega";
-        b.textContent = "📄 " + sol.oficioEntrega;
-        meta.appendChild(b);
-    }
-    /* Avance */
+
+    /* 5) % AVANCE */
     const bAv = document.createElement("span");
     bAv.className = "badge-avance" + (sol.avance >= 100 ? " completo" : "");
-    bAv.textContent = sol.avance + "%";
+    bAv.textContent = sol.avance + "% avance";
     meta.appendChild(bAv);
 
-    /* ─── NUEVO: fecha de última actualización de avance ─── */
+    /* 6) FECHA DE AVANCE */
     if (sol.fechaAvance) {
         const bFA = document.createElement("span");
         const esHoy = sol.fechaAvance === hoyISO();
@@ -1555,39 +1611,64 @@ function crearFilaDOM(sol) {
         meta.appendChild(bFA);
     }
 
-    /* Urgente / Reprogramada */
+    /* 7) URGENTE */
     if (sol.urgente) {
         const b = document.createElement("span");
         b.className = "badge-urgente";
         b.textContent = "🚨 URGENTE";
         meta.appendChild(b);
     }
+
+    /* 8) REPROGRAMADA */
     if (sol.reprogramada) {
         const b = document.createElement("span");
         b.className = "badge-reprogramada";
         b.textContent = "🔄 REPROG.";
+        if (sol.fechaReprogramada) {
+            const f = document.createElement("span");
+            f.className = "fecha-reprog";
+            f.textContent = "→ " + isoToDDMMYYYY(sol.fechaReprogramada);
+            b.appendChild(f);
+        }
+        b.title = sol.fechaReprogramada
+            ? "Reprogramada para: " + isoToDDMMYYYY(sol.fechaReprogramada)
+            : "Solicitud reprogramada";
         meta.appendChild(b);
     }
-    /* Enlaces */
+
+    /* 9) NÚMEROS DE OFICIO */
+    if (sol.oficioConsecutivo) {
+        const b = document.createElement("span");
+        b.className = "badge-oficio-consec";
+        b.textContent = "📄 " + sol.oficioConsecutivo;
+        b.title = "Oficio consecutivo";
+        meta.appendChild(b);
+    }
+    if (sol.requiereOficioEntrega && sol.oficioEntrega) {
+        const b = document.createElement("span");
+        b.className = "badge-oficio-entrega";
+        b.textContent = "📨 " + sol.oficioEntrega;
+        b.title = "Oficio de entrega";
+        meta.appendChild(b);
+    }
+
+    /* 10) ENLACE A DOCUMENTACIÓN */
     if (sol.enlaces && sol.enlaces.length) {
         const a = document.createElement("a");
         a.className = "badge-enlace";
-        a.textContent = "🔗 " + sol.enlaces.length + " enlace" + (sol.enlaces.length === 1 ? "" : "s");
+        a.textContent = sol.enlaces.length === 1
+            ? "🔗 Documentación"
+            : "🔗 " + sol.enlaces.length + " enlaces";
         a.href = normalizarUrl(sol.enlaces[0]);
-        a.target = "_blank"; a.rel = "noopener";
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.title = sol.enlaces.join("\n");
         a.addEventListener("click", ev => ev.stopPropagation());
         meta.appendChild(a);
     }
 
     info.appendChild(meta);
     fila.appendChild(info);
-
-    /* Badge semáforo */
-    const semSpan = document.createElement("span");
-    semSpan.className = "sem";
-    semSpan.style.background = sem.color;
-    semSpan.textContent = sem.texto;
-    fila.appendChild(semSpan);
 
     fila.addEventListener("click", () => abrirFichaPorId(sol.id));
     return fila;
