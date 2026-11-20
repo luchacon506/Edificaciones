@@ -139,6 +139,17 @@ button.btn-azul:disabled { background: var(--aya-gris-suave); cursor: not-allowe
     white-space: nowrap;
 }
 
+/* Cliente como badge secundario cuando hay título */
+.fila .info .meta .badge-cliente {
+    background: #eef1f8;
+    color: var(--aya-azul);
+    border: 1px solid var(--aya-borde);
+    border-radius: 10px;
+    padding: 0 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
 /* Número de oficio consecutivo */
 .fila .info .meta .badge-oficio-consec {
     background: var(--aya-tinte-dorado);
@@ -524,7 +535,7 @@ function pasaFiltroResp(sol) { return filtroResp.size === 0 || sol.responsables.
 function pasaBusqueda(sol) {
     const q = (busquedaActual || "").trim().toLowerCase(); if (!q) return true;
     const palabras = q.split(/\s+/).filter(Boolean);
-    const campos = [sol.cliente || "", sol.descripcion || "", sol.entregables || ""].map(c => c.toLowerCase());
+    const campos = [sol.titulo || "", sol.cliente || "", sol.descripcion || "", sol.entregables || ""].map(c => c.toLowerCase());
     return palabras.every(p => campos.some(c => c.includes(p)));
 }
 function pasaTodosFiltros(sol) { return pasaFiltroResp(sol) && pasaBusqueda(sol); }
@@ -641,8 +652,9 @@ function buildExportData(scope, mediosFiltro) {
 }
 function tablaExportHTML(data) {
     let rows = '';
-    const sep = (label, count) => `<tr><td colspan="6" style="background:#1B294E;color:#C9AD6E;font-weight:700;padding:6px 8px;">${label} (${count})</td></tr>`;
+    const sep = (label, count) => `<tr><td colspan="7" style="background:#1B294E;color:#C9AD6E;font-weight:700;padding:6px 8px;">${label} (${count})</td></tr>`;
     const head = `<tr style="background:#C9AD6E;color:#1B294E;font-weight:700;">
+        <td style="padding:6px 8px;border:1px solid #ccc;">Título</td>
         <td style="padding:6px 8px;border:1px solid #ccc;">Cliente</td>
         <td style="padding:6px 8px;border:1px solid #ccc;">Descripción</td>
         <td style="padding:6px 8px;border:1px solid #ccc;">Medio</td>
@@ -654,6 +666,7 @@ function tablaExportHTML(data) {
         const fecha = s.completada ? (s.fechaReal || '—') : (fechaEfectiva(s) || '—');
         const fa = s.fechaAvance ? isoToDDMMYYYY(s.fechaAvance) : '—';
         return `<tr>
+            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.titulo || '')}</td>
             <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.cliente || '')}</td>
             <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.descripcion || '')}</td>
             <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.medioSolicitud || '')}</td>
@@ -718,6 +731,8 @@ const SQL_SUGERENCIAS = {
     oficio_entrega: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS oficio_entrega text DEFAULT '';",
     /* NUEVO */
     fecha_avance: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS fecha_avance date;"
+        /* NUEVO */
+    titulo: "ALTER TABLE solicitudes ADD COLUMN IF NOT EXISTS titulo text DEFAULT '';"
 };
 function mostrarErrorSupabase(error, accion) {
     console.error("Error " + accion + ":", error);
@@ -739,7 +754,7 @@ async function verificarEsquema() {
     if (!supabaseClient) return;
     try {
         const { error } = await supabaseClient.from("solicitudes")
-            .select("urgente,reprogramada,fecha_reprogramada,fecha_avance").limit(1);
+            .select("urgente,reprogramada,fecha_reprogramada,fecha_avance,titulo").limit(1);
         if (error && /could not find the '([^']+)' column/i.test(error.message)) {
             const col = error.message.match(/could not find the '([^']+)' column/i)[1];
             setTimeout(() => {
@@ -1133,7 +1148,7 @@ function drawCiudadBuilding(item, parent, getFilter) {
         animT.setAttribute('repeatCount', 'indefinite');
         flagEl.appendChild(animT);
     }
-    const raw = (sol.cliente || '').trim();
+    const raw = (sol.titulo || sol.cliente || '').trim();
     const label = raw ? (raw.length > 18 ? raw.slice(0, 17) + '…' : raw) : 'Solicitud';
     const fs = Math.max(0.32, Math.min(0.85, 4.8 / Math.max(label.length, 4)));
     const featureHeight = Math.max(urgente ? 2.4 : 0, reprogramada ? 2.3 : 0);
@@ -1280,7 +1295,7 @@ function renderBuscadorResultados() {
     if (!q) { cont.classList.remove("visible"); cont.innerHTML = ""; return; }
     const palabras = q.toLowerCase().split(/\s+/).filter(Boolean);
     const resultados = solicitudes.filter(sol => {
-        const campos = [sol.cliente || "", sol.descripcion || "", sol.entregables || ""].map(c => c.toLowerCase());
+        const campos = [sol.titulo || "", sol.cliente || "", sol.descripcion || "", sol.entregables || ""].map(c => c.toLowerCase());
         return palabras.every(p => campos.some(c => c.includes(p))) && pasaFiltroResp(sol);
     });
     resultados.sort((a, b) => {
@@ -1299,7 +1314,7 @@ function renderBuscadorResultados() {
         const fe = fechaEfectiva(sol);
         const fechaTxt = sol.completada ? (sol.fechaReal ? "Entregada: " + sol.fechaReal : "Sin fecha") : (fe ? "Entrega: " + fe : "Sin fecha");
         const tit = document.createElement("div"); tit.className = "titulo";
-        const tc = document.createElement("span"); tc.appendChild(resaltarCoincidencias(sol.cliente || "(Sin cliente)", palabras));
+        const tc = document.createElement("span"); tc.appendChild(resaltarCoincidencias(sol.titulo || sol.cliente || "(Sin título)", palabras));
         if (sol.urgente) {
             const urg = document.createElement("span");
             urg.className = "estado"; urg.style.background = "var(--aya-vino)"; urg.textContent = "🚨 URGENTE";
@@ -1344,6 +1359,7 @@ document.addEventListener("keydown", e => {
 function toDB(sol) {
     return {
         id: sol.id, cliente: sol.cliente || "",
+        titulo: sol.titulo || "",
         fecha_solicitud: sol.fechaSolicitud || null,
         descripcion: sol.descripcion || "",
         fecha_estimada: sol.fechaEstimada || null,
@@ -1361,6 +1377,7 @@ function toDB(sol) {
 function fromDB(row) {
     return {
         id: row.id, cliente: row.cliente || "", fechaSolicitud: row.fecha_solicitud || "",
+        titulo: row.titulo || "",
         descripcion: row.descripcion || "", fechaEstimada: row.fecha_estimada || "",
         avance: row.avance || 0, responsables: row.responsables || [],
         entregables: row.entregables || "",
@@ -1381,7 +1398,7 @@ function crearSolicitudVacia() {
             return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
         });
     return {
-        id: uid, cliente: "", fechaSolicitud: hoyISO(), descripcion: "",
+        id: uid, cliente: "",titulo: "", fechaSolicitud: hoyISO(), descripcion: "",
         fechaEstimada: "", avance: 0, responsables: [], entregables: "", enlaces: [], fechaReal: "", completada: false,
         medioSolicitud: "", oficioConsecutivo: "", requiereOficioEntrega: false, oficioEntrega: "",
         urgente: false, reprogramada: false, fechaReprogramada: "",
@@ -1560,12 +1577,23 @@ function crearFilaDOM(sol) {
     info.className = "info";
 
     /* 1) CLIENTE */
+        /* TÍTULO como encabezado principal; si no hay, cae a cliente */
     const h3 = document.createElement("h3");
-    h3.textContent = sol.cliente || "(Sin cliente)";
+    h3.textContent = sol.titulo || sol.cliente || "(Sin título)";
+    h3.title = sol.titulo || sol.cliente || "";
     info.appendChild(h3);
 
     const meta = document.createElement("div");
     meta.className = "meta";
+
+        /* Cliente como badge secundario (solo si hay título) */
+    if (sol.titulo && sol.cliente) {
+        const bCli = document.createElement("span");
+        bCli.className = "badge-cliente";
+        bCli.textContent = "🏢 " + sol.cliente;
+        bCli.title = "Cliente";
+        meta.appendChild(bCli);
+    }
 
     /* 2) DÍAS RESTANTES */
     const bDias = document.createElement("span");
@@ -1745,6 +1773,11 @@ function renderModal() {
         <div class="campo">
             <label>Cliente</label>
             <input type="text" id="mCliente" value="${esc(s.cliente)}" placeholder="Nombre del cliente">
+        </div>
+
+                <div class="campo">
+            <label>Título de solicitud</label>
+            <input type="text" id="mTitulo" value="${esc(s.titulo)}" placeholder="Ej: Inspección planta de tratamiento">
         </div>
 
         <div class="campo">
@@ -1937,6 +1970,7 @@ async function guardarSolicitud() {
     /* Recolectar del formulario */
     const s = solEnEdicion;
     s.cliente = document.getElementById("mCliente").value.trim();
+    s.titulo = document.getElementById("mTitulo").value.trim();
     s.fechaSolicitud = ddmmyyyyToISO(document.getElementById("mFechaSolicitud").value) || s.fechaSolicitud || "";
     s.descripcion = document.getElementById("mDescripcion").value.trim();
     s.fechaEstimada = ddmmyyyyToISO(document.getElementById("mFechaEstimada").value) || "";
