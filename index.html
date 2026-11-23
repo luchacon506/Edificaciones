@@ -400,6 +400,9 @@ footer { margin-top: auto; padding-bottom: calc(10px + env(safe-area-inset-botto
 .hist-item { background: var(--aya-blanco); border: 1px solid var(--aya-borde); border-left: 4px solid var(--aya-amarillo); border-radius: 6px; padding: 6px 8px; font-size: 0.8rem; color: var(--aya-azul); }
 .hist-item .hist-meta { font-size: 0.72rem; color: var(--aya-gris-texto); margin-bottom: 2px; }
 .hist-item .hist-motivo { white-space: pre-wrap; word-break: break-word; }
+
+/* ===== VISOR CIUDAD: gestos táctiles ===== */
+#ciudadSvg { touch-action: none; -webkit-user-select: none; }
 </style>
 </head>
 <body>
@@ -1391,6 +1394,61 @@ function setupCiudadInteraction() {
             const sol = solicitudes.find(s => String(s.id) === String(sid));
             if (sol) abrirFichaPorId(sol.id);
         });
+        /* --- Táctil: 1 dedo = desplazar · 2 dedos = zoom y desplazar --- */
+        let tchPan = null, tchPinch = null;
+        const tchDist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+        const tchMid = t => ({ x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2 });
+        svg.addEventListener('touchstart', e => {
+            if (!ciudadView) return;
+            if (e.touches.length === 1) {
+                const t = e.touches[0];
+                tchPan = { x: t.clientX, y: t.clientY, vx: ciudadView.x, vy: ciudadView.y, moved: false };
+                tchPinch = null;
+            } else if (e.touches.length >= 2) {
+                tchPan = null;
+                const m = tchMid(e.touches);
+                tchPinch = { d: tchDist(e.touches), mx: m.x, my: m.y };
+                ciudadSuppressClick = true;
+            }
+        }, { passive: true });
+        svg.addEventListener('touchmove', e => {
+            if (!ciudadView) return;
+            e.preventDefault();
+            const rect = svg.getBoundingClientRect();
+            if (e.touches.length === 1 && tchPan) {
+                const t = e.touches[0];
+                const dx = t.clientX - tchPan.x, dy = t.clientY - tchPan.y;
+                if (!tchPan.moved && Math.abs(dx) + Math.abs(dy) > 8) tchPan.moved = true;
+                if (!tchPan.moved) return;
+                const s = Math.max(ciudadView.w / rect.width, ciudadView.h / rect.height);
+                ciudadView.x = tchPan.vx - dx * s;
+                ciudadView.y = tchPan.vy - dy * s;
+                scheduleApplyCiudadView();
+            } else if (e.touches.length >= 2 && tchPinch) {
+                const d = tchDist(e.touches), m = tchMid(e.touches);
+                if (d > 0 && tchPinch.d > 0) {
+                    zoomCiudad(tchPinch.d / d, m.x, m.y);
+                    const s2 = Math.max(ciudadView.w / rect.width, ciudadView.h / rect.height);
+                    ciudadView.x -= (m.x - tchPinch.mx) * s2;
+                    ciudadView.y -= (m.y - tchPinch.my) * s2;
+                    scheduleApplyCiudadView();
+                }
+                tchPinch = { d, mx: m.x, my: m.y };
+            }
+        }, { passive: false });
+        const tchFin = e => {
+            const hubo = (tchPan && tchPan.moved) || tchPinch;
+            if (e.touches.length === 0) {
+                if (hubo) { ciudadSuppressClick = true; setTimeout(() => { ciudadSuppressClick = false; }, 350); if (e.cancelable) e.preventDefault(); }
+                tchPan = null; tchPinch = null;
+            } else if (e.touches.length === 1) {
+                const t = e.touches[0];
+                tchPinch = null;
+                tchPan = { x: t.clientX, y: t.clientY, vx: ciudadView.x, vy: ciudadView.y, moved: true };
+            }
+        };
+        svg.addEventListener('touchend', tchFin, { passive: false });
+        svg.addEventListener('touchcancel', tchFin, { passive: false });
         document.getElementById('btnCiudadZoomIn').addEventListener('click', () => zoomCiudad(0.8));
         document.getElementById('btnCiudadZoomOut').addEventListener('click', () => zoomCiudad(1.25));
         document.getElementById('btnCiudadFit').addEventListener('click', () => { lastCiudadHash = ''; fitCiudadView(); });
