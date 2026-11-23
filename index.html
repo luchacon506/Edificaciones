@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -809,30 +810,38 @@ function buildExportData(scope, mediosFiltro) {
     };
 }
 function tablaExportHTML(data) {
+    const COLS = [
+        'ID', 'Cliente', 'Título', 'Consecutivo de oficio de solicitud', 'Fecha de solicitud',
+        '% Avance', 'Fecha de entrega estimada / reprogramada', 'Responsable', 'Fecha de entrega',
+        'Oficio de entrega', 'Enlace de entregable'
+    ];
+    const TD = 'padding:4px 6px;border:1px solid #ddd;vertical-align:top;';
+    const TH = 'padding:6px 6px;border:1px solid #ccc;text-align:left;vertical-align:middle;';
+    const fmt = iso => iso ? isoToDDMMYYYY(iso) : '—';
+    const val = v => (v === undefined || v === null || String(v).trim() === '') ? '—' : esc(v);
+    let id = 0;   /* ID consecutivo automático para toda la lista exportada */
     let rows = '';
-    const sep = (label, count) => `<tr><td colspan="8" style="background:#1B294E;color:#C9AD6E;font-weight:700;padding:6px 8px;">${label} (${count})</td></tr>`;
-    const head = `<tr style="background:#C9AD6E;color:#1B294E;font-weight:700;">
-        <td style="padding:6px 8px;border:1px solid #ccc;">Título</td>
-        <td style="padding:6px 8px;border:1px solid #ccc;">Cliente</td>
-        <td style="padding:6px 8px;border:1px solid #ccc;">Descripción</td>
-        <td style="padding:6px 8px;border:1px solid #ccc;">Medio</td>
-        <td style="padding:6px 8px;border:1px solid #ccc;">Responsables</td>
-        <td style="padding:6px 8px;border:1px solid #ccc;">Fecha entrega</td>
-        <td style="padding:6px 8px;border:1px solid #ccc;">Avance · Fecha avance</td>
-        <td style="padding:6px 8px;border:1px solid #ccc;">Reprogramación (justificación)</td>
-    </tr>`;
+    const sep = (label, count) => `<tr><td colspan="${COLS.length}" style="background:#1B294E;color:#C9AD6E;font-weight:700;padding:6px 8px;">${label} (${count})</td></tr>`;
+    const head = `<tr style="background:#C9AD6E;color:#1B294E;font-weight:700;">${COLS.map(c => `<td style="${TH}">${c}</td>`).join('')}</tr>`;
     const fila = (s) => {
-        const fecha = s.completada ? (s.fechaReal || '—') : (fechaEfectiva(s) || '—');
-        const fa = s.fechaAvance ? isoToDDMMYYYY(s.fechaAvance) : '—';
+        id++;
+        const enlaces = (s.enlaces || []).map(u => {
+            const href = normalizarUrl(u).replace(/"/g, '%22');
+            return `<a href="${href}">${esc(u)}</a>`;
+        }).join('<br>') || '—';
+        const oficioEnt = (s.requiereOficioEntrega && s.oficioEntrega) ? s.oficioEntrega : '';
         return `<tr>
-            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.titulo || '')}</td>
-            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.cliente || '')}</td>
-            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.descripcion || '')}</td>
-            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(s.medioSolicitud || '')}</td>
-            <td style="padding:4px 8px;border:1px solid #ddd;">${esc((s.responsables || []).join(', '))}</td>
-            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(fecha)}</td>
-            <td style="padding:4px 8px;border:1px solid #ddd;">${s.avance || 0}% · ${esc(fa)}</td>
-            <td style="padding:4px 8px;border:1px solid #ddd;">${esc(textoReprog(s) || '—')}</td>
+            <td style="${TD}text-align:center;">${id}</td>
+            <td style="${TD}">${val(s.cliente)}</td>
+            <td style="${TD}">${val(s.titulo)}</td>
+            <td style="${TD}">${val(s.oficioConsecutivo)}</td>
+            <td style="${TD}">${fmt(s.fechaSolicitud)}</td>
+            <td style="${TD}text-align:center;">${s.avance || 0}%</td>
+            <td style="${TD}">${fmt(fechaEfectiva(s))}</td>
+            <td style="${TD}">${val((s.responsables || []).join(', '))}</td>
+            <td style="${TD}">${fmt(s.fechaReal)}</td>
+            <td style="${TD}">${val(oficioEnt)}</td>
+            <td style="${TD}word-break:break-all;">${enlaces}</td>
         </tr>`;
     };
     if (data.proceso.length) {
@@ -843,7 +852,7 @@ function tablaExportHTML(data) {
         rows += sep('✅ Completados', data.completados.length) + head;
         data.completados.forEach(s => rows += fila(s));
     }
-    return `<table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:11pt;">${rows}</table>`;
+    return `<table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:9pt;">${rows}</table>`;
 }
 function descargarBlob(blob, nombre) {
     const url = URL.createObjectURL(blob);
@@ -854,12 +863,13 @@ function descargarBlob(blob, nombre) {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function exportarDOC(data) {
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte Edificaciones</title></head>
-    <body><h1 style="color:#1B294E;font-family:Arial;">Edificaciones — UEN Programación y Control</h1>
+    const html = `<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Reporte Edificaciones</title>
+    <style>@page Section1 { size: 841.9pt 595.3pt; mso-page-orientation: landscape; margin: 36pt; } div.Section1 { page: Section1; }</style></head>
+    <body><div class="Section1"><h1 style="color:#1B294E;font-family:Arial;">Edificaciones — UEN Programación y Control</h1>
     <h2 style="color:#8B7338;font-family:Arial;">${esc(data.etiqueta)}</h2>
     ${tablaExportHTML(data)}
     <p style="font-size:9pt;color:#666;margin-top:20px;font-family:Arial;">Generado: ${new Date().toLocaleString('es-CR')}</p>
-    </body></html>`;
+    </div></body></html>`;
     descargarBlob(new Blob(['\ufeff', html], { type: 'application/msword' }), 'reporte-edificaciones.doc');
 }
 function exportarXLS(data) {
@@ -869,7 +879,7 @@ function exportarXLS(data) {
 function exportarPDF(data) {
     const w = window.open('', '_blank');
     w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte</title>
-    <style>body{font-family:Arial;margin:24px;} h1{color:#1B294E;} h2{color:#8B7338;}</style>
+    <style>@page{size:A4 landscape;margin:10mm;} body{font-family:Arial;margin:0;} h1{color:#1B294E;font-size:16pt;} h2{color:#8B7338;font-size:12pt;} table{page-break-inside:auto;} tr{page-break-inside:avoid;} thead{display:table-header-group;} a{color:#1B294E;}</style>
     </head><body><h1>Edificaciones — UEN Programación y Control</h1>
     <h2>${esc(data.etiqueta)}</h2>${tablaExportHTML(data)}
     <p style="font-size:9pt;color:#666;margin-top:20px;">Generado: ${new Date().toLocaleString('es-CR')}</p>
