@@ -436,7 +436,7 @@ footer { margin-top: auto; padding-bottom: calc(10px + env(safe-area-inset-botto
     <div class="controles-acciones">
         <button class="btn-azul" id="btnNueva" onclick="nuevaSolicitud()">+ Nueva solicitud</button>
         <button class="btn-exportar" id="btnExportar" onclick="abrirExportModal()">📤 Exportar</button>
-        <button class="btn-exportar btn-aux" id="btnInstalar" onclick="instalarApp()" hidden title="Instalar en el teléfono">📲 Instalar</button>
+        <button class="btn-exportar btn-aux" id="btnInstalar" onclick="instalarApp()" title="Instalar acceso directo en el teléfono">📲 Instalar</button>
         <button class="btn-exportar btn-aux" id="btnPantalla" onclick="togglePantallaCompleta()" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
     </div>
 </div>
@@ -882,7 +882,14 @@ function exportarPDF(data) {
     </head><body><h1>Edificaciones — UEN Programación y Control</h1>
     <h2>${esc(data.etiqueta)}</h2>${tablaExportHTML(data)}
     <p style="font-size:9pt;color:#666;margin-top:20px;">Generado: ${new Date().toLocaleString('es-CR')}</p>
-    <script>window.onload=function(){window.print();}<\/script></body></html>`);
+    <div class="modal-fondo" id="modalAyudaInstalar" onclick="if(event.target===this)cerrarAyudaInstalar()">
+    <div class="modal" style="max-width:420px">
+        <h2>📲 Instalar acceso directo <button type="button" class="modal-close" onclick="cerrarAyudaInstalar()" aria-label="Cerrar" style="background:transparent;border:none;font-size:1.1rem;cursor:pointer">✕</button></h2>
+        <div id="ayudaInstalarCuerpo" style="font-size:0.9rem;line-height:1.5;color:var(--aya-azul)"></div>
+        <div class="acciones"><button class="btn-azul" onclick="cerrarAyudaInstalar()">Entendido</button></div>
+    </div>
+</div>
+<script>window.onload=function(){window.print();}<\/script></body></html>`);
     w.document.close();
 }
 
@@ -2358,14 +2365,35 @@ function actualizarBtnPantalla() {
     b.textContent = enPantallaCompleta() ? "🗗" : "⛶";
     b.title = enPantallaCompleta() ? "Salir de pantalla completa" : "Pantalla completa";
     const bi = document.getElementById("btnInstalar");
-    if (bi) bi.hidden = !window.__promptInstalar || esModoApp();
+    if (bi) bi.hidden = esModoApp();
 }
 async function instalarApp() {
-    const p = window.__promptInstalar; if (!p) return;
-    p.prompt();
-    try { await p.userChoice; } catch (e) {}
+    const p = window.__promptInstalar;
+    if (!p) { abrirAyudaInstalar(); return; }
+    try { p.prompt(); await p.userChoice; } catch (e) { abrirAyudaInstalar(); return; }
     window.__promptInstalar = null; actualizarBtnPantalla();
 }
+function abrirAyudaInstalar() {
+    const ua = navigator.userAgent || "";
+    const ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const android = /Android/.test(ua);
+    const enApp = /FBAN|FBAV|Instagram|WhatsApp|Line\/|; wv\)|Messenger|Telegram/i.test(ua);
+    let html;
+    if (!/^https?:$/.test(location.protocol)) {
+        html = "<p>Esta página está abierta como archivo local. Para instalarla debe estar publicada en una dirección <b>https://</b> y abrirse desde ahí.</p>";
+    } else if (enApp) {
+        html = "<p>Estás en el navegador interno de otra aplicación, que no permite instalar.</p><p>Abre este enlace en <b>" + (ios ? "Safari" : "Chrome") + "</b> y vuelve a tocar <b>📲 Instalar</b>.</p>";
+    } else if (ios) {
+        html = "<ol><li>Toca el botón <b>Compartir</b> <span style='font-size:1.1rem'>⎋</span> (cuadro con flecha hacia arriba) en la barra del navegador.</li><li>Desliza y elige <b>Añadir a pantalla de inicio</b>.</li><li>Toca <b>Añadir</b>.</li></ol>";
+    } else if (android) {
+        html = "<ol><li>Abre el menú <b>⋮</b> de Chrome (arriba a la derecha).</li><li>Elige <b>Instalar aplicación</b> o <b>Añadir a pantalla de inicio</b>.</li><li>Confirma con <b>Instalar</b>.</li></ol>";
+    } else {
+        html = "<ol><li>Busca el icono de <b>instalar</b> al final de la barra de direcciones, o abre el menú <b>⋮</b>.</li><li>Elige <b>Instalar Edificaciones</b> (Chrome/Edge) y confirma.</li></ol>";
+    }
+    document.getElementById("ayudaInstalarCuerpo").innerHTML = html;
+    document.getElementById("modalAyudaInstalar").classList.add("activo");
+}
+function cerrarAyudaInstalar() { document.getElementById("modalAyudaInstalar").classList.remove("activo"); }
 document.addEventListener("fullscreenchange", actualizarBtnPantalla);
 document.addEventListener("webkitfullscreenchange", actualizarBtnPantalla);
 window.addEventListener("DOMContentLoaded", actualizarBtnPantalla);
